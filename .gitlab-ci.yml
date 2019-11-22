@@ -49,7 +49,7 @@ spotBugs:
     - gradle spotbugsMain spotbugsTest
     - cd ..
     - cd template
-    - gradle spotbugsMain sputbugsTest
+    - gradle spotbugsMain spotbugsTest
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -60,7 +60,6 @@ spotBugs:
 PMD:
   stage: validate
   script:
-    - ECHO "PMD SERVER"
     - cd server
     - gradle pmdMain pmdTest
     - cd ..
