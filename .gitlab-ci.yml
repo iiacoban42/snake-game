@@ -15,11 +15,9 @@ before_script:
 build:
   stage: build
   script:
-    - echo "BUILDING SERVER" 
     - cd server
     - gradle --build-cache assemble
     - cd ..
-    - echo "BUILDING CLIENT"
     - cd template
     - gradle --build-cache assemble
   cache:
@@ -32,10 +30,8 @@ build:
 checkStyle:
   stage: validate
   script:
-    - echo "checkStyle SERVER"
     - cd server
     - gradle checkstyleMain checkstyleTest
-    - echp "checkStyle CLIENT"
     - cd ..
     - cd template
     - gradle checkstyleMain checkstyleTest
@@ -49,12 +45,10 @@ checkStyle:
 spotBugs:
   stage: validate
   script:
-    - echo "SPOTBUGS SERVER"
     - cd server
     - gradle spotbugsMain spotbugsTest
     - cd ..
     - cd template
-    - echo "SPOTBUGS CLIENT"
     - gradle spotbugsMain sputbugsTest
   cache:
     key: "$CI_COMMIT_REF_NAME"
@@ -71,7 +65,7 @@ PMD:
     - gradle pmdMain pmdTest
     - cd ..
     - cd template
-    - echo "PMD CLient"
+    - gradle pmdMain pmdTest
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -82,10 +76,8 @@ PMD:
 test:
   stage: test
   script:
-    - echo "TEST SERVER"
     - cd server
     - gradle check
     - cd ..
     - cd template
-    - echo "TEST CLIENT"
     - gradle check
