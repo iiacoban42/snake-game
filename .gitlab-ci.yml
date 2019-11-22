@@ -15,8 +15,8 @@ before_script:
 build:
   stage: build
   script:
-    cd server
-    gradle --build-cache assemble
+    - cd server
+    - gradle --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
@@ -27,8 +27,8 @@ build:
 checkStyle:
   stage: validate
   script:
-    cd server
-    gradle checkstyleMain checkstyleTest
+    - cd server
+    - gradle checkstyleMain checkstyleTest
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -39,8 +39,8 @@ checkStyle:
 spotBugs:
   stage: validate
   script:
-    cd server
-    gradle spotbugsMain spotbugsTest
+    - cd server
+    - gradle spotbugsMain spotbugsTest
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -51,8 +51,8 @@ spotBugs:
 PMD:
   stage: validate
   script:
-    cd server
-    gradle pmdMain pmdTest
+    - cd server
+    - gradle pmdMain pmdTest
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -63,5 +63,5 @@ PMD:
 test:
   stage: test
   script:
-    cd server
-    gradle check
+    - cd server
+    - gradle check
