@@ -4,10 +4,6 @@ plugins {
 	id 'org.springframework.boot' version '2.2.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
-//    id 'eclipse' // optional (to generate Eclipse project files)
-//    id 'idea' // optional (to generate IntelliJ IDEA project files)
-
-	// Test coverage
 	id 'jacoco'
 
 	// Code style
@@ -22,16 +18,34 @@ plugins {
 
 group = 'com.snake'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 8
+
+sourceCompatibility = 13
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
 
 repositories {
 	mavenCentral()
 }
 
+test {
+	useJUnitPlatform()
+
+	jacoco {
+		enabled = true
+		includes = ['nl.tudelft.cse.sem.*']
+		excludes = []
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation('org.postgresql:postgresql')
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -55,26 +69,17 @@ jacocoTestCoverageVerification {
 	}
 }
 
-test {
-	useJUnitPlatform()
-
-	jacoco {
-		enabled = true
-		includes = ['nl.tudelft.cse.sem.*']
-		excludes = []
-	}
-}
-
 checkstyle {
 	toolVersion "8.25"
 	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
-pmd {
+pmd{
 }
 
 spotbugs {
 	sourceSets = [sourceSets.main]
+	toolVersion = '4.0.0-beta4'
 	ignoreFailures = false
 	effort = "default"
 	reportLevel = "high"

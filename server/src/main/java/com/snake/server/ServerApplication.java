@@ -4,17 +4,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Class to start the server.
+ * Main class that starts the server.
  */
 @SpringBootApplication
 public class ServerApplication {
-
-	/**
-	 * Method starts the server.
-	 * @param args arguments of main method.
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(ServerApplication.class, args);
-	}
-
+    /**
+     * Main method that launches the server.
+     * @param args array of strings args
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(ServerApplication.class, args);
+    }
 }
