@@ -16,12 +16,15 @@ plugins {
 
     // FindBugs / SpotBugs
     id "com.github.spotbugs" version "2.0.1"
+
+    // JavaFX
+    id "org.openjfx.javafxplugin" version "0.0.8"
 }
 
 group 'nl.tudelft.cse.sem.template'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 12
+sourceCompatibility = 13
 
 repositories {
     mavenCentral()
@@ -83,4 +86,9 @@ tasks.withType(SpotBugsTask) {
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
+}
+
+javafx {
+    modules = ['javafx.controls', 'javafx.fxml']
+    version = 11
 }
