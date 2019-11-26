@@ -1,19 +1,16 @@
-import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-
-public class HomeScreen{
+@SuppressWarnings("PMD")
+public class HomeScreen extends Controller {
     @FXML
     private TextField username;
 
     @FXML
-    private TextField password;
+    private PasswordField password;
 
     @FXML
     private Button loginButton;
@@ -24,7 +21,24 @@ public class HomeScreen{
     private String user;
     private String pass;
 
+    public void registerButtonPressed(ActionEvent event) throws Exception {
+        changeWindow("register.fxml");
+    }
 
+    /**
+     *Sends username and password to the server. To be implemented.
+     * @param event triggered by pressing the login button
+     * @throws Exception if something goes wrong.
+     */
+    public void loginButtonPressed(ActionEvent event) throws Exception {
+        user = username.getText();
+        pass = password.getText();
 
+        if (validText(user) && validText(pass)) {
+            String result = "";
+
+        }
+
+    }
 }
 

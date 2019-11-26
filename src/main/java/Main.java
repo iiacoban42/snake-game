@@ -4,7 +4,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class HelloWorld extends Application {
+@SuppressWarnings("PMD")
+public class Main extends Application {
 
     private Parent root;
 
@@ -22,6 +23,7 @@ public class HelloWorld extends Application {
     @Override
     public void start(Stage stage) {
         stage.setScene(new Scene(root));
+        stage.setTitle("Snake");
         stage.show();
         stage.setResizable(false);
     }
