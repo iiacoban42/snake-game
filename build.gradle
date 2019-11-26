@@ -72,6 +72,7 @@ pmd {
 
 spotbugs {
     sourceSets = [sourceSets.main]
+    toolVersion = '4.0.0-beta4'
     ignoreFailures = false
     effort = "default"
     reportLevel = "high"
@@ -92,3 +93,5 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml']
     version = 11
 }
+
+
