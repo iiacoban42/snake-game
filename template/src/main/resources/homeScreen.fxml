@@ -28,7 +28,7 @@
          </font>
       </Text>
       <Button fx:id="loginButton" layoutX="266.0" layoutY="488.0" mnemonicParsing="false" onAction="#loginButtonPressed" text="Log in" />
-      <Button fx:id="registerButton" layoutX="260.0" layoutY="543.0" mnemonicParsing="false" onAction="#registerButtonPressed" text="nl.tudelft.group11.snake.gui.Register" />
+      <Button fx:id="registerButton" layoutX="260.0" layoutY="543.0" mnemonicParsing="false" onAction="#registerButtonPressed" text="Register" />
       <PasswordField fx:id="password" layoutX="206.0" layoutY="440.0" />
    </children>
 </Pane>
