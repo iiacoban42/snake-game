@@ -14,6 +14,9 @@ plugins {
 
     // FindBugs / SpotBugs
     id "com.github.spotbugs" version "2.0.1"
+
+    // JavaFX
+    id "org.openjfx.javafxplugin" version "0.0.8"
 }
 
 group = 'nl.tudelft.group11.snake'
@@ -92,3 +95,10 @@ tasks.withType(SpotBugsTask) {
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
 }
+
+javafx {
+    modules = ['javafx.controls', 'javafx.fxml']
+    version = 11
+}
+
+
