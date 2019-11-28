@@ -1,3 +1,5 @@
+package nl.tudelft.group11.snake.gui;
+
 import java.util.Objects;
 
 public class Student {
@@ -5,10 +7,10 @@ public class Student {
     private final int studentNumber;
 
     /**
-     * Create a new Student object.
+     * Create a new nl.tudelft.group11.snake.gui.Student object.
      *
-     * @param name Name of the Student
-     * @param studentNumber Student number used to identify student in central administration
+     * @param name Name of the nl.tudelft.group11.snake.gui.Student
+     * @param studentNumber nl.tudelft.group11.snake.gui.Student number used to identify student in central administration
      */
     public Student(String name, int studentNumber) {
         this.name = name;
@@ -35,9 +37,9 @@ public class Student {
     }
 
     /**
-     * Determine whether the current Student object represents the same Student as the passed object.
+     * Determine whether the current nl.tudelft.group11.snake.gui.Student object represents the same nl.tudelft.group11.snake.gui.Student as the passed object.
      *
-     * @param other Object to compare to the current Student
+     * @param other Object to compare to the current nl.tudelft.group11.snake.gui.Student
      * @return boolean with a truthy value in case of equality
      */
     @Override
@@ -75,7 +77,7 @@ public class Student {
     }
 
     /**
-     * Retrieve a String representation of this Student object.
+     * Retrieve a String representation of this nl.tudelft.group11.snake.gui.Student object.
      *
      * @return String representation of the current student object.
      */

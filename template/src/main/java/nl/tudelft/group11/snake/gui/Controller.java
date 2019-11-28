@@ -1,3 +1,5 @@
+package nl.tudelft.group11.snake.gui;
+
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;

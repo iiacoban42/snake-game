@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeScreen">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tudelft.group11.snake.gui.HomeScreen">
    <children>
       <TextField id="userName" fx:id="username" layoutX="207.0" layoutY="350.0" />
       <ImageView id="logo" fitHeight="273.0" fitWidth="341.0" layoutX="163.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
@@ -28,7 +28,7 @@
          </font>
       </Text>
       <Button fx:id="loginButton" layoutX="266.0" layoutY="488.0" mnemonicParsing="false" onAction="#loginButtonPressed" text="Log in" />
-      <Button fx:id="registerButton" layoutX="260.0" layoutY="543.0" mnemonicParsing="false" onAction="#registerButtonPressed" text="Register" />
+      <Button fx:id="registerButton" layoutX="260.0" layoutY="543.0" mnemonicParsing="false" onAction="#registerButtonPressed" text="nl.tudelft.group11.snake.gui.Register" />
       <PasswordField fx:id="password" layoutX="206.0" layoutY="440.0" />
    </children>
 </Pane>
