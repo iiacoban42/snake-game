@@ -28,7 +28,7 @@ public class SignupTest {
 
     @Test
     void testPasswordNull() {
-        Signup s = new Signup("username", null);
+        Signup s = new Signup("username1", null);
         s.execute();
 
         assertTrue(s.hasErrors());
@@ -37,7 +37,7 @@ public class SignupTest {
 
     @Test
     void testPasswordEmpty() {
-        Signup s = new Signup("username", "");
+        Signup s = new Signup("username2", "");
         s.execute();
 
         assertTrue(s.hasErrors());
@@ -46,7 +46,7 @@ public class SignupTest {
 
     @Test
     void testPasswordTooShort() {
-        Signup s = new Signup("username", "abc");
+        Signup s = new Signup("username3", "abc");
         s.execute();
 
         assertTrue(s.hasErrors());
@@ -55,7 +55,7 @@ public class SignupTest {
 
     @Test
     void testCorrectSignup() {
-        Signup s = new Signup("username", "correct_password");
+        Signup s = new Signup("username4", "correct_password");
         s.execute();
 
         assertFalse(s.hasErrors());
