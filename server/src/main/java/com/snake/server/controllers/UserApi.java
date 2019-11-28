@@ -23,9 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/api/user")
 public class UserApi {
+
     @Autowired
     transient UserRepository userRepository;
 
+    public UserApi(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     /**
      * Mapping to login to the system.
      * @param logInRequest request class with username and psswd.
@@ -33,9 +37,8 @@ public class UserApi {
      */
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@Valid @RequestBody LogInRequest logInRequest) {
-        Optional<User> optionalUser = userRepository.findByUsername(logInRequest.getUsername());
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
+        User user = userRepository.findByUsername(logInRequest.getUsername()).orElse(null);
+        if (user != null) {
             if (user.getPassword().compareTo(logInRequest.getPassword()) == 0) {
                 return new ResponseEntity<>("Success!", HttpStatus.OK);
             } else {
@@ -54,8 +57,8 @@ public class UserApi {
      */
     @PostMapping("/signup")
     public ResponseEntity<?> register(@Valid @RequestBody SignUpRequest signUpRequest) {
-        Optional<User> optionalUser = userRepository.findByUsername(signUpRequest.getUsername());
-        if (optionalUser.isPresent()) {
+        User found = userRepository.findByUsername(signUpRequest.getUsername()).orElse(null);
+        if (found != null) {
             return new ResponseEntity<>("User with this username already exists!",
                     HttpStatus.CONFLICT);
         }
@@ -70,8 +73,11 @@ public class UserApi {
      * @return ResponseEntity that mainly contains max score.
      */
     @PostMapping("/userinfo")
-    public ResponseEntity<UserResponse> getInfo(@Valid @RequestBody String username) {
-        User user = userRepository.findByUsername(username).get();
+    public ResponseEntity<?> getInfo(@Valid @RequestBody String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null){
+            return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
+        }
         UserResponse response = new UserResponse(user.getUsername(), user.getMaxscore().intValue());
         return ResponseEntity.status(HttpStatus.FOUND).body(response);
     }
