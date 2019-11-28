@@ -6,8 +6,10 @@ import org.json.JSONObject;
 
 public class Signup extends ApiRequest<String> {
 
-    private String username;
-    private String password;
+    protected static final int MIN_PASSWORD_LENGTH = 8;
+
+    private transient String username;
+    private transient String password;
 
     public Signup(String username, String password) {
         this.username = username;
@@ -26,7 +28,7 @@ public class Signup extends ApiRequest<String> {
             return;
         }
 
-        if (this.password.length() < 8) {
+        if (this.password.length() < MIN_PASSWORD_LENGTH) {
             this.addError("Please provide a password of at least 8 characters");
             return;
         }
@@ -42,7 +44,7 @@ public class Signup extends ApiRequest<String> {
                     .body(body)
                     .asString();
 
-            if (response.getStatus() != 200) {
+            if (response.getStatus() != HTTP_OKAY) {
                 this.addError(response.getBody());
                 return;
             }

@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class UserInfo extends ApiRequest<JsonNode> {
 
-    private String username;
+    private transient String username;
 
     public UserInfo(String username) {
         this.username = username;
@@ -30,7 +30,7 @@ public class UserInfo extends ApiRequest<JsonNode> {
                     .body(body)
                     .asJson();
 
-            if (response.getStatus() != 200) {
+            if (response.getStatus() != HTTP_OKAY) {
                 this.addError("User not found");
                 return;
             }

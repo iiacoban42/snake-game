@@ -6,8 +6,8 @@ import org.json.JSONObject;
 
 public class Login extends ApiRequest<String> {
 
-    private String username;
-    private String password;
+    private transient String username;
+    private transient String password;
 
     public Login(String username, String password) {
         this.username = username;
@@ -37,7 +37,7 @@ public class Login extends ApiRequest<String> {
                     .body(body)
                     .asString();
 
-            if (response.getStatus() != 200) {
+            if (response.getStatus() != HTTP_OKAY) {
                 this.addError(response.getBody());
                 return;
             }

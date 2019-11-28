@@ -10,7 +10,9 @@ import java.util.List;
 
 public abstract class ApiRequest<V> {
 
-    private ArrayList<String> errors;
+    protected static final int HTTP_OKAY = 200;
+
+    private transient ArrayList<String> errors;
     private HttpResponse<V> result;
 
     public ApiRequest() {
