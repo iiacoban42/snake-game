@@ -1,12 +1,9 @@
-package nl.tudelft.group11.snake_test;
+package nl.tudelft.group11.snake;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import nl.tudelft.group11.snake.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class StudentTest {
     private transient Student student1;

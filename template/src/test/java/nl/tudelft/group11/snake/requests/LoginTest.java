@@ -1,10 +1,7 @@
-package nl.tudelft.group11.snake_test.requests;
+package nl.tudelft.group11.snake.requests;
 
-import nl.tudelft.group11.snake.requests.Login;
-import nl.tudelft.group11.snake.requests.Signup;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoginTest {

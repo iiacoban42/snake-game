@@ -1,9 +1,7 @@
-package nl.tudelft.group11.snake_test.requests;
+package nl.tudelft.group11.snake.requests;
 
 import org.junit.jupiter.api.Test;
-import nl.tudelft.group11.snake.requests.Signup;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SignupTest {
@@ -47,6 +45,15 @@ public class SignupTest {
     @Test
     void testPasswordTooShort() {
         Signup s = new Signup("username3", "abc");
+        s.execute();
+
+        assertTrue(s.hasErrors());
+        assertTrue(s.getErrors().size() > 0);
+    }
+
+    @Test
+    void testPasswordTooShort2() {
+        Signup s = new Signup("username4", "abcdefg");
         s.execute();
 
         assertTrue(s.hasErrors());

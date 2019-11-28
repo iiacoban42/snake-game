@@ -16,7 +16,7 @@ plugins {
     id "com.github.spotbugs" version "2.0.1"
 }
 
-group = 'com.nl.tudelft.group11.snake'
+group = 'nl.tudelft.group11.snake'
 version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 13
@@ -37,7 +37,7 @@ test {
 
     jacoco {
         enabled = true
-        includes = ['nl.tudelft.cse.sem.*']
+        includes = ['nl.tudelft.group11.snake.*']
         excludes = []
     }
 }
@@ -55,7 +55,7 @@ jacocoTestCoverageVerification {
         rule {
             enabled = true
             element = 'CLASS'
-            includes = ['nl.tudelft.cse.sem.*']
+            includes = ['nl.tudelft.group11.snake.*']
 
             limit {
                 counter = 'LINE'
