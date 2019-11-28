@@ -1,8 +1,11 @@
 package nl.tudelft.group11.snake.requests;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SignupTest {
 
@@ -58,5 +61,27 @@ public class SignupTest {
 
         assertTrue(s.hasErrors());
         assertTrue(s.getErrors().size() > 0);
+    }
+
+    @Test
+    void testNoRunningServer() {
+        Signup s = new Signup("username5", "correct_password");
+        s.execute();
+
+        assertTrue(s.hasErrors());
+        assertTrue(s.getErrors().size() > 0);
+        assertTrue(s.getErrors().contains("Couldn't connect to the server"));
+    }
+
+    @Test
+    void testErrorsBeforeExecution() {
+        Signup s = new Signup("username5", "correct_password");
+        assertFalse(s.hasErrors());
+    }
+
+    @Test
+    void testResultBeforeExecution() {
+        Signup s = new Signup("username5", "correct_password");
+        assertNull(s.getResult());
     }
 }
