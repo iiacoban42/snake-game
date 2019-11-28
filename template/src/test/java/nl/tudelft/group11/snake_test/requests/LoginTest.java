@@ -44,13 +44,4 @@ public class LoginTest {
         assertTrue(l.hasErrors());
         assertTrue(l.getErrors().size() > 0);
     }
-
-    @Test
-    void testCorrectLogin() {
-        Login l = new Login("username", "correct_password");
-        l.execute();
-
-        assertFalse(l.hasErrors());
-    }
-
 }

@@ -52,13 +52,4 @@ public class SignupTest {
         assertTrue(s.hasErrors());
         assertTrue(s.getErrors().size() > 0);
     }
-
-    @Test
-    void testCorrectSignup() {
-        Signup s = new Signup("username4", "correct_password");
-        s.execute();
-
-        assertFalse(s.hasErrors());
-    }
-
 }
