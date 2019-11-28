@@ -1,11 +1,9 @@
 import com.github.spotbugs.SpotBugsTask
 
 plugins {
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
-//    id 'eclipse' // optional (to generate Eclipse project files)
-//    id 'idea' // optional (to generate IntelliJ IDEA project files)
-
-    // Test coverage
     id 'jacoco'
 
     // Code style
@@ -21,10 +19,17 @@ plugins {
     id "org.openjfx.javafxplugin" version "0.0.8"
 }
 
-group 'nl.tudelft.cse.sem.template'
-version '1.0-SNAPSHOT'
+group = 'com.snake'
+version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 13
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
 
 repositories {
     mavenCentral()
@@ -45,6 +50,7 @@ dependencies {
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
 }
 
+
 jacocoTestCoverageVerification {
     violationRules {
         rule {
@@ -63,11 +69,10 @@ jacocoTestCoverageVerification {
 
 checkstyle {
     toolVersion "8.25"
-	configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 }
 
-pmd {
-    incrementalAnalysis = true
+pmd{
 }
 
 spotbugs {
