@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import nl.tudelft.group11.snake.requests.Signup;
 
 @SuppressWarnings("PMD")
 public class Register extends Controller {
@@ -14,6 +16,9 @@ public class Register extends Controller {
 
     @FXML
     private PasswordField password;
+
+    @FXML
+    private Text errors;
 
     @FXML
     private Button registerButton;
@@ -31,8 +36,14 @@ public class Register extends Controller {
         pass = password.getText();
 
         if (validText(user) && validText(pass)) {
-            String result = "";
+            Signup signup = new Signup(user, pass);
+            signup.execute();
 
+            if (signup.hasErrors()) {
+                errors.setText(signup.getErrors().get(0));
+            } else {
+                errors.setText(signup.getResult().getBody());
+            }
         }
 
     }

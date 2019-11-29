@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import nl.tudelft.group11.snake.requests.Login;
 
 @SuppressWarnings("PMD")
 public class HomeScreen extends Controller {
@@ -13,6 +15,9 @@ public class HomeScreen extends Controller {
 
     @FXML
     private PasswordField password;
+
+    @FXML
+    private Text errors;
 
     @FXML
     private Button loginButton;
@@ -37,8 +42,15 @@ public class HomeScreen extends Controller {
         pass = password.getText();
 
         if (validText(user) && validText(pass)) {
-            String result = "";
+            Login login = new Login(user, pass);
+            login.execute();
 
+            if (login.hasErrors()) {
+                errors.setText(login.getErrors().get(0));
+            } else {
+                // Start the game
+                errors.setText(login.getResult().getBody());
+            }
         }
 
     }
