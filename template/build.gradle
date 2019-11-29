@@ -19,7 +19,7 @@ plugins {
     id "org.openjfx.javafxplugin" version "0.0.8"
 }
 
-group = 'com.snake'
+group = 'nl.tudelft.group11.snake'
 version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 13
@@ -40,7 +40,7 @@ test {
 
     jacoco {
         enabled = true
-        includes = ['nl.tudelft.cse.sem.*']
+        includes = ['nl.tudelft.group11.snake.*']
         excludes = []
     }
 }
@@ -48,6 +48,8 @@ test {
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+    compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
+    compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
 }
 
 
@@ -56,7 +58,7 @@ jacocoTestCoverageVerification {
         rule {
             enabled = true
             element = 'CLASS'
-            includes = ['nl.tudelft.cse.sem.*']
+            includes = ['nl.tudelft.group11.snake.*']
 
             limit {
                 counter = 'LINE'

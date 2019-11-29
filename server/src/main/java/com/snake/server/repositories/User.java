@@ -32,7 +32,6 @@ public class User {
     @NotBlank
     private String password;
 
-    @NotBlank
     private Long maxscore;
 
     /**
