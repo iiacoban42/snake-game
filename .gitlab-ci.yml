@@ -1,4 +1,4 @@
-image: gradle:5.6-jdk12
+image: gradle:6.0-jdk13
 
 stages:
   - build
@@ -15,7 +15,11 @@ before_script:
 build:
   stage: build
   script:
-    gradle --build-cache assemble
+    - cd server
+    - gradle --build-cache assemble
+    - cd ..
+    - cd template
+    - gradle --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
@@ -25,7 +29,12 @@ build:
 
 checkStyle:
   stage: validate
-  script: gradle checkstyleMain checkstyleTest
+  script:
+    - cd server
+    - gradle checkstyleMain checkstyleTest
+    - cd ..
+    - cd template
+    - gradle checkstyleMain checkstyleTest
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -35,7 +44,12 @@ checkStyle:
 
 spotBugs:
   stage: validate
-  script: gradle spotbugsMain spotbugsTest
+  script:
+    - cd server
+    - gradle spotbugsMain spotbugsTest
+    - cd ..
+    - cd template
+    - gradle spotbugsMain spotbugsTest
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -45,7 +59,12 @@ spotBugs:
 
 PMD:
   stage: validate
-  script: gradle pmdMain pmdTest
+  script:
+    - cd server
+    - gradle pmdMain pmdTest
+    - cd ..
+    - cd template
+    - gradle pmdMain pmdTest
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -56,4 +75,8 @@ PMD:
 test:
   stage: test
   script:
-    gradle check
+    - cd server
+    - gradle check
+    - cd ..
+    - cd template
+    - gradle check
