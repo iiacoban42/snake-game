@@ -1,5 +1,7 @@
 package com.snake.server.requests;
 
+import com.snake.server.repositories.UserRepository;
+
 /**
  * Class to represent response when requested user information.
  */
@@ -50,4 +52,5 @@ public class UserResponse {
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
     }
+
 }
