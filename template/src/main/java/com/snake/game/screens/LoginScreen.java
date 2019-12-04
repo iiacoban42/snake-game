@@ -3,29 +3,29 @@ package com.snake.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.snake.game.game.SnakeGame;
+import com.snake.game.game.ScreenController;
 
-public class MainMenuScreen implements Screen {
+public class LoginScreen implements Screen {
 
 
-    SnakeGame game;
-    Texture registerButton;
-    Texture loginTexture;
+    //Texture registerButton;
+    //Texture loginTexture;
+
     private Stage stage;
 
     private TextField textFieldUsername;
+    private TextButton loginButton;
 
 
-    public MainMenuScreen(SnakeGame game){
-        this.game = game;
+    public LoginScreen(){
+        //this.game = game;
         //loginTexture = new Texture("login.png");
 
         stage = new Stage();
@@ -33,27 +33,39 @@ public class MainMenuScreen implements Screen {
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         Skin skin = new Skin(fileHandle);
-        TextButton loginButton = new TextButton("Login", skin);
-        loginButton.setPosition(100, 100);
+
+
+
+        VerticalGroup verticalLayoutPane = new VerticalGroup();
+
+        verticalLayoutPane.setFillParent(true);
+
+        verticalLayoutPane.setColor(0.8f,0.8f,0.8f,1f);
+
+        verticalLayoutPane.setHeight(300);
+        verticalLayoutPane.setWidth(300);
+
+
+
+        loginButton = new TextButton("Login", skin);
         loginButton.setSize(300, 40);
 
         loginButton.addListener(new ClickListener(){
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button){
+            public void clicked (InputEvent event, float x, float y) {
                 loginClicked();
             }
         });
 
 
         textFieldUsername = new TextField("", skin);
-        textFieldUsername.setPosition(300, 250);
         textFieldUsername.setSize(300, 40);
 
+        verticalLayoutPane.addActor(loginButton);
+        verticalLayoutPane.addActor(textFieldUsername);
 
+        stage.addActor(verticalLayoutPane);
 
-        stage.addActor(textFieldUsername);
-        stage.addActor(loginButton);
-        //to switch screens do game.setScreen(new RegistrationScreen()) whatever
     }
 
     public void loginClicked(){
