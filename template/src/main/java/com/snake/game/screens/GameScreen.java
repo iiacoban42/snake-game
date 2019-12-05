@@ -35,7 +35,6 @@ public class GameScreen extends Screen {
         board = new Board(r);
     }
 
-
     ShapeRenderer r = new ShapeRenderer();
 
     @Override
@@ -66,10 +65,9 @@ public class GameScreen extends Screen {
 
     }
 
+    @Override
+    public void dispose(){
 
-
-
-
-
+    }
 
 }

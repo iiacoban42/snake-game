@@ -1,25 +1,22 @@
 package com.snake.game.screens;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.ScreenController;
-import com.snake.game.requests.Login;
+import com.snake.game.requests.Signup;
 
-public class LoginScreen extends Screen implements ApplicationListener {
-
+public class RegisterScreen extends Screen implements ApplicationListener {
     private TextField usernameTextField;
     private TextField passwordTextField;
-    private TextButton loginButton;
     private TextButton registerButton;
     private SpriteBatch batch;
     private BitmapFont font;
@@ -30,7 +27,6 @@ public class LoginScreen extends Screen implements ApplicationListener {
     public TextField getUsernameTextField() {
         return usernameTextField;
     }
-
     public SpriteBatch getBatch() {
         return batch;
     }
@@ -48,7 +44,6 @@ public class LoginScreen extends Screen implements ApplicationListener {
     }
 
 
-
     public void setUsernameTextField(TextField usernameTextField) {
         this.usernameTextField = usernameTextField;
     }
@@ -61,13 +56,15 @@ public class LoginScreen extends Screen implements ApplicationListener {
         this.passwordTextField = passwordTextField;
     }
 
-    public TextButton getLoginButton() {
-        return loginButton;
+    public static boolean validUser(String text) {
+        return text != null && !text.isEmpty();
     }
 
-    public void setLoginButton(TextButton loginButton) {
-        this.loginButton = loginButton;
+    public static boolean validPassword(String text) {
+        return text != null && !text.isEmpty()
+                && (text.length() >= 8) && (text.length() < 32);
     }
+
 
     public TextButton getRegisterButton() {
         return registerButton;
@@ -85,7 +82,7 @@ public class LoginScreen extends Screen implements ApplicationListener {
         this.group = group;
     }
 
-    public LoginScreen(ScreenController sc) {
+    public RegisterScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();
 
@@ -104,17 +101,12 @@ public class LoginScreen extends Screen implements ApplicationListener {
         passwordTextField.setPasswordCharacter('*');
         passwordTextField.setSize(170, 35);
 
-        loginButton = new TextButton("Login", skin);
-        loginButton.setSize(80, 35);
-
         registerButton = new TextButton("Register", skin);
         registerButton.setSize(80, 35);
-
 
         group = new Group();
         group.addActor(usernameTextField);
         group.addActor(passwordTextField);
-        group.addActor(loginButton);
         group.addActor(registerButton);
         stage.addActor(group);
 
@@ -130,13 +122,11 @@ public class LoginScreen extends Screen implements ApplicationListener {
         int pivotX = 400, pivotY = 280;
         usernameTextField.setPosition(pivotX, pivotY);
         passwordTextField.setPosition(pivotX, pivotY - 45);
-
-        loginButton.setPosition(pivotX, pivotY - 90);
-        registerButton.setPosition(pivotX + 90, pivotY - 90);
+        registerButton.setPosition(pivotX , pivotY - 90);
     }
 
     void addListeners() {
-        loginButton.addListener(new ClickListener() {
+        registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String username = usernameTextField.getText();
@@ -144,32 +134,23 @@ public class LoginScreen extends Screen implements ApplicationListener {
                 System.out.println(username);
                 System.out.println(password);
                 if (validUser(username) && validPassword(password)) {
-                    Login login = new Login(username, password);
-                    login.execute();
-                    if (login.hasErrors()) {
-                        font.draw(batch, login.getErrors().get(0), 200, 200);
+                    Signup signup = new Signup(username, password);
+                    signup.execute();
+                    if (signup.hasErrors()) {
+                        font.draw(batch, signup.getErrors().get(0), 200, 200);
                     } else {
-                        font.draw(batch, login.getResult().getBody(), 200, 200);
+                        font.draw(batch, signup.getResult().getBody(), 200, 200);
                         sc.openScreen(sc.gameScreen);
                     }
                 }
             }
         });
-        registerButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(new RegisterScreen(sc));
-
-            }
-        });
-
     }
 
     @Override
     public void resize(int width, int height) {
 
     }
-
     @Override
     public void dispose() {
         batch.dispose();
@@ -190,3 +171,5 @@ public class LoginScreen extends Screen implements ApplicationListener {
     }
 
 }
+
+
