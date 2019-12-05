@@ -15,6 +15,30 @@ public class Board {
         return portalWalls;
     }
 
+    public void setPortalWalls(boolean portalWalls) {
+        this.portalWalls = portalWalls;
+    }
+
+    public void setRend(ShapeRenderer rend) {
+        this.rend = rend;
+    }
+
+    public Snake getSnake() {
+        return snake;
+    }
+
+    public void setSnake(Snake snake) {
+        this.snake = snake;
+    }
+
+    public Apple getApple() {
+        return apple;
+    }
+
+    public void setApple(Apple apple) {
+        this.apple = apple;
+    }
+
     public int getX() {
         return x;
     }

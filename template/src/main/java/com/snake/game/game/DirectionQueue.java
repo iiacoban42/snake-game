@@ -4,6 +4,15 @@ import java.util.LinkedList;
 
 public class DirectionQueue {
     LinkedList<Snake.Direction> keyQueue;
+
+    public LinkedList<Snake.Direction> getKeyQueue() {
+        return keyQueue;
+    }
+
+    public void setKeyQueue(LinkedList<Snake.Direction> keyQueue) {
+        this.keyQueue = keyQueue;
+    }
+
     public DirectionQueue(Snake.Direction startDirection){
         keyQueue = new LinkedList<>();
         keyQueue.addLast(startDirection);

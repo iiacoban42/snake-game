@@ -9,6 +9,31 @@ import com.snake.game.game.Board;
 import com.snake.game.game.ScreenController;
 
 public class GameScreen extends Screen {
+    Board board;
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Timer<Runnable> getGameUpdateTimer() {
+        return gameUpdateTimer;
+    }
+
+    public void setGameUpdateTimer(Timer<Runnable> gameUpdateTimer) {
+        this.gameUpdateTimer = gameUpdateTimer;
+    }
+
+    public ShapeRenderer getR() {
+        return r;
+    }
+
+    public void setR(ShapeRenderer r) {
+        this.r = r;
+    }
 
     public GameScreen(ScreenController sc) {
         super(sc);
@@ -61,6 +86,34 @@ public class GameScreen extends Screen {
         private boolean active = false;
         private T run;
 
+        public long getDelay() {
+            return delay;
+        }
+
+        public void setDelay(long delay) {
+            this.delay = delay;
+        }
+
+        public double getDuration() {
+            return duration;
+        }
+
+        public void setDuration(double duration) {
+            this.duration = duration;
+        }
+
+        public boolean isActive() {
+            return active;
+        }
+
+        public T getRun() {
+            return run;
+        }
+
+        public void setRun(T run) {
+            this.run = run;
+        }
+
         public Timer(T t) {
             run = t;
         }
@@ -91,7 +144,7 @@ public class GameScreen extends Screen {
     }
 
 
-    Board board;
+
 
 
 }

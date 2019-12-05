@@ -9,6 +9,34 @@ public class Snake {
     private int length;
     private DirectionQueue direction;
 
+    public Body getHead() {
+        return head;
+    }
+
+    public void setHead(Body head) {
+        this.head = head;
+    }
+
+    public LinkedList<Body> getSnake() {
+        return snake;
+    }
+
+    public void setSnake(LinkedList<Body> snake) {
+        this.snake = snake;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public void setDirection(DirectionQueue direction) {
+        this.direction = direction;
+    }
+
     public Snake(int x, int y, int length) {
         snake = new LinkedList<>();
         init(x, y, 5);

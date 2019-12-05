@@ -9,6 +9,18 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     protected Stage stage;
     protected ScreenController sc;
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public ScreenController getSc() {
+        return sc;
+    }
+
+    public void setSc(ScreenController sc) {
+        this.sc = sc;
+    }
+
     Screen(ScreenController sc){
         this.sc = sc;
     }

@@ -15,6 +15,30 @@ public class ScreenController extends Game {
     public Screen loginScreen;
     public Screen gameScreen;
 
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
+    public void setBatch(SpriteBatch batch) {
+        this.batch = batch;
+    }
+
+    public Screen getLoginScreen() {
+        return loginScreen;
+    }
+
+    public void setLoginScreen(Screen loginScreen) {
+        this.loginScreen = loginScreen;
+    }
+
+    public Screen getGameScreen() {
+        return gameScreen;
+    }
+
+    public void setGameScreen(Screen gameScreen) {
+        this.gameScreen = gameScreen;
+    }
+
     public void openScreen(Screen s) {
         setScreen(s);
         Gdx.input.setInputProcessor(s.getStage());

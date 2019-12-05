@@ -9,7 +9,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	
+
+	public SpriteBatch getBatch() {
+		return batch;
+	}
+
+	public void setBatch(SpriteBatch batch) {
+		this.batch = batch;
+	}
+
+	public Texture getImg() {
+		return img;
+	}
+
+	public void setImg(Texture img) {
+		this.img = img;
+	}
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
