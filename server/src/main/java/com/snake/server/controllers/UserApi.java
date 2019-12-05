@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/api/user")
-@SuppressWarnings("PMD")
 public class UserApi {
 
     @Autowired
@@ -91,6 +90,7 @@ public class UserApi {
      * @return ResponseEntity containing top-5 scores
      */
     @GetMapping("/topscores")
+    @SuppressWarnings("PMD") //UR, DD DU anomalies which were not actually there.
     public ResponseEntity<?> getTopScores() {
         Set<UserInfo> userInfos = userRepository.getTopScores();
         UserResponse[] responses = new UserResponse[userInfos.size()];
