@@ -1,124 +1,114 @@
 package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.ScreenController;
 
-public class LoginScreen implements Screen {
+public class LoginScreen extends Screen {
 
-
-    //Texture registerButton;
-    //Texture loginTexture;
-
-    private Stage stage;
-
-    private TextField textFieldUsername;
+    private TextField usernameTextField;
+    private TextField passwordTextField;
     private TextButton loginButton;
+    private TextButton registerButton;
 
+    private Group group;
 
-    public LoginScreen(){
-        //this.game = game;
-        //loginTexture = new Texture("login.png");
-
+    public LoginScreen(ScreenController sc) {
+        super(sc);
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         Skin skin = new Skin(fileHandle);
 
+        usernameTextField = new TextField("", skin);
+        usernameTextField.setMessageText("Username");
+        usernameTextField.setMaxLength(32);
+        usernameTextField.setSize(170, 35);
 
-
-        VerticalGroup verticalLayoutPane = new VerticalGroup();
-
-        verticalLayoutPane.setFillParent(true);
-
-        verticalLayoutPane.setColor(0.8f,0.8f,0.8f,1f);
-
-        verticalLayoutPane.setHeight(300);
-        verticalLayoutPane.setWidth(300);
-
-
+        passwordTextField = new TextField("", skin);
+        passwordTextField.setMessageText("Password");
+        passwordTextField.setMaxLength(32);
+        passwordTextField.setPasswordMode(true);
+        passwordTextField.setPasswordCharacter('*');
+        passwordTextField.setSize(170, 35);
 
         loginButton = new TextButton("Login", skin);
-        loginButton.setSize(300, 40);
+        loginButton.setSize(80, 35);
 
-        loginButton.addListener(new ClickListener(){
+        registerButton = new TextButton("Register", skin);
+        registerButton.setSize(80, 35);
+
+
+        group = new Group();
+        group.addActor(usernameTextField);
+        group.addActor(passwordTextField);
+        group.addActor(loginButton);
+        group.addActor(registerButton);
+        stage.addActor(group);
+
+        stage.setKeyboardFocus(usernameTextField);
+
+
+        updatePosition();
+        addListeners();
+    }
+
+    void updatePosition() {
+
+        int pivotX = 400, pivotY = 280;
+        usernameTextField.setPosition(pivotX, pivotY);
+        passwordTextField.setPosition(pivotX, pivotY - 45);
+
+        loginButton.setPosition(pivotX, pivotY - 90);
+        registerButton.setPosition(pivotX + 90, pivotY - 90);
+    }
+
+    void addListeners() {
+        loginButton.addListener(new ClickListener() {
             @Override
-            public void clicked (InputEvent event, float x, float y) {
-                loginClicked();
+            public void clicked(InputEvent event, float x, float y) {
+                String username = usernameTextField.getText();
+                String password = passwordTextField.getText();
+
+                System.out.println("Logging in: [Username: " + username + ", Password: " + password + "]");
+                //TODO
             }
         });
-
-
-        textFieldUsername = new TextField("", skin);
-        textFieldUsername.setSize(300, 40);
-
-        verticalLayoutPane.addActor(loginButton);
-        verticalLayoutPane.addActor(textFieldUsername);
-
-        stage.addActor(verticalLayoutPane);
-
-    }
-
-    public void loginClicked(){
-        String username = textFieldUsername.getText();
-        System.out.println(username);
-        //TODO make request to server (make it call separate class)
-    }
-
-    @Override
-    public void show() {
+        registerButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //TODO
+                sc.openScreen(sc.gameScreen);
+            }
+        });
 
     }
 
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(1, 0 ,0, 1);
+        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(.7f, .7f, .7f, 1);
+        shapeRenderer.rect(0, 0, 640, 50);
+        shapeRenderer.rect(0, 380, 640, 200);
+        shapeRenderer.end();
 
-        stage.act(delta);
         stage.draw();
-
-//        game.batch.begin();
-//        game.batch.draw(loginButton, 100, 100, 100, 100);
-//
-//        game.batch.end();
-
-
     }
 
     @Override
     public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
 
     }
 }
