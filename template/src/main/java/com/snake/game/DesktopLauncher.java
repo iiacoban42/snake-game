@@ -5,9 +5,13 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.snake.game.game.ScreenController;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.forceExit = false;
-		new LwjglApplication(new ScreenController(), config);
-	}
+    /**
+     * Launch game app.
+     * @param arg .
+     */
+    public static void main(String[] arg) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.forceExit = false;
+        new LwjglApplication(new ScreenController(), config);
+    }
 }

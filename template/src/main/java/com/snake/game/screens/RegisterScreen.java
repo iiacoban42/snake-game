@@ -27,6 +27,7 @@ public class RegisterScreen extends Screen implements ApplicationListener {
     public TextField getUsernameTextField() {
         return usernameTextField;
     }
+
     public SpriteBatch getBatch() {
         return batch;
     }
@@ -122,7 +123,7 @@ public class RegisterScreen extends Screen implements ApplicationListener {
         int pivotX = 400, pivotY = 280;
         usernameTextField.setPosition(pivotX, pivotY);
         passwordTextField.setPosition(pivotX, pivotY - 45);
-        registerButton.setPosition(pivotX , pivotY - 90);
+        registerButton.setPosition(pivotX, pivotY - 90);
     }
 
     void addListeners() {
@@ -151,6 +152,7 @@ public class RegisterScreen extends Screen implements ApplicationListener {
     public void resize(int width, int height) {
 
     }
+
     @Override
     public void dispose() {
         batch.dispose();
@@ -166,7 +168,7 @@ public class RegisterScreen extends Screen implements ApplicationListener {
     }
 
     @Override
-    public void render(){
+    public void render() {
 
     }
 

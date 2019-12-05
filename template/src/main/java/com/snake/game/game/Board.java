@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Board {
+
     boolean portalWalls = true;
     final int dx = 50, dy = 100;
     final int width = 320, height = 320;
@@ -14,16 +15,48 @@ public class Board {
 
     /**
      * Returns the setting whether the snake can go through walls
+     *
      * @return boolean
      */
+
     public boolean isPortalWalls() {
         return portalWalls;
     }
 
+    public Timer<Runnable> getGameUpdateTimer() {
+        return gameUpdateTimer;
+    }
+
+    public void setGameUpdateTimer(Timer<Runnable> gameUpdateTimer) {
+        this.gameUpdateTimer = gameUpdateTimer;
+    }
+
+    public void setRend(ShapeRenderer rend) {
+        this.rend = rend;
+    }
+
+    public Snake getSnake() {
+        return snake;
+    }
+
+    public void setSnake(Snake snake) {
+        this.snake = snake;
+    }
+
+    public Apple getApple() {
+        return apple;
+    }
+
+    public void setApple(Apple apple) {
+        this.apple = apple;
+    }
+
     /**
      * Returns the setting whether the snake can go through walls
+     *
      * @return x
      */
+
     public int getDx() {
         return dx;
     }
@@ -69,7 +102,7 @@ public class Board {
      */
     public void run() {
 
-        if(snake.move()){
+        if (snake.move()) {
             snake.killSnake();
             gameUpdateTimer.setActive(false);
             return;
@@ -81,7 +114,7 @@ public class Board {
 
         final int x = snake.getHead().getX();
         final int y = snake.getHead().getY();
-        if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight){
+        if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight) {
             snake.killSnake();
             gameUpdateTimer.setActive(false);
         }
@@ -89,6 +122,7 @@ public class Board {
 
     /**
      * Constructor
+     *
      * @param rend a ShapeRenderer to draw its graphics to
      */
     public Board(ShapeRenderer rend) {
@@ -101,7 +135,7 @@ public class Board {
         gameUpdateTimer.setActive(true);
     }
 
-    public void timerHandler(){
+    public void timerHandler() {
         gameUpdateTimer.timerHandler();
     }
 

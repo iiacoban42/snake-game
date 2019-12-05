@@ -27,7 +27,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         this.sc = sc;
     }
 
-    Screen(ScreenController sc){
+    Screen(ScreenController sc) {
         this.sc = sc;
     }
 

@@ -33,7 +33,7 @@ public class Snake {
         init(x, y, 5);
     }
 
-    public Body getHead(){
+    public Body getHead() {
         return snake.getLast();
     }
 
@@ -51,21 +51,24 @@ public class Snake {
     public boolean move() {
         direction.dequeue();
         Body newHead = new Body(getHead().getX(), getHead().getY(), direction.getDirection());
-        if (collides(newHead.getX(), newHead.getY()) ) {
+        if (collides(newHead.getX(), newHead.getY())) {
             return true;
         }
 
         snake.addLast(newHead);
-        while (snake.size() > length)
+        while (snake.size() > length) {
             snake.removeFirst();
+        }
 
         return false;
     }
 
     public boolean collides(int x, int y) {
-        for (Body body : snake)
-            if (body.getX() == x && body.getY() == y)
+        for (Body body : snake) {
+            if (body.getX() == x && body.getY() == y) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -80,7 +83,7 @@ public class Snake {
         }
     }
 
-    public DirectionQueue getDirection(){
+    public DirectionQueue getDirection() {
         return direction;
     }
 
@@ -136,8 +139,8 @@ public class Snake {
             return dy;
         }
 
-        public boolean isOrthogonalTo(Direction direction){
-            return (direction.getDx()*dx + direction.getDy()*dy) == 0;
+        public boolean isOrthogonalTo(Direction direction) {
+            return (direction.getDx() * dx + direction.getDy() * dy) == 0;
         }
     }
 }

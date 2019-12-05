@@ -1,6 +1,5 @@
 package com.snake.game.requests;
 
-
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;

@@ -1,6 +1,5 @@
 package com.snake.game.screens;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -27,6 +26,10 @@ public class GameScreen extends Screen {
         this.r = r;
     }
 
+    /**
+     * Create Game screen.
+     * @param sc Screen Controller
+     */
     public GameScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();
@@ -66,7 +69,7 @@ public class GameScreen extends Screen {
     }
 
     @Override
-    public void dispose(){
+    public void dispose() {
 
     }
 

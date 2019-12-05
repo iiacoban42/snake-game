@@ -48,7 +48,6 @@ public class LoginScreen extends Screen implements ApplicationListener {
     }
 
 
-
     public void setUsernameTextField(TextField usernameTextField) {
         this.usernameTextField = usernameTextField;
     }
@@ -185,7 +184,7 @@ public class LoginScreen extends Screen implements ApplicationListener {
     }
 
     @Override
-    public void render(){
+    public void render() {
 
     }
 

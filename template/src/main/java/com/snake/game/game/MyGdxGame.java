@@ -7,43 +7,43 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+    SpriteBatch batch;
+    Texture img;
 
-	public SpriteBatch getBatch() {
-		return batch;
-	}
+    public SpriteBatch getBatch() {
+        return batch;
+    }
 
-	public void setBatch(SpriteBatch batch) {
-		this.batch = batch;
-	}
+    public void setBatch(SpriteBatch batch) {
+        this.batch = batch;
+    }
 
-	public Texture getImg() {
-		return img;
-	}
+    public Texture getImg() {
+        return img;
+    }
 
-	public void setImg(Texture img) {
-		this.img = img;
-	}
+    public void setImg(Texture img) {
+        this.img = img;
+    }
 
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-	}
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
+        img = new Texture("badlogic.jpg");
+    }
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+    @Override
+    public void render() {
+        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        batch.draw(img, 0, 0);
+        batch.end();
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        img.dispose();
+    }
 }
