@@ -34,4 +34,5 @@ public class DirectionQueue {
     public Snake.Direction getDirection() {
         return keyQueue.getFirst();
     }
+
 }

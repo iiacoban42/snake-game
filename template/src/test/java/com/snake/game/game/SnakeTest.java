@@ -1,12 +1,10 @@
 package com.snake.game.game;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
+import org.junit.jupiter.api.Test;
+
 
 public class SnakeTest {
 
@@ -149,7 +147,8 @@ public class SnakeTest {
     @Test
     void testNonOrthogonalDirect() {
         Snake snake = new Snake(1,2,0);
-        assertEquals(snake.getDirection().getDirection().isOrthogonalTo(Snake.Direction.LEFT), false);
+        assertEquals(snake.getDirection().getDirection().isOrthogonalTo(Snake.Direction.LEFT),
+                false);
 
     }
 
