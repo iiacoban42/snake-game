@@ -19,14 +19,6 @@ public class GameScreen extends Screen {
         this.board = board;
     }
 
-    public Timer<Runnable> getGameUpdateTimer() {
-        return gameUpdateTimer;
-    }
-
-    public void setGameUpdateTimer(Timer<Runnable> gameUpdateTimer) {
-        this.gameUpdateTimer = gameUpdateTimer;
-    }
-
     public ShapeRenderer getR() {
         return r;
     }
@@ -41,13 +33,8 @@ public class GameScreen extends Screen {
 
 
         board = new Board(r);
-        gameUpdateTimer = new Timer<>(() ->
-            board.run()
-        );
-        gameUpdateTimer.setActive(true);
     }
 
-    Timer<Runnable> gameUpdateTimer;
 
     ShapeRenderer r = new ShapeRenderer();
 
@@ -57,7 +44,7 @@ public class GameScreen extends Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         board.updateDirection();
-        gameUpdateTimer.timerHandler();
+        board.timerHandler();
 
 
         r.begin(ShapeRenderer.ShapeType.Filled);
@@ -80,68 +67,6 @@ public class GameScreen extends Screen {
     }
 
 
-    class Timer<T extends Runnable> {
-        private long delay = 0;
-        private double duration = 100.0;
-        private boolean active = false;
-        private T run;
-
-        public long getDelay() {
-            return delay;
-        }
-
-        public void setDelay(long delay) {
-            this.delay = delay;
-        }
-
-        public double getDuration() {
-            return duration;
-        }
-
-        public void setDuration(double duration) {
-            this.duration = duration;
-        }
-
-        public boolean isActive() {
-            return active;
-        }
-
-        public T getRun() {
-            return run;
-        }
-
-        public void setRun(T run) {
-            this.run = run;
-        }
-
-        public Timer(T t) {
-            run = t;
-        }
-
-        public void setActive(boolean active) {
-            this.active = active;
-        }
-
-        public void timerHandler() {
-            if (!active) return;
-            final long currentTime = System.currentTimeMillis();
-            if (delay > currentTime) return;
-
-            final long updateAmount = (long) ((currentTime - delay) / duration);
-            final long tooManyUpdates = 10;
-            if (updateAmount > tooManyUpdates)
-                delay += duration * updateAmount;
-            while (delay < currentTime) {
-                {
-                    run.run();
-
-
-                }
-                delay += duration;
-            }
-
-        }
-    }
 
 
 

@@ -4,18 +4,9 @@ import java.util.LinkedList;
 
 public class Snake {
 
-    private Body head;
     private LinkedList<Body> snake;
     private int length;
     private DirectionQueue direction;
-
-    public Body getHead() {
-        return head;
-    }
-
-    public void setHead(Body head) {
-        this.head = head;
-    }
 
     public LinkedList<Body> getSnake() {
         return snake;
@@ -42,10 +33,13 @@ public class Snake {
         init(x, y, 5);
     }
 
+    public Body getHead(){
+        return snake.getLast();
+    }
+
     public void init(int x, int y, int length) {
         snake = new LinkedList<>();
         snake.addLast(new Body(x, y));
-        head = snake.getFirst();
         direction = new DirectionQueue(Direction.RIGHT);
         this.length = length;
         for (int i = 1; i < length; i++) {
@@ -54,18 +48,18 @@ public class Snake {
         }
     }
 
-    public void move() {
+    public boolean move() {
         direction.dequeue();
-        Body newHead = new Body(head.getX(), head.getY(), direction.getDirection());
-        if (collides(newHead.getX(), newHead.getY())) {
-            killSnake();
+        Body newHead = new Body(getHead().getX(), getHead().getY(), direction.getDirection());
+        if (collides(newHead.getX(), newHead.getY()) ) {
+            return true;
         }
 
         snake.addLast(newHead);
         while (snake.size() > length)
             snake.removeFirst();
-//        System.out.println(snake);
-        head = snake.getLast();
+
+        return false;
     }
 
     public boolean collides(int x, int y) {
@@ -118,8 +112,8 @@ public class Snake {
         public void draw(Board board) {
 //            System.out.println(x+"  "+y);
             board.getRend().rect(
-                    board.getX() + x * board.getTILE(),
-                    board.getY() + y * board.getTILE(),
+                    board.getDx() + x * board.getTILE(),
+                    board.getDy() + y * board.getTILE(),
                     board.getTILE(),
                     board.getTILE());
         }

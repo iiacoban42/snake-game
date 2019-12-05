@@ -6,61 +6,46 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Board {
     boolean portalWalls = true;
-    final int x = 50, y = 100;
-    final int WIDTH = 320, HEIGHT = 320;
-    final int GWIDTH = 20, GHEIGHT = 20;
+    final int dx = 50, dy = 100;
+    final int width = 320, height = 320;
+    final int gridWidth = 20, gridHeight = 20;
 
+    Timer<Runnable> gameUpdateTimer;
 
+    /**
+     * Returns the setting whether the snake can go through walls
+     * @return boolean
+     */
     public boolean isPortalWalls() {
         return portalWalls;
     }
 
-    public void setPortalWalls(boolean portalWalls) {
-        this.portalWalls = portalWalls;
+    /**
+     * Returns the setting whether the snake can go through walls
+     * @return x
+     */
+    public int getDx() {
+        return dx;
     }
 
-    public void setRend(ShapeRenderer rend) {
-        this.rend = rend;
+    public int getDy() {
+        return dy;
     }
 
-    public Snake getSnake() {
-        return snake;
+    public int getWidth() {
+        return width;
     }
 
-    public void setSnake(Snake snake) {
-        this.snake = snake;
+    public int getHeight() {
+        return height;
     }
 
-    public Apple getApple() {
-        return apple;
+    public int getGridWidth() {
+        return gridWidth;
     }
 
-    public void setApple(Apple apple) {
-        this.apple = apple;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getWIDTH() {
-        return WIDTH;
-    }
-
-    public int getHEIGHT() {
-        return HEIGHT;
-    }
-
-    public int getGWIDTH() {
-        return GWIDTH;
-    }
-
-    public int getGHEIGHT() {
-        return GHEIGHT;
+    public int getGridHeight() {
+        return gridHeight;
     }
 
     public int getTILE() {
@@ -83,10 +68,22 @@ public class Board {
      * Game update.
      */
     public void run() {
-        snake.move();
+
+        if(snake.move()){
+            snake.killSnake();
+            gameUpdateTimer.setActive(false);
+            return;
+        }
         if (snake.collides(apple.getX(), apple.getY())) {
             snake.addLength(3);
             apple = new Apple(this, snake);
+        }
+
+        final int x = snake.getHead().getX();
+        final int y = snake.getHead().getY();
+        if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight){
+            snake.killSnake();
+            gameUpdateTimer.setActive(false);
         }
     }
 
@@ -99,6 +96,13 @@ public class Board {
 
         snake = new Snake(0, 0, 5);
         apple = new Apple(this, snake);
+
+        gameUpdateTimer = new Timer<>(() -> run());
+        gameUpdateTimer.setActive(true);
+    }
+
+    public void timerHandler(){
+        gameUpdateTimer.timerHandler();
     }
 
     public void draw() {
@@ -135,6 +139,8 @@ public class Board {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             snake.init(0, 0, 5);
+            apple = new Apple(this, snake);
+            gameUpdateTimer.setActive(true);
         }
     }
 }
