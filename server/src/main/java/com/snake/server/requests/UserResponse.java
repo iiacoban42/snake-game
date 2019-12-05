@@ -1,7 +1,5 @@
 package com.snake.server.requests;
 
-import com.snake.server.repositories.UserRepository;
-
 /**
  * Class to represent response when requested user information.
  */

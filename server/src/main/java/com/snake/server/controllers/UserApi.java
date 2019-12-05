@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserApi {
 
     @Autowired
-    transient UserRepository userRepository;
+    transient private UserRepository userRepository;
 
     public UserApi(UserRepository userRepository) {
         this.userRepository = userRepository;
