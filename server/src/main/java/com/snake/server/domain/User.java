@@ -1,4 +1,4 @@
-package com.snake.server.repositories;
+package com.snake.server.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

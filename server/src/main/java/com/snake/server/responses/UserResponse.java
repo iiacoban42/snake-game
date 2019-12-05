@@ -1,4 +1,4 @@
-package com.snake.server.requests;
+package com.snake.server.responses;
 
 /**
  * Class to represent response when requested user information.

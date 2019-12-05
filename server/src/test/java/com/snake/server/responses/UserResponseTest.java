@@ -1,20 +1,20 @@
-package com.snake.server.requests;
-
-import org.junit.jupiter.api.Test;
+package com.snake.server.responses;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class UserResponseTest {
 
     @Test
-    void constructorTest(){
+    void constructorTest() {
         UserResponse test = new UserResponse("usernm", 15);
         assertEquals("usernm", test.getUsername());
         assertEquals(15, test.getMaxScore());
     }
 
     @Test
-    void settersTest(){
+    void settersTest() {
         UserResponse test = new UserResponse("usernm", 15);
         test.setUsername("qwe");
         test.setMaxScore(25);
