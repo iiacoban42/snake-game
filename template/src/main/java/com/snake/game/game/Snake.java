@@ -30,7 +30,7 @@ public class Snake {
 
     public Snake(int x, int y, int length) {
         snake = new LinkedList<>();
-        init(x, y, 5);
+        init(x, y, length);
     }
 
     public Body getHead() {
@@ -91,7 +91,7 @@ public class Snake {
         length += increment;
     }
 
-    class Body {
+    public class Body {
         private final int x, y;
 
         Body(int x, int y) {

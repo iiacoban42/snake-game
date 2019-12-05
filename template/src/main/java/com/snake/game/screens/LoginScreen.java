@@ -157,7 +157,7 @@ public class LoginScreen extends Screen implements ApplicationListener {
         registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(new RegisterScreen(sc));
+                sc.openScreen(sc.gameScreen);
 
             }
         });
