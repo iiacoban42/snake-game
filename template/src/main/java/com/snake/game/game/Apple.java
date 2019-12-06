@@ -2,13 +2,16 @@ package com.snake.game.game;
 
 public class Apple {
     private final int x, y;
+    private double random;
 
-    public Apple(Board board, Snake snake) {
-        int xRand = (int) (Math.random() * board.gridWidth);
-        int yRand = (int) (Math.random() * board.gridHeight);
+    public Apple(Board board, Snake snake, double random) {
+        this.random = random;
+        int xRand = (int) (random * board.gridWidth);
+        int yRand = (int) (random * board.gridHeight);
         while (snake.collides(xRand, yRand)) {
-            xRand = (int) (Math.random() * board.gridWidth);
-            yRand = (int) (Math.random() * board.gridHeight);
+            random = Math.random();
+            xRand = (int) (random * board.gridWidth);
+            yRand = (int) (random* board.gridHeight);
         }
         x = xRand;
         y = yRand;

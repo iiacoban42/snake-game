@@ -94,7 +94,7 @@ public class Board {
         }
         if (snake.collides(apple.getX(), apple.getY())) {
             snake.addLength(3);
-            apple = new Apple(this, snake);
+            apple = new Apple(this, snake,Math.random());
         }
 
         final int x = snake.getHead().getX();
@@ -114,7 +114,7 @@ public class Board {
         this.rend = rend;
 
         snake = new Snake(0, 0, 5);
-        apple = new Apple(this, snake);
+        apple = new Apple(this, snake, Math.random());
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
@@ -157,7 +157,7 @@ public class Board {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             snake.init(0, 0, 5);
-            apple = new Apple(this, snake);
+            apple = new Apple(this, snake,Math.random());
             gameUpdateTimer.setActive(true);
         }
     }
