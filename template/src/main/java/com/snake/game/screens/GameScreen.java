@@ -1,11 +1,13 @@
 package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.snake.game.game.Board;
 import com.snake.game.game.ScreenController;
+import com.snake.game.game.Snake;
 
 public class GameScreen extends Screen {
 
@@ -38,7 +40,25 @@ public class GameScreen extends Screen {
     public void render(float delta) {
 
         // Handlers that rely on per-frame firing
-        board.updateDirection();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+            board.updateDirection(Snake.Direction.UP);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            board.updateDirection(Snake.Direction.DOWN);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            board.updateDirection(Snake.Direction.LEFT);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+            board.updateDirection(Snake.Direction.RIGHT);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            board.updateDirection(Snake.Direction.SPACE);
+        }
+
+        
         board.timerHandler();
 
         // Clear the screen
