@@ -19,7 +19,7 @@ plugins {
     id "org.openjfx.javafxplugin" version "0.0.8"
 }
 
-group = 'nl.tudelft.group11.snake'
+group = 'com.snake.game'
 version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 13
@@ -32,7 +32,13 @@ configurations {
 }
 
 repositories {
+    jcenter()
+    mavenLocal()
     mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    jcenter()
+    google()
 }
 
 test {
@@ -40,7 +46,7 @@ test {
 
     jacoco {
         enabled = true
-        includes = ['nl.tudelft.group11.snake.*']
+        includes = []
         excludes = []
     }
 }
@@ -50,6 +56,15 @@ dependencies {
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
     compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
     compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.10"
+    compile "com.badlogicgames.gdx:gdx-platform:1.9.10:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-box2d-platform:1.9.10:natives-desktop"
+    compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
+    compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+
+    compile "com.badlogicgames.gdx:gdx:1.9.10"
+    compile "com.badlogicgames.gdx:gdx-box2d:1.9.10"
 }
 
 
@@ -58,8 +73,8 @@ jacocoTestCoverageVerification {
         rule {
             enabled = true
             element = 'CLASS'
-            includes = ['nl.tudelft.group11.snake.*']
-
+            includes = []
+            excludes = []
             limit {
                 counter = 'LINE'
                 value = 'TOTALCOUNT'
@@ -67,6 +82,30 @@ jacocoTestCoverageVerification {
             }
         }
     }
+}
+
+jacocoTestReport {
+    reports {
+        xml {
+            enabled true // coveralls plugin depends on xml format report
+        }
+
+        html {
+            enabled true
+        }
+    }
+
+    test {
+        jacoco {
+            destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+            excludes = ["src/**"] // <-- does not work
+            // excludes = ["projecteuler"]
+        }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
 }
 
 checkstyle {

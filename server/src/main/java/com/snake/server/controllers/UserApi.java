@@ -1,18 +1,20 @@
 package com.snake.server.controllers;
 
-import com.snake.server.repositories.User;
+import com.snake.server.domain.User;
+import com.snake.server.domain.UserInfo;
 import com.snake.server.repositories.UserRepository;
 import com.snake.server.requests.LogInRequest;
 import com.snake.server.requests.SignUpRequest;
-import com.snake.server.requests.UserResponse;
+import com.snake.server.responses.UserResponse;
 
-import java.util.Optional;
+import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,7 @@ public class UserApi {
     public UserApi(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     /**
      * Mapping to login to the system.
      * @param logInRequest request class with username and psswd.
@@ -75,10 +78,27 @@ public class UserApi {
     @PostMapping("/userinfo")
     public ResponseEntity<?> getInfo(@Valid @RequestBody String username) {
         User user = userRepository.findByUsername(username).orElse(null);
-        if (user == null){
+        if (user == null) {
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
         }
         UserResponse response = new UserResponse(user.getUsername(), user.getMaxscore().intValue());
         return ResponseEntity.status(HttpStatus.FOUND).body(response);
+    }
+
+    /**
+     * Get mapping to get highest scores.
+     * @return ResponseEntity containing top-5 scores
+     */
+    @GetMapping("/topscores")
+    @SuppressWarnings("PMD") //UR, DD DU anomalies which were not actually there.
+    public ResponseEntity<?> getTopScores() {
+        Set<UserInfo> userInfos = userRepository.getTopScores();
+        UserResponse[] responses = new UserResponse[userInfos.size()];
+        int i = 0;
+        for (UserInfo ui : userInfos) {
+            responses[i] = new UserResponse(ui.getUsername(), ui.getScore());
+            i++;
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 }
