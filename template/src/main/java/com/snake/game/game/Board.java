@@ -131,12 +131,12 @@ public class Board {
         snake = new Snake(0, 0, 5);
         apple = new Apple(this, snake);
 
-        gameUpdateTimer = new Timer<>(() -> run());
+        gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
     }
 
     public void timerHandler() {
-        gameUpdateTimer.timerHandler();
+        gameUpdateTimer.timerHandler(System.currentTimeMillis());
     }
 
     public void draw() {
