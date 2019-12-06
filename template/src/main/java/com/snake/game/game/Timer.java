@@ -9,7 +9,7 @@ public class Timer<T extends Runnable> {
     private long nextActionTimer = 0;
     private boolean active = false;
 
-    public Timer(T runnable, double duration){
+    public Timer(T runnable, double duration) {
         this.runnable = runnable;
         this.duration = duration;
     }
@@ -42,6 +42,10 @@ public class Timer<T extends Runnable> {
         this.active = active;
     }
 
+    /**
+     * Method to handle current time.
+     * @param currentTime current time
+     */
     public void timerHandler(final long currentTime) {
         if (!active || nextActionTimer > currentTime) {
             return;

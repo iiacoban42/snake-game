@@ -83,6 +83,10 @@ public class RegisterScreen extends Screen implements ApplicationListener {
         this.group = group;
     }
 
+    /**
+     * Constructor for register screen.
+     * @param sc screen controller
+     */
     public RegisterScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();
@@ -120,7 +124,8 @@ public class RegisterScreen extends Screen implements ApplicationListener {
 
     void updatePosition() {
 
-        int pivotX = 400, pivotY = 280;
+        int pivotX = 400;
+        int pivotY = 280;
         usernameTextField.setPosition(pivotX, pivotY);
         passwordTextField.setPosition(pivotX, pivotY - 45);
         registerButton.setPosition(pivotX, pivotY - 90);

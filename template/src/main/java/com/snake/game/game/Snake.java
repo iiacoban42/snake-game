@@ -37,6 +37,12 @@ public class Snake {
         return snake.getLast();
     }
 
+    /**
+     * Initialize snake game.
+     * @param x x position
+     * @param y y position
+     * @param length length of a snake
+     */
     public void init(int x, int y, int length) {
         snake = new LinkedList<>();
         snake.addLast(new Body(x, y));
@@ -48,10 +54,14 @@ public class Snake {
         }
     }
 
+    /**
+     * Method to mocve a snake around.
+     * @return true in case of collision
+     */
     public boolean move() {
         direction.dequeue();
-        Body newHead = new Body(getHead().getX(), getHead().getY(), direction.getDirection());
-        if (collides(newHead.getX(), newHead.getY())) {
+        Body newHead = new Body(getHead().getXc(), getHead().getYc(), direction.getDirection());
+        if (collides(newHead.getXc(), newHead.getYc())) {
             return true;
         }
 
@@ -63,20 +73,33 @@ public class Snake {
         return false;
     }
 
+    /**
+     * Check if a snake collides.
+     * @param x x coordinate of collision
+     * @param y y coordinate of collision
+     * @return true if collides
+     */
     public boolean collides(int x, int y) {
         for (Body body : snake) {
-            if (body.getX() == x && body.getY() == y) {
+            if (body.getXc() == x && body.getYc() == y) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Method handles snake death.
+     */
     public void killSnake() {
         snake = new LinkedList<>();
 
     }
 
+    /**
+     * Method to draw a board (and snake).
+     * @param board current board
+     */
     public void draw(Board board) {
         for (Body b : snake) {
             b.draw(board);
@@ -92,39 +115,44 @@ public class Snake {
     }
 
     public class Body {
-        private final int x, y;
+        private final int xc;
+        private final int yc;
 
-        Body(int x, int y) {
-            this.x = x;
-            this.y = y;
+        Body(int xc, int yc) {
+            this.xc = xc;
+            this.yc = yc;
         }
 
-        Body(int x, int y, Direction direction) {
-            this.x = x + direction.getDx();
-            this.y = y + direction.getDy();
+        Body(int xc, int yc, Direction direction) {
+            this.xc = xc + direction.getDx();
+            this.yc = yc + direction.getDy();
         }
 
-        public int getX() {
-            return x;
+        public int getXc() {
+            return xc;
         }
 
-        public int getY() {
-            return y;
+        public int getYc() {
+            return yc;
         }
 
+        /**
+         * Method to draw a board.
+         * @param board current board
+         */
         public void draw(Board board) {
-//            System.out.println(x+"  "+y);
             board.getRend().rect(
-                    board.getDx() + x * board.getTILE(),
-                    board.getDy() + y * board.getTILE(),
-                    board.getTILE(),
-                    board.getTILE());
+                    board.getDx() + xc * board.getTile(),
+                    board.getDy() + yc * board.getTile(),
+                    board.getTile(),
+                    board.getTile());
         }
     }
 
     public enum Direction {
         UP(0, 1), DOWN(0, -1), LEFT(-1, 0), RIGHT(1, 0), SPACE(0,0);
-        private final int dx, dy;
+        private final int dx;
+        private final int dy;
 
         Direction(int dx, int dy) {
             this.dx = dx;

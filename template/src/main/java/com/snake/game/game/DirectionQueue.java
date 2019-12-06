@@ -2,6 +2,9 @@ package com.snake.game.game;
 
 import java.util.LinkedList;
 
+/**
+ * Class is used to execute consecutive moves from input.
+ */
 public class DirectionQueue {
     LinkedList<Snake.Direction> keyQueue;
 
@@ -18,12 +21,19 @@ public class DirectionQueue {
         keyQueue.addLast(startDirection);
     }
 
+    /**
+     * Method to enqueue a direction.
+     * @param direction snake direction
+     */
     public void enqueue(Snake.Direction direction) {
         if (keyQueue.getLast().isOrthogonalTo(direction)) {
             keyQueue.addLast(direction);
         }
     }
 
+    /**
+     * Method to dequeue snake direction.
+     */
     public void dequeue() {
         if (keyQueue.size() > 1) {
             keyQueue.removeFirst();

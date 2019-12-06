@@ -1,16 +1,15 @@
 package com.snake.game.screens;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.ScreenController;
 import com.snake.game.requests.Login;
@@ -84,6 +83,10 @@ public class LoginScreen extends Screen implements ApplicationListener {
         this.group = group;
     }
 
+    /**
+     * Constructor for login screen.
+     * @param sc screen controller
+     */
     public LoginScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();
@@ -126,7 +129,8 @@ public class LoginScreen extends Screen implements ApplicationListener {
 
     void updatePosition() {
 
-        int pivotX = 400, pivotY = 280;
+        int pivotX = 400;
+        int pivotY = 280;
         usernameTextField.setPosition(pivotX, pivotY);
         passwordTextField.setPosition(pivotX, pivotY - 45);
 

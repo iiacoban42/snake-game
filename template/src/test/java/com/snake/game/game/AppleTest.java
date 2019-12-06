@@ -1,9 +1,8 @@
 package com.snake.game.game;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class AppleTest {
 

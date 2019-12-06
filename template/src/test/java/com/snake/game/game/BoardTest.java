@@ -1,8 +1,8 @@
 package com.snake.game.game;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class BoardTest {
 
@@ -17,7 +17,7 @@ public class BoardTest {
         assertEquals(board.getDy(), 100);
         assertEquals(board.getHeight(), 320);
         assertEquals(board.getWidth(), 320);
-        assertEquals(board.getTILE(), 16);
+        assertEquals(board.getTile(), 16);
         assertEquals(board.isPortalWalls(), false);
 
     }
@@ -34,7 +34,7 @@ public class BoardTest {
     }
 
     @Test
-    void testUpdateDirectionDOWN() {
+    void testUpdateDirectionDown() {
 
         Board board = new Board(null);
 
@@ -45,29 +45,31 @@ public class BoardTest {
     }
 
     @Test
-    void testUpdateDirectionRIGHT() {
+    void testUpdateDirectionRight() {
 
         Board board = new Board(null);
 
         board.updateDirection(Snake.Direction.RIGHT);
 
-        assertEquals(board.getSnake().getDirection().getKeyQueue().getLast(), Snake.Direction.RIGHT);
+        assertEquals(board.getSnake().getDirection().getKeyQueue().getLast(),
+                Snake.Direction.RIGHT);
 
     }
 
     @Test
-    void testUpdateDirectionLEFT() {
+    void testUpdateDirectionLeft() {
 
         Board board = new Board(null);
 
         board.updateDirection(Snake.Direction.LEFT);
 
-        assertEquals(board.getSnake().getDirection().getKeyQueue().getLast(), Snake.Direction.RIGHT);
+        assertEquals(board.getSnake().getDirection().getKeyQueue().getLast(),
+                Snake.Direction.RIGHT);
 
     }
 
     @Test
-    void testUpdateDirectionSPACE() {
+    void testUpdateDirectionSpace() {
 
         Board board = new Board(null);
 

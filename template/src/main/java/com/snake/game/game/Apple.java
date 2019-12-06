@@ -36,8 +36,8 @@ public class Apple {
 
     public void draw(Board board) {
         board.getRend().circle(
-                board.getDx() + x * board.getTILE() + board.getTILE() / 2.0f,
-                board.getDy() + y * board.getTILE() + board.getTILE() / 2.0f,
-                board.getTILE() / 2.0f);
+                board.getDx() + x * board.getTile() + board.getTile() / 2.0f,
+                board.getDy() + y * board.getTile() + board.getTile() / 2.0f,
+                board.getTile() / 2.0f);
     }
 }

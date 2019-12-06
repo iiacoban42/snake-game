@@ -1,17 +1,18 @@
 package com.snake.game.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Board {
 
     boolean portalWalls = false;
-    final int dx = 50, dy = 100;
-    final int width = 320, height = 320;
-    final int gridWidth = 20, gridHeight = 20;
+    final int dx = 50;
+    final int dy = 100;
+    final int width = 320;
+    final int height = 320;
+    final int gridWidth = 20;
+    final int gridHeight = 20;
 
-    final int TILE = 16;
+    final int tile = 16;
 
     final ShapeRenderer rend;
     final Timer<Runnable> gameUpdateTimer;
@@ -21,7 +22,7 @@ public class Board {
 
 
     /**
-     * Returns the setting whether the snake can go through walls
+     * Returns the setting whether the snake can go through walls.
      *
      * @return boolean
      */
@@ -73,8 +74,8 @@ public class Board {
         return gridHeight;
     }
 
-    public int getTILE() {
-        return TILE;
+    public int getTile() {
+        return tile;
     }
 
     public ShapeRenderer getRend() {
@@ -97,13 +98,13 @@ public class Board {
             apple = new Apple(this, snake,Math.random());
         }
 
-        final int x = snake.getHead().getX();
-        final int y = snake.getHead().getY();
+        final int x = snake.getHead().getXc();
+        final int y = snake.getHead().getYc();
 
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param rend a ShapeRenderer to draw its graphics to
      */
@@ -117,10 +118,16 @@ public class Board {
         gameUpdateTimer.setActive(true);
     }
 
+    /**
+     * Method to update timer.
+     */
     public void timerHandler() {
         gameUpdateTimer.timerHandler(System.currentTimeMillis());
     }
 
+    /**
+     * Main draw method.
+     */
     public void draw() {
 
         final float backgroundGrayScale = .85f;
@@ -138,6 +145,10 @@ public class Board {
     }
 
 
+    /**
+     * Method to update snake direction.
+     * @param direction direction of a snake
+     */
     public void updateDirection(Snake.Direction direction) {
         if (direction == Snake.Direction.UP) {
             snake.getDirection().enqueue(Snake.Direction.UP);
