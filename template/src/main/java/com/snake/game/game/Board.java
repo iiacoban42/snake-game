@@ -82,6 +82,7 @@ public class Board {
         return rend;
     }
 
+    public void setPortalWalls(boolean portalWalls) { this.portalWalls = portalWalls; }
 
     /**
      * Game update.
@@ -98,8 +99,8 @@ public class Board {
             apple = new Apple(this, snake,Math.random());
         }
 
-        final int x = snake.getHead().getXc();
-        final int y = snake.getHead().getYc();
+//        final int x = snake.getHead().getXc();
+//        final int y = snake.getHead().getYc();
 
     }
 
@@ -131,7 +132,7 @@ public class Board {
     public void draw() {
 
         final float backgroundGrayScale = .85f;
-        final float snakeGrayScale = .85f;
+        //final float snakeGrayScale = .85f;
         rend.setColor(backgroundGrayScale, backgroundGrayScale, backgroundGrayScale, 1);
         rend.rect(dx, dy, width, height);
         rend.set(ShapeRenderer.ShapeType.Line);

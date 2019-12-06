@@ -25,6 +25,8 @@ public class Apple {
         return y;
     }
 
+    public double getRandom() { return this.random; }
+
     public void setX(int x) {
          this.x = x;
     }
@@ -33,6 +35,7 @@ public class Apple {
         this.y = y;
     }
 
+    public void setRandom(double random) { this.random = random; }
 
     public void draw(Board board) {
         board.getRend().circle(

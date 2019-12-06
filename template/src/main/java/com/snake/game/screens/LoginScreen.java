@@ -87,6 +87,9 @@ public class LoginScreen extends Screen implements ApplicationListener {
      * Constructor for login screen.
      * @param sc screen controller
      */
+    @SuppressWarnings("PMD")
+    //Understand why we can't call overridable method, but it can't be escaped here
+    //Because of how libgdx structures classes.
     public LoginScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();

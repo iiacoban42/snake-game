@@ -4,6 +4,7 @@ package com.snake.game.game;
 public class Timer<T extends Runnable> {
 
     private final double duration;
+
     private final T runnable;
 
     private long nextActionTimer = 0;
@@ -17,6 +18,8 @@ public class Timer<T extends Runnable> {
     public Timer(T runnable) {
         this(runnable, 100);
     }
+
+    public T getRunnable() { return runnable; }
 
     public long getNextActionTimer() {
         return nextActionTimer;

@@ -35,7 +35,8 @@ public class DirectionQueue {
      * Method to dequeue snake direction.
      */
     public void dequeue() {
-        if (keyQueue.size() > 1) {
+        int minSize = 1;
+        if (keyQueue.size() > minSize) {
             keyQueue.removeFirst();
         }
 

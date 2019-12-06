@@ -4,16 +4,16 @@ import java.util.LinkedList;
 
 public class Snake {
 
-    private LinkedList<Body> snake;
+    private LinkedList<Body> snakeBody;
     private int length;
     private DirectionQueue direction;
 
-    public LinkedList<Body> getSnake() {
-        return snake;
+    public LinkedList<Body> getSnakeBody() {
+        return snakeBody;
     }
 
-    public void setSnake(LinkedList<Body> snake) {
-        this.snake = snake;
+    public void setSnakeBody(LinkedList<Body> snake) {
+        this.snakeBody = snake;
     }
 
     public int getLength() {
@@ -29,12 +29,12 @@ public class Snake {
     }
 
     public Snake(int x, int y, int length) {
-        snake = new LinkedList<>();
+        snakeBody = new LinkedList<>();
         init(x, y, length);
     }
 
     public Body getHead() {
-        return snake.getLast();
+        return snakeBody.getLast();
     }
 
     /**
@@ -44,8 +44,8 @@ public class Snake {
      * @param length length of a snake
      */
     public void init(int x, int y, int length) {
-        snake = new LinkedList<>();
-        snake.addLast(new Body(x, y));
+        snakeBody = new LinkedList<>();
+        snakeBody.addLast(new Body(x, y));
         direction = new DirectionQueue(Direction.RIGHT);
         this.length = length;
         for (int i = 1; i < length; i++) {
@@ -65,9 +65,9 @@ public class Snake {
             return true;
         }
 
-        snake.addLast(newHead);
-        while (snake.size() > length) {
-            snake.removeFirst();
+        snakeBody.addLast(newHead);
+        while (snakeBody.size() > length) {
+            snakeBody.removeFirst();
         }
 
         return false;
@@ -79,8 +79,11 @@ public class Snake {
      * @param y y coordinate of collision
      * @return true if collides
      */
+    @SuppressWarnings("PMD")
+    //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
+    //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     public boolean collides(int x, int y) {
-        for (Body body : snake) {
+        for (Body body : snakeBody) {
             if (body.getXc() == x && body.getYc() == y) {
                 return true;
             }
@@ -92,7 +95,7 @@ public class Snake {
      * Method handles snake death.
      */
     public void killSnake() {
-        snake = new LinkedList<>();
+        snakeBody = new LinkedList<>();
 
     }
 
@@ -100,8 +103,10 @@ public class Snake {
      * Method to draw a board (and snake).
      * @param board current board
      */
+    @SuppressWarnings("PMD")
+    //UR anomaly. Same issue described above in method collides()
     public void draw(Board board) {
-        for (Body b : snake) {
+        for (Body b : snakeBody) {
             b.draw(board);
         }
     }

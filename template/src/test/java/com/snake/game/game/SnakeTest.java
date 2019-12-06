@@ -14,8 +14,8 @@ public class SnakeTest {
         Snake snake = new Snake(1,2,2);
 
         int snakeLength = snake.getLength();
-        int snakeX = snake.getSnake().getFirst().getXc();
-        int snakeY = snake.getSnake().getFirst().getYc();
+        int snakeX = snake.getSnakeBody().getFirst().getXc();
+        int snakeY = snake.getSnakeBody().getFirst().getYc();
 
         assertEquals(snakeLength, 2);
         assertEquals(snakeX, 1);
@@ -27,7 +27,7 @@ public class SnakeTest {
     void testGetSnake() {
 
         Snake snake = new Snake(1,2,2);
-        LinkedList<Snake.Body> snakeBody = snake.getSnake();
+        LinkedList<Snake.Body> snakeBody = snake.getSnakeBody();
 
         int snakeX = snakeBody.getFirst().getXc();
         int snakeY = snakeBody.getFirst().getYc();
@@ -43,9 +43,9 @@ public class SnakeTest {
         Snake snake = new Snake(1,2,2);
         LinkedList<Snake.Body> snakeBody = new LinkedList<>();
 
-        snake.setSnake(snakeBody);
+        snake.setSnakeBody(snakeBody);
 
-        LinkedList<Snake.Body> snakeBodyReturned = snake.getSnake();
+        LinkedList<Snake.Body> snakeBodyReturned = snake.getSnakeBody();
 
         assertEquals(snakeBodyReturned, snakeBody);
 
@@ -58,7 +58,7 @@ public class SnakeTest {
         Snake snake = new Snake(1,2,2);
         snake.killSnake();
 
-        assertEquals(snake.getSnake().size(), 0);
+        assertEquals(snake.getSnakeBody().size(), 0);
 
 
     }
