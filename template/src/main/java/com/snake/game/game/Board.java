@@ -99,10 +99,7 @@ public class Board {
 
         final int x = snake.getHead().getX();
         final int y = snake.getHead().getY();
-        if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight) {
-            snake.killSnake();
-            gameUpdateTimer.setActive(false);
-        }
+
     }
 
     /**
@@ -141,21 +138,21 @@ public class Board {
     }
 
 
-    public void updateDirection() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+    public void updateDirection(Snake.Direction direction) {
+        if (direction == Snake.Direction.UP) {
             snake.getDirection().enqueue(Snake.Direction.UP);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+        if (direction == Snake.Direction.DOWN) {
             snake.getDirection().enqueue(Snake.Direction.DOWN);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+        if (direction == Snake.Direction.LEFT) {
             snake.getDirection().enqueue(Snake.Direction.LEFT);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+        if (direction == Snake.Direction.RIGHT) {
             snake.getDirection().enqueue(Snake.Direction.RIGHT);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (direction == Snake.Direction.SPACE) {
             snake.init(0, 0, 5);
             apple = new Apple(this, snake,Math.random());
             gameUpdateTimer.setActive(true);

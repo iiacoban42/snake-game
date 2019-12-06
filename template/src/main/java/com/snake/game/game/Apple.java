@@ -1,7 +1,7 @@
 package com.snake.game.game;
 
 public class Apple {
-    private final int x, y;
+    private int x, y;
     private double random;
 
     public Apple(Board board, Snake snake, double random) {
@@ -23,6 +23,14 @@ public class Apple {
 
     public int getY() {
         return y;
+    }
+
+    public void setX(int x) {
+         this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
 
