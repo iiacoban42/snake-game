@@ -6,33 +6,31 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Board {
 
-    boolean portalWalls = true;
+    boolean portalWalls = false;
     final int dx = 50, dy = 100;
     final int width = 320, height = 320;
     final int gridWidth = 20, gridHeight = 20;
 
-    Timer<Runnable> gameUpdateTimer;
+    final int TILE = 16;
+
+    final ShapeRenderer rend;
+    final Timer<Runnable> gameUpdateTimer;
+
+    Snake snake;
+    Apple apple;
+
 
     /**
      * Returns the setting whether the snake can go through walls
      *
      * @return boolean
      */
-
     public boolean isPortalWalls() {
         return portalWalls;
     }
 
     public Timer<Runnable> getGameUpdateTimer() {
         return gameUpdateTimer;
-    }
-
-    public void setGameUpdateTimer(Timer<Runnable> gameUpdateTimer) {
-        this.gameUpdateTimer = gameUpdateTimer;
-    }
-
-    public void setRend(ShapeRenderer rend) {
-        this.rend = rend;
     }
 
     public Snake getSnake() {
@@ -50,12 +48,6 @@ public class Board {
     public void setApple(Apple apple) {
         this.apple = apple;
     }
-
-    /**
-     * Returns the setting whether the snake can go through walls
-     *
-     * @return x
-     */
 
     public int getDx() {
         return dx;
@@ -89,13 +81,6 @@ public class Board {
         return rend;
     }
 
-    final int TILE = 16;
-
-    ShapeRenderer rend;
-
-
-    Snake snake;
-    Apple apple;
 
     /**
      * Game update.
@@ -141,14 +126,13 @@ public class Board {
 
     public void draw() {
 
-        final float grayScale = .85f;
-        rend.setColor(grayScale, grayScale, grayScale, 1);
-        rend.rect(50, 100, 320, 320);
-        rend.setAutoShapeType(true);
+        final float backgroundGrayScale = .85f;
+        final float snakeGrayScale = .85f;
+        rend.setColor(backgroundGrayScale, backgroundGrayScale, backgroundGrayScale, 1);
+        rend.rect(dx, dy, width, height);
         rend.set(ShapeRenderer.ShapeType.Line);
         rend.setColor(.0f, .0f, .0f, 1);
-        rend.rect(50, 100, 320, 320);
-
+        rend.rect(dx, dy, width, height);
 
         rend.set(ShapeRenderer.ShapeType.Filled);
         rend.setColor(.0f, .0f, .0f, 1);
@@ -158,16 +142,16 @@ public class Board {
 
 
     public void updateDirection() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             snake.getDirection().enqueue(Snake.Direction.UP);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             snake.getDirection().enqueue(Snake.Direction.DOWN);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.A)) {
             snake.getDirection().enqueue(Snake.Direction.LEFT);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             snake.getDirection().enqueue(Snake.Direction.RIGHT);
         }
 

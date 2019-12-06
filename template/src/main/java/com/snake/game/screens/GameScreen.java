@@ -8,22 +8,16 @@ import com.snake.game.game.Board;
 import com.snake.game.game.ScreenController;
 
 public class GameScreen extends Screen {
-    Board board;
+
+    final Board board;
+    final ShapeRenderer renderer;
 
     public Board getBoard() {
         return board;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public ShapeRenderer getR() {
-        return r;
-    }
-
-    public void setR(ShapeRenderer r) {
-        this.r = r;
+    public ShapeRenderer getRenderer() {
+        return renderer;
     }
 
     /**
@@ -34,32 +28,38 @@ public class GameScreen extends Screen {
         super(sc);
         stage = new Stage();
 
-
-        board = new Board(r);
+        renderer = new ShapeRenderer();
+        renderer.setAutoShapeType(true);
+        board = new Board(renderer);
     }
 
-    ShapeRenderer r = new ShapeRenderer();
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Handlers that rely on per-frame firing
         board.updateDirection();
         board.timerHandler();
 
+        // Clear the screen
+        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        r.begin(ShapeRenderer.ShapeType.Filled);
-        r.setColor(.7f, .7f, .7f, 1);
-        //r.rect(0,0,640,50);
-        r.rect(0, 380, 640, 200);
+        // Start new Renderer
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
 
+        // Draw background design props
+        renderer.setColor(.7f, .7f, .7f, 1);
+        renderer.rect(0, 380, 640, 200);
+
+        // Draw the board
         board.draw();
 
-        r.end();
+        // Finalize renderer
+        renderer.end();
 
-        stage.draw();
-
+        // Draw overlaying Actors of stage
+        //stage.draw();
     }
 
 
