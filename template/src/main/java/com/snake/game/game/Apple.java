@@ -1,46 +1,61 @@
 package com.snake.game.game;
 
 public class Apple {
-    private int x, y;
+    private int xcoord;
+    private int ycoord;
     private double random;
 
+    /**
+     * Construct apple.
+     * @param board .
+     * @param snake .
+     * @param random .
+     */
     public Apple(Board board, Snake snake, double random) {
         this.random = random;
-        int xRand = (int) (random * board.gridWidth);
-        int yRand = (int) (random * board.gridHeight);
-        while (snake.collides(xRand, yRand)) {
+        int xrand = (int) (random * board.gridWidth);
+        int yrand = (int) (random * board.gridHeight);
+        while (snake.collides(xrand, yrand)) {
             random = Math.random();
-            xRand = (int) (random * board.gridWidth);
-            yRand = (int) (random* board.gridHeight);
+            xrand = (int) (random * board.gridWidth);
+            yrand = (int) (random * board.gridHeight);
         }
-        x = xRand;
-        y = yRand;
+        xcoord = xrand;
+        ycoord = yrand;
     }
 
-    public int getX() {
-        return x;
+    public int getXcoord() {
+        return xcoord;
     }
 
-    public int getY() {
-        return y;
+    public int getYcoord() {
+        return ycoord;
     }
 
-    public double getRandom() { return this.random; }
-
-    public void setX(int x) {
-         this.x = x;
+    public double getRandom() {
+        return this.random;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setXcoord(int xcoord) {
+        this.xcoord = xcoord;
     }
 
-    public void setRandom(double random) { this.random = random; }
+    public void setYcoord(int ycoord) {
+        this.ycoord = ycoord;
+    }
 
+    public void setRandom(double random) {
+        this.random = random;
+    }
+
+    /**
+     * Render board.
+     * @param board to render.
+     */
     public void draw(Board board) {
         board.getRend().circle(
-                board.getDx() + x * board.getTile() + board.getTile() / 2.0f,
-                board.getDy() + y * board.getTile() + board.getTile() / 2.0f,
+                board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
+                board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
                 board.getTile() / 2.0f);
     }
 }

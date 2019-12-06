@@ -90,8 +90,8 @@ public class BoardTest {
 
         Board board = new Board(null);
 
-        board.getApple().setX(5);
-        board.getApple().setY(0);
+        board.getApple().setXcoord(5);
+        board.getApple().setYcoord(0);
 
         board.run();
 

@@ -16,8 +16,8 @@ public class AppleTest {
 
         Apple appleTest = new Apple(board, snake,Math.random());
 
-        assertEquals((appleTest.getX() > 0), true);
-        assertEquals((appleTest.getY() > 0), true);
+        assertEquals((appleTest.getXcoord() > 0), true);
+        assertEquals((appleTest.getYcoord() > 0), true);
 
     }
 
@@ -31,7 +31,7 @@ public class AppleTest {
 
         Apple appleTest = new Apple(board, snake, 5);
 
-        assertEquals((appleTest.getX() > 0), true);
+        assertEquals((appleTest.getXcoord() > 0), true);
 
     }
 
@@ -45,7 +45,7 @@ public class AppleTest {
 
         Apple appleTest = new Apple(board, snake, 5);
 
-        assertEquals((appleTest.getY() > 0), true);
+        assertEquals((appleTest.getYcoord() > 0), true);
 
     }
 
@@ -59,7 +59,7 @@ public class AppleTest {
 
         Apple appleTest = new Apple(board, snake, 5);
 
-        assertEquals((appleTest.getY() > 0), true);
+        assertEquals((appleTest.getYcoord() > 0), true);
 
     }
 }

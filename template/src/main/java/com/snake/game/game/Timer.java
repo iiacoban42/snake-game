@@ -19,7 +19,9 @@ public class Timer<T extends Runnable> {
         this(runnable, 100);
     }
 
-    public T getRunnable() { return runnable; }
+    public T getRunnable() {
+        return runnable;
+    }
 
     public long getNextActionTimer() {
         return nextActionTimer;

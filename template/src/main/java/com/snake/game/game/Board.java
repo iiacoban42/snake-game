@@ -82,7 +82,9 @@ public class Board {
         return rend;
     }
 
-    public void setPortalWalls(boolean portalWalls) { this.portalWalls = portalWalls; }
+    public void setPortalWalls(boolean portalWalls) {
+        this.portalWalls = portalWalls;
+    }
 
     /**
      * Game update.
@@ -94,13 +96,10 @@ public class Board {
             gameUpdateTimer.setActive(false);
             return;
         }
-        if (snake.collides(apple.getX(), apple.getY())) {
+        if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
             snake.addLength(3);
             apple = new Apple(this, snake,Math.random());
         }
-
-//        final int x = snake.getHead().getXc();
-//        final int y = snake.getHead().getYc();
 
     }
 
