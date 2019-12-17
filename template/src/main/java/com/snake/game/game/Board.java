@@ -1,6 +1,8 @@
 package com.snake.game.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.snake.game.powerup.PowerUp;
+import com.snake.game.powerup.SpeedUp;
 
 public class Board {
 
@@ -19,6 +21,9 @@ public class Board {
 
     Snake snake;
     Apple apple;
+
+    PowerUp powerUp;
+    private boolean isUp;
 
 
     /**
@@ -91,14 +96,28 @@ public class Board {
      */
     public void run() {
 
+        float random = (float) Math.random();
+        if (random > 0 && random < 0.2 && !isUp){
+            SpeedUp speedUp = new SpeedUp(this, snake, (float) Math.random(), (float) Math.random(),
+                    gameUpdateTimer);
+            powerUp = speedUp;
+            isUp = true;
+        }
+
         if (snake.move()) {
             snake.killSnake();
             gameUpdateTimer.setActive(false);
             return;
         }
+
         if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
             snake.addLength(3);
-            apple = new Apple(this, snake,Math.random());
+            apple = new Apple(this, snake,Math.random(), Math.random());
+        }
+
+        if (isUp && snake.collides(powerUp.xcoord, powerUp.ycoord)) {
+            isUp = false;
+            powerUp.handle(snake);
         }
 
     }
@@ -112,10 +131,11 @@ public class Board {
         this.rend = rend;
 
         snake = new Snake(0, 0, 5);
-        apple = new Apple(this, snake, Math.random());
+        apple = new Apple(this, snake, Math.random(), Math.random());
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
+        isUp = false;
     }
 
     /**
@@ -142,6 +162,9 @@ public class Board {
         rend.setColor(.0f, .0f, .0f, 1);
         snake.draw(this);
         apple.draw(this);
+        if (isUp) {
+            powerUp.draw(this);
+        }
     }
 
 
@@ -165,7 +188,7 @@ public class Board {
 
         if (direction == Snake.Direction.SPACE) {
             snake.init(0, 0, 5);
-            apple = new Apple(this, snake,Math.random());
+            apple = new Apple(this, snake,Math.random(), Math.random());
             gameUpdateTimer.setActive(true);
         }
     }

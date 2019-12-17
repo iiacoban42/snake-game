@@ -50,7 +50,6 @@ public class Snake {
         this.length = length;
         for (int i = 1; i < length; i++) {
             move();
-
         }
     }
 

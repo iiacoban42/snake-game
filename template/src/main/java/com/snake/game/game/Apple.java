@@ -4,6 +4,7 @@ public class Apple {
     private int xcoord;
     private int ycoord;
     private double random;
+    private double randomy;
 
     /**
      * Construct apple.
@@ -11,15 +12,16 @@ public class Apple {
      * @param snake .
      * @param random .
      */
-    public Apple(Board board, Snake snake, double random) {
+    public Apple(Board board, Snake snake, double random, double randomy) {
         this.random = random;
+        this.randomy = randomy;
         int xrand = (int) (random * board.gridWidth);
-        int yrand = (int) (random * board.gridHeight);
-        while (snake.collides(xrand, yrand)) {
-            random = Math.random();
-            xrand = (int) (random * board.gridWidth);
-            yrand = (int) (random * board.gridHeight);
-        }
+        int yrand = (int) (randomy * board.gridHeight);
+//        while (snake.collides(xrand, yrand)) {
+//            random = Math.random();
+//            xrand = (int) (random * board.gridWidth);
+//            yrand = (int) (randomy * board.gridHeight);
+//        }
         xcoord = xrand;
         ycoord = yrand;
     }

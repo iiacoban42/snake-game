@@ -3,7 +3,7 @@ package com.snake.game.game;
 
 public class Timer<T extends Runnable> {
 
-    private final double duration;
+    private double duration;
 
     private final T runnable;
 
@@ -46,6 +46,8 @@ public class Timer<T extends Runnable> {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    public void setDuration(int duration) { this.duration = duration; }
 
     /**
      * Method to handle current time.
