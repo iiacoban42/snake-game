@@ -1,10 +1,7 @@
 package com.snake.game.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.snake.game.powerup.LengthPowerUp;
-import com.snake.game.powerup.MegaApple;
-import com.snake.game.powerup.PowerUp;
-import com.snake.game.powerup.SpeedUp;
+import com.snake.game.powerup.*;
 import sun.security.util.Length;
 
 public class Board {
@@ -29,6 +26,7 @@ public class Board {
 
     PowerUp powerUp;
     private boolean isUp;
+    private PowerUpFactory powerUpFactory;
 
     /**
      * Constructor.
@@ -45,6 +43,7 @@ public class Board {
         gameUpdateTimer.setActive(true);
 
         isUp = false;
+        powerUpFactory = new PowerUpFactory(this, this.snake);
 
     }
 
@@ -144,26 +143,10 @@ public class Board {
     public void updatePowerUp(float random, int number) {
 
         if (random > 0 && random < 0.01 && !isUp) {
-
-            switch (number) {
-                case 1:
-                    SpeedUp speedUp = new SpeedUp(this, snake,
-                            (float) Math.random(), (float) Math.random());
-                    powerUp = speedUp;
-                    isUp = true;
-                    break;
-                case 2:
-                    MegaApple megaApple = new MegaApple(this, snake,
-                            (float) Math.random(), (float) Math.random());
-                    powerUp = megaApple;
-                    isUp = true;
-                    break;
-                case 3:
-                    LengthPowerUp lengthPowerUp = new LengthPowerUp(this, snake,
-                            (float) Math.random(), (float) Math.random());
-                    powerUp = lengthPowerUp;
-                    isUp = true;
-                    break;
+            isUp = true;
+            PowerUp powerUp = powerUpFactory.getPowerUp(number);
+            if (powerUp != null) {
+                this.powerUp = powerUp;
             }
         }
     }
