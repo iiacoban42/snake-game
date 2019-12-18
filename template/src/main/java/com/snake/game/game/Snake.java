@@ -29,6 +29,14 @@ public class Snake {
         this.direction = direction;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
     /**
      * Constructor of snake.
      * @param x x
@@ -124,10 +132,6 @@ public class Snake {
 
     public void addLength(int increment) {
         length += increment;
-    }
-
-    public int getScore() {
-        return score;
     }
 
     public void addScore(int inc) {

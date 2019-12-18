@@ -29,4 +29,20 @@ public class TimeHandler extends Thread {
         gameUpdateTimer.setActive(true);
         System.out.println("DONE");
     }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public PowerUp getPowerUp() {
+        return powerUp;
+    }
+
+    public void setPowerUp(PowerUp powerUp) {
+        this.powerUp = powerUp;
+    }
 }

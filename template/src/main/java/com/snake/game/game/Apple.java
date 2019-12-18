@@ -1,6 +1,7 @@
 package com.snake.game.game;
 
 public class Apple {
+
     private int xcoord;
     private int ycoord;
     private double random;
@@ -43,6 +44,14 @@ public class Apple {
 
     public void setRandom(double random) {
         this.random = random;
+    }
+
+    public double getRandomy() {
+        return randomy;
+    }
+
+    public void setRandomy(double randomy) {
+        this.randomy = randomy;
     }
 
     /**

@@ -7,10 +7,18 @@ public class PowerUpFactory {
 
     private Board board;
     private Snake snake;
+    private PowerUp returned;
 
+    /**
+     * Constructor.
+     * @param board board
+     * @param snake snake
+     */
     public PowerUpFactory(Board board, Snake snake) {
         this.board = board;
         this.snake = snake;
+        this.returned = new MegaApple(board, snake,
+                (float) Math.random(), (float) Math.random());
     }
 
     /**
@@ -19,7 +27,6 @@ public class PowerUpFactory {
      * @return specific powerUp.
      */
     public PowerUp getPowerUp(int number) {
-        PowerUp returned = null;
         switch (number) {
             case 1:
                 returned = new SpeedUp(board, snake,
@@ -34,10 +41,32 @@ public class PowerUpFactory {
                         (float) Math.random(), (float) Math.random());
                 break;
             default:
-                returned = null;
                 break;
         }
         return returned;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Snake getSnake() {
+        return snake;
+    }
+
+    public void setSnake(Snake snake) {
+        this.snake = snake;
+    }
+
+    public PowerUp getReturned() {
+        return returned;
+    }
+
+    public void setReturned(PowerUp returned) {
+        this.returned = returned;
+    }
 }

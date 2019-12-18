@@ -112,6 +112,34 @@ public class Board {
         this.portalWalls = portalWalls;
     }
 
+    public int getPowerUpNumber() {
+        return powerUpNumber;
+    }
+
+    public PowerUp getPowerUp() {
+        return powerUp;
+    }
+
+    public void setPowerUp(PowerUp powerUp) {
+        this.powerUp = powerUp;
+    }
+
+    public boolean isIsUp() {
+        return isUp;
+    }
+
+    public void setIsUp(boolean up) {
+        isUp = up;
+    }
+
+    public PowerUpFactory getPowerUpFactory() {
+        return powerUpFactory;
+    }
+
+    public void setPowerUpFactory(PowerUpFactory powerUpFactory) {
+        this.powerUpFactory = powerUpFactory;
+    }
+
     /**
      * Game update.
      */
