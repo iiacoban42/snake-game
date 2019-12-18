@@ -6,6 +6,7 @@ import com.snake.game.game.ScreenController;
 
 public class DesktopLauncher {
     /**
+     * Test
      * Launch game app.
      * @param arg .
      */
