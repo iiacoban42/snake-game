@@ -7,6 +7,7 @@ public class Snake {
     private LinkedList<Body> snakeBody;
     private int length;
     private DirectionQueue direction;
+    private int score;
 
     public LinkedList<Body> getSnakeBody() {
         return snakeBody;
@@ -30,6 +31,7 @@ public class Snake {
 
     public Snake(int x, int y, int length) {
         snakeBody = new LinkedList<>();
+        score = 0;
         init(x, y, length);
     }
 
@@ -117,6 +119,10 @@ public class Snake {
     public void addLength(int increment) {
         length += increment;
     }
+
+    public int getScore() { return score; }
+
+    public void addScore(int inc) { this.score += inc; }
 
     public class Body {
         private final int xc;

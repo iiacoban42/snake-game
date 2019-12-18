@@ -1,8 +1,11 @@
 package com.snake.game.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.snake.game.powerup.LengthPowerUp;
+import com.snake.game.powerup.MegaApple;
 import com.snake.game.powerup.PowerUp;
 import com.snake.game.powerup.SpeedUp;
+import sun.security.util.Length;
 
 public class Board {
 
@@ -16,6 +19,8 @@ public class Board {
 
     final int tile = 16;
 
+    final int powerUpNumber = 3;
+
     final ShapeRenderer rend;
     public Timer<Runnable> gameUpdateTimer;
 
@@ -25,6 +30,23 @@ public class Board {
     PowerUp powerUp;
     private boolean isUp;
 
+    /**
+     * Constructor.
+     *
+     * @param rend a ShapeRenderer to draw its graphics to
+     */
+    public Board(ShapeRenderer rend) {
+        this.rend = rend;
+
+        snake = new Snake(0, 0, 5);
+        apple = new Apple(this, snake, Math.random(), Math.random());
+
+        gameUpdateTimer = new Timer<>(this::run);
+        gameUpdateTimer.setActive(true);
+
+        isUp = false;
+
+    }
 
     /**
      * Returns the setting whether the snake can go through walls.
@@ -96,13 +118,7 @@ public class Board {
      */
     public void run() {
 
-        float random = (float) Math.random();
-        if (random > 0 && random < 0.2 && !isUp){
-            SpeedUp speedUp = new SpeedUp(this, snake, (float) Math.random(), (float) Math.random(),
-                    gameUpdateTimer);
-            powerUp = speedUp;
-            isUp = true;
-        }
+        updatePowerUp((float) Math.random(), (int) ((float)Math.random() * powerUpNumber));
 
         if (snake.move()) {
             snake.killSnake();
@@ -117,27 +133,39 @@ public class Board {
 
         if (isUp && snake.collides(powerUp.xcoord, powerUp.ycoord)) {
             isUp = false;
-            powerUp.handle(snake);
+            powerUp.handle();
         }
 
     }
 
     /**
-     * Constructor.
-     *
-     * @param rend a ShapeRenderer to draw its graphics to
+     * Method to update current powerUp. Chooses what powerUp to use (if any).
      */
-    public Board(ShapeRenderer rend) {
-        this.rend = rend;
+    public void updatePowerUp(float random, int number) {
 
-        snake = new Snake(0, 0, 5);
-        apple = new Apple(this, snake, Math.random(), Math.random());
+        if (random > 0 && random < 0.01 && !isUp) {
 
-        gameUpdateTimer = new Timer<>(this::run);
-        gameUpdateTimer.setActive(true);
-
-        isUp = false;
-
+            switch (number) {
+                case 1:
+                    SpeedUp speedUp = new SpeedUp(this, snake,
+                            (float) Math.random(), (float) Math.random());
+                    powerUp = speedUp;
+                    isUp = true;
+                    break;
+                case 2:
+                    MegaApple megaApple = new MegaApple(this, snake,
+                            (float) Math.random(), (float) Math.random());
+                    powerUp = megaApple;
+                    isUp = true;
+                    break;
+                case 3:
+                    LengthPowerUp lengthPowerUp = new LengthPowerUp(this, snake,
+                            (float) Math.random(), (float) Math.random());
+                    powerUp = lengthPowerUp;
+                    isUp = true;
+                    break;
+            }
+        }
     }
 
     /**
@@ -165,7 +193,7 @@ public class Board {
         snake.draw(this);
         apple.draw(this);
         if (isUp) {
-            powerUp.draw(this);
+            powerUp.draw();
         }
     }
 

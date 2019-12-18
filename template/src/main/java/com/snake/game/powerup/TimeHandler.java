@@ -2,6 +2,9 @@ package com.snake.game.powerup;
 
 import com.snake.game.game.Timer;
 
+/**
+ * Thread to update game objects after certain amount of time has passed.
+ */
 public class TimeHandler extends Thread {
 
     public int time;
