@@ -15,7 +15,10 @@ public class TimeHandler extends Thread {
         this.powerUp = powerUp;
     }
 
-    public void run(){
+    /**
+     * Record if n seconds have passed.
+     */
+    public void run() {
         Long time = System.currentTimeMillis();
         Long t1 = 0L;
         while (t1 - time < 3000) {

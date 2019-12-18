@@ -12,9 +12,15 @@ public abstract class PowerUp {
     public Snake snake;
     public int xcoord;
     public int ycoord;
-    public double random;
 
-    public void PowerUp(Board board, Snake snake, float random, float randomy) {
+    /**
+     * Constructor.
+     * @param board board
+     * @param snake snake
+     * @param random random for x-coordinate
+     * @param randomy random for y-coordinate
+     */
+    public PowerUp(Board board, Snake snake, float random, float randomy) {
         this.board = board;
         this.snake = snake;
         xcoord = (int) (random * board.getGridHeight());
@@ -30,6 +36,4 @@ public abstract class PowerUp {
      * This method is called after powerUp has been consumed.
      */
     public abstract void handle();
-
-    //public abstract void update();
 }

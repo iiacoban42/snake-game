@@ -1,8 +1,8 @@
 package com.snake.game.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.snake.game.powerup.*;
-import sun.security.util.Length;
+import com.snake.game.powerup.PowerUp;
+import com.snake.game.powerup.PowerUpFactory;
 
 public class Board {
 

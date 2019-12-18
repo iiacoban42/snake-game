@@ -9,8 +9,8 @@ import com.snake.game.game.Timer;
  */
 public class SpeedUp extends PowerUp {
 
-    public SpeedUp(Board board, Snake snake, float random, float randomy){
-        super.PowerUp(board, snake, random, randomy);
+    public SpeedUp(Board board, Snake snake, float random, float randomy) {
+        super(board, snake, random, randomy);
     }
 
     /**

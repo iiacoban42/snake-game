@@ -29,6 +29,12 @@ public class Snake {
         this.direction = direction;
     }
 
+    /**
+     * Constructor of snake.
+     * @param x x
+     * @param y y
+     * @param length default length
+     */
     public Snake(int x, int y, int length) {
         snakeBody = new LinkedList<>();
         score = 0;
@@ -120,9 +126,13 @@ public class Snake {
         length += increment;
     }
 
-    public int getScore() { return score; }
+    public int getScore() {
+        return score;
+    }
 
-    public void addScore(int inc) { this.score += inc; }
+    public void addScore(int inc) {
+        this.score += inc;
+    }
 
     public class Body {
         private final int xc;

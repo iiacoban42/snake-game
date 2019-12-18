@@ -13,7 +13,12 @@ public class PowerUpFactory {
         this.snake = snake;
     }
 
-    public PowerUp getPowerUp (int number) {
+    /**
+     * Method to get powerUp based on a number.
+     * @param number number
+     * @return specific powerUp.
+     */
+    public PowerUp getPowerUp(int number) {
         PowerUp returned = null;
         switch (number) {
             case 1:
@@ -27,6 +32,9 @@ public class PowerUpFactory {
             case 3:
                 returned = new LengthPowerUp(board, snake,
                         (float) Math.random(), (float) Math.random());
+                break;
+            default:
+                returned = null;
                 break;
         }
         return returned;

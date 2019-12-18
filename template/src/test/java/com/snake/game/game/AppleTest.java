@@ -14,7 +14,7 @@ public class AppleTest {
         //renderer.setAutoShapeType(true);
         Board board = new Board(null);
 
-        Apple appleTest = new Apple(board, snake,Math.random());
+        Apple appleTest = new Apple(board, snake, Math.random(), Math.random());
 
         assertEquals((appleTest.getXcoord() > 0), true);
         assertEquals((appleTest.getYcoord() > 0), true);
@@ -29,7 +29,7 @@ public class AppleTest {
         //renderer.setAutoShapeType(true);
         Board board = new Board(null);
 
-        Apple appleTest = new Apple(board, snake, 5);
+        Apple appleTest = new Apple(board, snake, 5, 3);
 
         assertEquals((appleTest.getXcoord() > 0), true);
 
@@ -43,7 +43,7 @@ public class AppleTest {
         //renderer.setAutoShapeType(true);
         Board board = new Board(null);
 
-        Apple appleTest = new Apple(board, snake, 5);
+        Apple appleTest = new Apple(board, snake, 5, 3);
 
         assertEquals((appleTest.getYcoord() > 0), true);
 
@@ -57,7 +57,7 @@ public class AppleTest {
         //renderer.setAutoShapeType(true);
         Board board = new Board(null);
 
-        Apple appleTest = new Apple(board, snake, 5);
+        Apple appleTest = new Apple(board, snake, 5, 3);
 
         assertEquals((appleTest.getYcoord() > 0), true);
 

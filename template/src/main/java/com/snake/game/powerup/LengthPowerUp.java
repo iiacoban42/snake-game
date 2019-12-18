@@ -8,8 +8,8 @@ import com.snake.game.game.Snake;
  */
 public class LengthPowerUp extends PowerUp {
 
-    public LengthPowerUp(Board board, Snake snake, float random, float randomy){
-        super.PowerUp(board, snake, random, randomy);
+    public LengthPowerUp(Board board, Snake snake, float random, float randomy) {
+        super(board, snake, random, randomy);
     }
 
     /**

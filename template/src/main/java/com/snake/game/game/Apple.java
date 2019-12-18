@@ -17,11 +17,6 @@ public class Apple {
         this.randomy = randomy;
         int xrand = (int) (random * board.gridWidth);
         int yrand = (int) (randomy * board.gridHeight);
-//        while (snake.collides(xrand, yrand)) {
-//            random = Math.random();
-//            xrand = (int) (random * board.gridWidth);
-//            yrand = (int) (randomy * board.gridHeight);
-//        }
         xcoord = xrand;
         ycoord = yrand;
     }
