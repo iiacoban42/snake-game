@@ -4,6 +4,8 @@ import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
 import com.snake.game.game.Timer;
 
+import java.util.TimerTask;
+
 /**
  * Method to increase speed of a snake, as well as adding some points.
  */
@@ -33,7 +35,17 @@ public class SpeedUp extends PowerUp {
         board.setGameUpdateTimer(gameUpdateTimer);
         gameUpdateTimer.setActive(true);
         this.snake.addScore(10);
-        TimeHandler timeHandler = new TimeHandler(30000, this);
-        timeHandler.start();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                Timer<Runnable> gameUpdateTimer = new Timer<>(board::run);
+                board.setGameUpdateTimer(gameUpdateTimer);
+                gameUpdateTimer.setActive(true);
+            }
+        };
+
+        java.util.Timer timer = new java.util.Timer("Timer");
+        timer.schedule(task, 30000);
     }
 }

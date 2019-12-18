@@ -48,6 +48,24 @@ public class Board {
     }
 
     /**
+     * Optional constructor but you can pass snake to it.
+     * @param rend shape renderer.
+     * @param snake snake.
+     */
+    public Board(ShapeRenderer rend, Snake snake) {
+        this.rend = rend;
+        this.snake = snake;
+
+        apple = new Apple(this, snake, Math.random(), Math.random());
+
+        gameUpdateTimer = new Timer<>(this::run);
+        gameUpdateTimer.setActive(true);
+
+        isUp = false;
+        powerUpFactory = new PowerUpFactory(this, this.snake);
+    }
+
+    /**
      * Returns the setting whether the snake can go through walls.
      *
      * @return boolean
@@ -158,7 +176,7 @@ public class Board {
             apple = new Apple(this, snake,Math.random(), Math.random());
         }
 
-        if (isUp && snake.collides(powerUp.xcoord, powerUp.ycoord)) {
+        if (isUp && snake.collides(powerUp.getXcoord(), powerUp.getYcoord())) {
             isUp = false;
             powerUp.handle();
         }
@@ -170,12 +188,10 @@ public class Board {
      */
     public void updatePowerUp(float random, int number) {
 
-        if (random > 0 && random < 0.01 && !isUp) {
+        if (random > 0 && random <= 0.01 && !isUp) {
             isUp = true;
             PowerUp powerUp = powerUpFactory.getPowerUp(number);
-            if (powerUp != null) {
-                this.powerUp = powerUp;
-            }
+            this.powerUp = powerUp;
         }
     }
 

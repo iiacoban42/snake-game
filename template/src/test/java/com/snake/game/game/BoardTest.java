@@ -2,7 +2,10 @@ package com.snake.game.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.snake.game.powerup.SpeedUp;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class BoardTest {
 
@@ -99,5 +102,51 @@ public class BoardTest {
 
     }
 
+    @Test
+    void updatePowerUpWrongRandomTest() {
+        ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
+        Board board = new Board(shapeRenderer);
+        board.updatePowerUp((float) 0.15, 1);
+        assertEquals(board.isIsUp(), false);
+    }
 
+    @Test
+    void updatePowerUpWrongRandomTwoTest() {
+        ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
+        Board board = new Board(shapeRenderer);
+        board.updatePowerUp((float) -1, 1);
+        assertEquals(board.isIsUp(), false);
+    }
+
+    @Test
+    void updatePowerUpCorrectTest() {
+        ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
+        Board board = new Board(shapeRenderer);
+        board.updatePowerUp((float) 0.01, 1);
+        assertEquals(board.isIsUp(), true);
+    }
+
+    @Test
+    void updatePowerUpAlreadyThereTest() {
+        ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
+        Board board = new Board(shapeRenderer);
+        board.setIsUp(true);
+        board.updatePowerUp((float) 0.01, 1);
+        assertEquals(board.isIsUp(), true);
+    }
+
+    @Test
+    void runPowerUpTest() {
+        SpeedUp speedUp = Mockito.mock(SpeedUp.class);
+        ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
+        Snake snake = Mockito.mock(Snake.class);
+        Board board = new Board(shapeRenderer, snake);
+        board.setPowerUp(speedUp);
+        board.setIsUp(true);
+        Mockito.when(speedUp.getXcoord()).thenReturn(5);
+        Mockito.when(speedUp.getYcoord()).thenReturn(5);
+        Mockito.when(snake.collides(5, 5)).thenReturn(true);
+        board.run();
+        assertEquals(board.isIsUp(), false);
+    }
 }
