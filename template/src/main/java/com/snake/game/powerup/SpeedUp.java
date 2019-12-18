@@ -30,11 +30,24 @@ public class SpeedUp extends PowerUp {
     public void handle(Snake snake) {
         System.out.println("COLLIDE!!!!!!!!!!");
         Long time = System.currentTimeMillis();
-        timer.setDuration(70);
-//        Long time1 = 0L;
-//        while ( (time1 - time) < 30000) {
-//            time1 = System.currentTimeMillis();
-//        }
-        timer.setDuration(100);
+        //timer.setDuration(70);
+        Timer<Runnable> gameUpdateTimer = new Timer<>(board::run, 30);
+        board.setGameUpdateTimer(gameUpdateTimer);
+        gameUpdateTimer.setActive(true);
+        TimeHandler timeHandler = new TimeHandler(30000, this);
+        timeHandler.start();
+        //TODO thread
     }
+
+//    @Override
+//    public void run() {
+//        Long time = System.currentTimeMillis();
+//        Long t1 = 0L;
+//        while (t1 - time < 3000) {
+//            t1 = System.currentTimeMillis();
+//        }
+//       board.setGameUpdateTimer(gameUpdateTimer);
+//        gameUpdateTimer.setActive(true);
+//        System.out.println("DONE");
+//    }
 }

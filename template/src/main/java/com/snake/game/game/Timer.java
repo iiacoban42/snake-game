@@ -47,8 +47,6 @@ public class Timer<T extends Runnable> {
         this.active = active;
     }
 
-    public void setDuration(int duration) { this.duration = duration; }
-
     /**
      * Method to handle current time.
      * @param currentTime current time

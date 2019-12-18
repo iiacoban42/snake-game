@@ -17,7 +17,7 @@ public class Board {
     final int tile = 16;
 
     final ShapeRenderer rend;
-    final Timer<Runnable> gameUpdateTimer;
+    public Timer<Runnable> gameUpdateTimer;
 
     Snake snake;
     Apple apple;
@@ -135,7 +135,9 @@ public class Board {
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
+
         isUp = false;
+
     }
 
     /**
@@ -191,5 +193,10 @@ public class Board {
             apple = new Apple(this, snake,Math.random(), Math.random());
             gameUpdateTimer.setActive(true);
         }
+    }
+
+    public void setGameUpdateTimer(Timer<Runnable> gameUpdateTimer) {
+        this.gameUpdateTimer = gameUpdateTimer;
+        gameUpdateTimer.setActive(true);
     }
 }

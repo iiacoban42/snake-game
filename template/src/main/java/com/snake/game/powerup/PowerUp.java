@@ -21,4 +21,6 @@ public abstract class PowerUp {
     public abstract void draw(Board board);
 
     public abstract void handle(Snake snake);
+
+    //public abstract void update();
 }
