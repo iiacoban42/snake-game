@@ -72,7 +72,7 @@ public class Snake {
     }
 
     /**
-     * Method to mocve a snake around.
+     * Method to move a snake around.
      * @return true in case of collision
      */
     public boolean move() {

@@ -40,6 +40,10 @@ public class PowerUpFactory {
                 returned = new LengthPowerUp(board, snake,
                         (float) Math.random(), (float) Math.random());
                 break;
+            case 4:
+                returned = new StopGrow(board, snake,
+                        (float) Math.random(), (float) Math.random());
+                break;
             default:
                 break;
         }

@@ -18,10 +18,11 @@ public class MegaApple extends PowerUp {
      */
     @Override
     public void draw() {
-        board.getRend().setColor(Color.PINK);
-        board.getRend().rect(board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
+        board.getRend().setColor(Color.LIME);
+        board.getRend().circle(
+                board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
                 board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
-                10, 10);
+                board.getTile());
 
     }
 

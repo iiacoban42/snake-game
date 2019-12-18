@@ -16,7 +16,7 @@ public class Board {
 
     final int tile = 16;
 
-    final int powerUpNumber = 3;
+    final int powerUpNumber = 4;
 
     final ShapeRenderer rend;
     public Timer<Runnable> gameUpdateTimer;
@@ -163,7 +163,7 @@ public class Board {
      */
     public void run() {
 
-        updatePowerUp((float) Math.random(), (int) ((float)Math.random() * powerUpNumber));
+        updatePowerUp((float) Math.random(), (int) ((float)Math.random() * powerUpNumber + 1));
 
         if (snake.move()) {
             snake.killSnake();

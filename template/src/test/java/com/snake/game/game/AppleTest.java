@@ -16,8 +16,8 @@ public class AppleTest {
 
         Apple appleTest = new Apple(board, snake, Math.random(), Math.random());
 
-        assertEquals((appleTest.getXcoord() > 0), true);
-        assertEquals((appleTest.getYcoord() > 0), true);
+        assertEquals((appleTest.getXcoord() >= 0), true);
+        assertEquals((appleTest.getYcoord() >= 0), true);
 
     }
 

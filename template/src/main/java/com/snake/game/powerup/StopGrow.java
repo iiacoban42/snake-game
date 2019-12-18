@@ -3,6 +3,9 @@ package com.snake.game.powerup;
 import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
+import com.snake.game.game.Timer;
+
+import java.util.TimerTask;
 
 public class StopGrow extends PowerUp {
 
@@ -19,10 +22,23 @@ public class StopGrow extends PowerUp {
                 board.getTile());
     }
 
+    /**
+     * Stop growing for 30 seconds.
+     */
     @Override
     public void handle() {
+        this.snake.addScore(20);
 
-        this.snake.addScore(10);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        };
+
+        java.util.Timer timer = new java.util.Timer("Timer");
+        timer.schedule(task, 30000);
     }
+
 
 }
