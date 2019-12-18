@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.snake.game.game.Board;
-import com.snake.game.game.ScreenController;
 import com.snake.game.game.Snake;
 
 public class GameScreen extends Screen {

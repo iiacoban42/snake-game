@@ -1,4 +1,4 @@
-package com.snake.game.game;
+package com.snake.game.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
