@@ -1,5 +1,7 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.graphics.Color;
+
 import java.util.LinkedList;
 
 public class Snake {
@@ -165,6 +167,7 @@ public class Snake {
          * @param board current board
          */
         public void draw(Board board) {
+            board.getRend().setColor(Color.PURPLE);
             board.getRend().rect(
                     board.getDx() + xc * board.getTile(),
                     board.getDy() + yc * board.getTile(),

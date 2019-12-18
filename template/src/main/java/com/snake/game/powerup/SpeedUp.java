@@ -1,5 +1,6 @@
 package com.snake.game.powerup;
 
+import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
 import com.snake.game.game.Timer;
@@ -20,6 +21,7 @@ public class SpeedUp extends PowerUp {
      */
     @Override
     public void draw() {
+        board.getRend().setColor(Color.RED);
         board.getRend().circle(
                 board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
                 board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,

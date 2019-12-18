@@ -1,5 +1,7 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class Apple {
 
     private int xcoord;
@@ -59,6 +61,7 @@ public class Apple {
      * @param board to render.
      */
     public void draw(Board board) {
+        board.getRend().setColor(Color.LIME);
         board.getRend().circle(
                 board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
                 board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
