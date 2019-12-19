@@ -19,6 +19,7 @@ public class Board {
 
     Snake snake;
     Apple apple;
+    Score score;
 
 
     /**
@@ -49,6 +50,8 @@ public class Board {
     public void setApple(Apple apple) {
         this.apple = apple;
     }
+
+    public Score getScore() { return score; }
 
     public int getDx() {
         return dx;
@@ -99,6 +102,7 @@ public class Board {
         if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
             snake.addLength(3);
             apple = new Apple(this, snake,Math.random());
+            score.increment();
         }
 
     }
@@ -113,6 +117,7 @@ public class Board {
 
         snake = new Snake(0, 0, 5);
         apple = new Apple(this, snake, Math.random());
+        score = new Score();
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
@@ -164,6 +169,7 @@ public class Board {
         }
 
         if (direction == Snake.Direction.SPACE) {
+            score.reset();
             snake.init(0, 0, 5);
             apple = new Apple(this, snake,Math.random());
             gameUpdateTimer.setActive(true);

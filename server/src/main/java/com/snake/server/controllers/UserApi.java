@@ -4,6 +4,7 @@ import com.snake.server.domain.User;
 import com.snake.server.domain.UserInfo;
 import com.snake.server.repositories.UserRepository;
 import com.snake.server.requests.LogInRequest;
+import com.snake.server.requests.MaxScoreRequest;
 import com.snake.server.requests.SignUpRequest;
 import com.snake.server.responses.UserResponse;
 
@@ -100,5 +101,16 @@ public class UserApi {
             i++;
         }
         return ResponseEntity.status(HttpStatus.OK).body(responses);
+    }
+
+    @PostMapping("/maxscore")
+    public ResponseEntity<?> updateMaxScore(@Valid @RequestBody MaxScoreRequest maxScoreRequest) {
+        User user = userRepository.findByUsername(maxScoreRequest.getUsername()).orElse(null);
+        if (user != null) {
+            user.setMaxscore((long) maxScoreRequest.getMaxScore());
+            userRepository.save(user);
+            return ResponseEntity.status(HttpStatus.OK).body("Max score updated");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
 }

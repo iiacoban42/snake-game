@@ -1,16 +1,17 @@
 package com.snake.game.requests;
 
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 
-public class UserInfo extends ApiRequest<JsonNode> {
+public class MaxScore extends ApiRequest<String> {
 
     private transient String username;
+    private transient int maxScore;
 
-    public UserInfo(String username) {
+    public MaxScore(String username, int maxScore) {
         this.username = username;
+        this.maxScore = maxScore;
     }
 
     @Override
@@ -22,13 +23,17 @@ public class UserInfo extends ApiRequest<JsonNode> {
 
         try {
 
-            HttpResponse<JsonNode> response = this.post("/user/userinfo")
-                    .header("Content-Type", "text/plain")
-                    .body(this.username)
-                    .asJson();
+            JSONObject body = new JSONObject();
+            body.put("username", this.username);
+            body.put("maxScore", this.maxScore);
+
+            HttpResponse<String> response = this.post("/user/maxscore")
+                    .header("Content-Type", "application/json")
+                    .body(body)
+                    .asString();
 
             if (response.getStatus() != HTTP_OKAY) {
-                this.addError("User not found");
+                this.addError(response.getBody());
                 return;
             }
 
