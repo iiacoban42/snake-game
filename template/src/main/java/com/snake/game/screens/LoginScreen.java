@@ -1,9 +1,11 @@
 package com.snake.game.screens;
 
-import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,74 +15,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.requests.Login;
 
-public class LoginScreen extends Screen implements ApplicationListener {
+public class LoginScreen extends Screen {
 
-    private TextField usernameTextField;
-    private TextField passwordTextField;
-    private TextButton loginButton;
-    private TextButton registerButton;
-    private SpriteBatch batch;
-    private BitmapFont font;
+    private final transient SpriteBatch batch;
+    private final transient BitmapFont font;
 
+    private final transient TextField usernameTextField;
+    private final transient TextField passwordTextField;
+    private final transient TextButton loginButton;
+    private final transient TextButton registerButton;
 
-    private Group group;
-
-    public TextField getUsernameTextField() {
-        return usernameTextField;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-
-    public void setBatch(SpriteBatch batch) {
-        this.batch = batch;
-    }
-
-    public BitmapFont getFont() {
-        return font;
-    }
-
-    public void setFont(BitmapFont font) {
-        this.font = font;
-    }
-
-
-    public void setUsernameTextField(TextField usernameTextField) {
-        this.usernameTextField = usernameTextField;
-    }
-
-    public TextField getPasswordTextField() {
-        return passwordTextField;
-    }
-
-    public void setPasswordTextField(TextField passwordTextField) {
-        this.passwordTextField = passwordTextField;
-    }
-
-    public TextButton getLoginButton() {
-        return loginButton;
-    }
-
-    public void setLoginButton(TextButton loginButton) {
-        this.loginButton = loginButton;
-    }
-
-    public TextButton getRegisterButton() {
-        return registerButton;
-    }
-
-    public void setRegisterButton(TextButton registerButton) {
-        this.registerButton = registerButton;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
+    private final transient Group group;
 
     /**
      * Constructor for login screen.
@@ -91,6 +36,8 @@ public class LoginScreen extends Screen implements ApplicationListener {
     //Because of how libgdx structures classes.
     public LoginScreen(ScreenController sc) {
         super(sc);
+        batch = new SpriteBatch();
+        font = new BitmapFont();
         stage = new Stage();
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
@@ -167,12 +114,32 @@ public class LoginScreen extends Screen implements ApplicationListener {
 
             }
         });
+    }
+
+    @Override
+    public void show() {
 
     }
 
     @Override
     public void resize(int width, int height) {
+        group.setScale(standardWidth / width, standardHeight / height);
         updatePosition();
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
@@ -181,17 +148,29 @@ public class LoginScreen extends Screen implements ApplicationListener {
         font.dispose();
     }
 
-
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        font = new BitmapFont();
         // font.setColor(Color.RED);
     }
 
     @Override
     public void render() {
 
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(.7f, .7f, .7f, 1);
+        shapeRenderer.rect(0, 0, 640, 50);
+        shapeRenderer.rect(0, 380, 640, 200);
+        shapeRenderer.end();
+
+        stage.draw();
     }
 
 }

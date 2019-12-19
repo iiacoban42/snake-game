@@ -36,6 +36,17 @@ public class GameScreen extends Screen {
 
 
     @Override
+    public void show() {
+
+    }
+
+
+    @Override
+    public void render() {
+
+    }
+
+    @Override
     public void render(float delta) {
 
         // Handlers that rely on per-frame firing
@@ -85,6 +96,26 @@ public class GameScreen extends Screen {
         //stage.draw();
     }
 
+
+    @Override
+    public void create() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
 
     @Override
     public void resize(int width, int height) {
