@@ -1,9 +1,14 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class Apple {
+
     private int xcoord;
     private int ycoord;
     private double random;
+    private double randomy;
+
 
     /**
      * Construct apple.
@@ -11,17 +16,14 @@ public class Apple {
      * @param snake .
      * @param random .
      */
-    public Apple(Board board, Snake snake, double random) {
+    public Apple(Board board, Snake snake, double random, double randomy) {
         this.random = random;
+        this.randomy = randomy;
         int xrand = (int) (random * board.gridWidth);
-        int yrand = (int) (random * board.gridHeight);
-        while (snake.collides(xrand, yrand)) {
-            random = Math.random();
-            xrand = (int) (random * board.gridWidth);
-            yrand = (int) (random * board.gridHeight);
-        }
+        int yrand = (int) (randomy * board.gridHeight);
         xcoord = xrand;
         ycoord = yrand;
+
     }
 
     public int getXcoord() {
@@ -48,14 +50,25 @@ public class Apple {
         this.random = random;
     }
 
+    public double getRandomy() {
+        return randomy;
+    }
+
+    public void setRandomy(double randomy) {
+        this.randomy = randomy;
+    }
+
     /**
      * Render board.
      * @param board to render.
      */
     public void draw(Board board) {
+
+        board.getRend().setColor(Color.LIME);
         board.getRend().circle(
                 board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
                 board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
                 board.getTile() / 2.0f);
+
     }
 }

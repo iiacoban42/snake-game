@@ -15,47 +15,14 @@ import com.snake.game.game.ScreenController;
 import com.snake.game.requests.Signup;
 
 public class RegisterScreen extends Screen implements ApplicationListener {
-    private TextField usernameTextField;
-    private TextField passwordTextField;
-    private TextButton registerButton;
-    private SpriteBatch batch;
-    private BitmapFont font;
+    private transient TextField usernameTextField;
+    private transient TextField passwordTextField;
+    private transient TextButton registerButton;
+    private transient SpriteBatch batch;
+    private transient BitmapFont font;
 
 
-    private Group group;
-
-    public TextField getUsernameTextField() {
-        return usernameTextField;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-
-    public void setBatch(SpriteBatch batch) {
-        this.batch = batch;
-    }
-
-    public BitmapFont getFont() {
-        return font;
-    }
-
-    public void setFont(BitmapFont font) {
-        this.font = font;
-    }
-
-
-    public void setUsernameTextField(TextField usernameTextField) {
-        this.usernameTextField = usernameTextField;
-    }
-
-    public TextField getPasswordTextField() {
-        return passwordTextField;
-    }
-
-    public void setPasswordTextField(TextField passwordTextField) {
-        this.passwordTextField = passwordTextField;
-    }
+    private transient Group group;
 
     public static boolean validUser(String text) {
         return text != null && !text.isEmpty();
@@ -64,23 +31,6 @@ public class RegisterScreen extends Screen implements ApplicationListener {
     public static boolean validPassword(String text) {
         return text != null && !text.isEmpty()
                 && (text.length() >= 8) && (text.length() < 32);
-    }
-
-
-    public TextButton getRegisterButton() {
-        return registerButton;
-    }
-
-    public void setRegisterButton(TextButton registerButton) {
-        this.registerButton = registerButton;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
     }
 
     /**
