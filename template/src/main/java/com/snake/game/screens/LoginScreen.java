@@ -155,7 +155,7 @@ public class LoginScreen extends Screen implements ApplicationListener {
                         font.draw(batch, login.getErrors().get(0), 200, 200);
                     } else {
                         font.draw(batch, login.getResult().getBody(), 200, 200);
-                        sc.openScreen(sc.gameScreen);
+                        sc.openScreen(ScreenController.ScreenName.gameScreen);
                     }
                 }
             }
@@ -163,7 +163,7 @@ public class LoginScreen extends Screen implements ApplicationListener {
         registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(sc.gameScreen);
+                sc.openScreen(ScreenController.ScreenName.gameScreen);
 
             }
         });
@@ -172,7 +172,7 @@ public class LoginScreen extends Screen implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-
+        updatePosition();
     }
 
     @Override

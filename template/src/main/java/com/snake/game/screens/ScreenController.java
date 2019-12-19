@@ -8,12 +8,13 @@ import com.snake.game.screens.GameScreen;
 import com.snake.game.screens.LoginScreen;
 import com.snake.game.screens.Screen;
 
+import java.util.HashMap;
+
 public class ScreenController extends Game {
 
-    public SpriteBatch batch;
+    private SpriteBatch batch;
 
-    public Screen loginScreen;
-    public Screen gameScreen;
+    private final HashMap<ScreenName, Screen> screens = new HashMap<>();
 
     public SpriteBatch getBatch() {
         return batch;
@@ -23,39 +24,32 @@ public class ScreenController extends Game {
         this.batch = batch;
     }
 
-    public Screen getLoginScreen() {
-        return loginScreen;
-    }
-
-    public void setLoginScreen(Screen loginScreen) {
-        this.loginScreen = loginScreen;
-    }
-
-    public Screen getGameScreen() {
-        return gameScreen;
-    }
-
-    public void setGameScreen(Screen gameScreen) {
-        this.gameScreen = gameScreen;
-    }
-
-    public void openScreen(Screen s) {
-        setScreen(s);
-        Gdx.input.setInputProcessor(s.getStage());
+    /**
+     * Opens a screen.
+     * @param screenName the name of the screen
+     */
+    public void openScreen(ScreenName screenName) {
+        Screen screen = screens.get(screenName);
+        setScreen(screen);
+        Gdx.input.setInputProcessor(screen.getStage());
     }
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        loginScreen = new LoginScreen(this);
-        gameScreen = new GameScreen(this);
+        screens.put(ScreenName.loginScreen, new LoginScreen(this));
+        screens.put(ScreenName.gameScreen, new GameScreen(this));
 
 
-        openScreen(loginScreen);
+        openScreen(ScreenName.loginScreen);
     }
 
     @Override
     public void render() {
         super.render();
+    }
+
+    enum ScreenName {
+        loginScreen, registerScreen, gameScreen
     }
 }

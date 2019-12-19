@@ -148,7 +148,7 @@ public class RegisterScreen extends Screen implements ApplicationListener {
                         font.draw(batch, signup.getErrors().get(0), 200, 200);
                     } else {
                         font.draw(batch, signup.getResult().getBody(), 200, 200);
-                        sc.openScreen(sc.gameScreen);
+                        sc.openScreen(ScreenController.ScreenName.gameScreen);
                     }
                 }
             }
