@@ -103,6 +103,11 @@ public class UserApi {
         return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 
+    /**
+     * Update a user's maxScore.
+     * @param maxScoreRequest Request with username and maxScore
+     * @return whether or not the user was found and updated
+     */
     @PostMapping("/maxscore")
     public ResponseEntity<?> updateMaxScore(@Valid @RequestBody MaxScoreRequest maxScoreRequest) {
         User user = userRepository.findByUsername(maxScoreRequest.getUsername()).orElse(null);

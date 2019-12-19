@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.snake.server.domain.User;
 import com.snake.server.repositories.UserRepository;
 import com.snake.server.requests.LogInRequest;
+import com.snake.server.requests.MaxScoreRequest;
 import com.snake.server.requests.SignUpRequest;
 
 import java.util.Optional;
@@ -91,5 +92,21 @@ public class UserApiTest {
     public void goodUser() {
         ResponseEntity<?> res = toTest.getInfo(name);
         assertEquals(HttpStatus.OK, res.getStatusCode());
+    }
+
+    @Test
+    public void updateMaxScoreCorrectTest() {
+        int score = (int) Math.ceil(Math.random() * 100);
+        MaxScoreRequest msr = new MaxScoreRequest(name, score);
+        ResponseEntity<?> res = toTest.updateMaxScore(msr);
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(score, user.getMaxscore());
+    }
+
+    @Test
+    public void updateMaxScoreIncorrectTest() {
+        MaxScoreRequest msr = new MaxScoreRequest("noUser", 15);
+        ResponseEntity<?> res = toTest.updateMaxScore(msr);
+        assertEquals(HttpStatus.NOT_FOUND, res.getStatusCode());
     }
 }
