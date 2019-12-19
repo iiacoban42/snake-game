@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.powerup.PowerUp;
 import com.snake.game.powerup.PowerUpFactory;
 
+import java.util.ArrayList;
+
 public class Board {
 
     boolean portalWalls = false;
@@ -17,12 +19,14 @@ public class Board {
     final int tile = 16;
 
     final int powerUpNumber = 4;
-
+    int extraAplles = 0;
     final ShapeRenderer rend;
     public Timer<Runnable> gameUpdateTimer;
 
+
     Snake snake;
     Apple apple;
+    ArrayList<Apple> moreApples;
 
     PowerUp powerUp;
     private boolean isUp;
@@ -38,6 +42,7 @@ public class Board {
 
         snake = new Snake(0, 0, 5);
         apple = new Apple(this, snake, Math.random(), Math.random());
+        moreApples = new ArrayList<>();
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
@@ -45,11 +50,13 @@ public class Board {
         isUp = false;
         powerUpFactory = new PowerUpFactory(this, this.snake);
 
+
     }
 
     /**
      * Optional constructor but you can pass snake to it.
-     * @param rend shape renderer.
+     *
+     * @param rend  shape renderer.
      * @param snake snake.
      */
     public Board(ShapeRenderer rend, Snake snake) {
@@ -57,12 +64,37 @@ public class Board {
         this.snake = snake;
 
         apple = new Apple(this, snake, Math.random(), Math.random());
+        moreApples = new ArrayList<>();
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
 
         isUp = false;
         powerUpFactory = new PowerUpFactory(this, this.snake);
+    }
+
+    public int getExtraAplles() {
+        return extraAplles;
+    }
+
+    public void setExtraAplles(int extraAplles) {
+        this.extraAplles = extraAplles;
+    }
+
+    public ArrayList<Apple> getMoreApples() {
+        return moreApples;
+    }
+
+    public void setMoreApples(ArrayList<Apple> moreApples) {
+        this.moreApples = moreApples;
+    }
+
+    public boolean isUpp() {
+        return isUp;
+    }
+
+    public void setUp(boolean up) {
+        isUp = up;
     }
 
     /**
@@ -163,7 +195,7 @@ public class Board {
      */
     public void run() {
 
-        updatePowerUp((float) Math.random(), (int) ((float)Math.random() * powerUpNumber + 1));
+        updatePowerUp((float) Math.random(), (int) ((float) Math.random() * powerUpNumber + 1));
 
         if (snake.move()) {
             snake.killSnake();
@@ -173,7 +205,16 @@ public class Board {
 
         if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
             snake.addLength(3);
-            apple = new Apple(this, snake,Math.random(), Math.random());
+            apple = new Apple(this, snake, Math.random(), Math.random());
+        }
+
+        if (!moreApples.isEmpty()) {
+            for (int i = 0; i < moreApples.size(); i++) {
+                if (snake.collides(moreApples.get(i).getXcoord(), moreApples.get(i).getYcoord())) {
+                    snake.addLength(3);
+                    moreApples.remove(moreApples.get(i));
+                }
+            }
         }
 
         if (isUp && snake.collides(powerUp.getXcoord(), powerUp.getYcoord())) {
@@ -222,11 +263,30 @@ public class Board {
         if (isUp) {
             powerUp.draw();
         }
+
+        if (extraAplles > 0) {
+            for (int i = 0; i < moreApples.size(); i++) {
+                moreApples.get(i).draw(this);
+            }
+        }
+    }
+
+    /**
+     * Adds more apples to the board.
+     *
+     * @param number of apples to add.
+     */
+    public void addApples(int number) {
+        for (int i = 0; i < number; i++) {
+            moreApples.add(new Apple(this, snake, Math.random(), Math.random()));
+        }
+        extraAplles = number;
     }
 
 
     /**
      * Method to update snake direction.
+     *
      * @param direction direction of a snake
      */
     public void updateDirection(Snake.Direction direction) {
@@ -245,7 +305,7 @@ public class Board {
 
         if (direction == Snake.Direction.SPACE) {
             snake.init(0, 0, 5);
-            apple = new Apple(this, snake,Math.random(), Math.random());
+            apple = new Apple(this, snake, Math.random(), Math.random());
             gameUpdateTimer.setActive(true);
         }
     }

@@ -1,5 +1,6 @@
 package com.snake.game.powerup;
 
+import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
 
@@ -17,9 +18,10 @@ public class LengthPowerUp extends PowerUp {
      */
     @Override
     public void draw() {
-        board.getRend().ellipse(board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
+        board.getRend().setColor(Color.PINK);
+        board.getRend().circle(board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
                 board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
-                5, 2);
+                board.getTile());
     }
 
     /**

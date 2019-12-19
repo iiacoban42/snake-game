@@ -41,7 +41,7 @@ public class PowerUpFactory {
                         (float) Math.random(), (float) Math.random());
                 break;
             case 4:
-                returned = new StopGrow(board, snake,
+                returned = new MoreApples(board, snake,
                         (float) Math.random(), (float) Math.random());
                 break;
             default:
