@@ -49,10 +49,10 @@ public class MaxScoreRequest {
     }
 
     /**
-     * Setter for password.
-     * @param password password
+     * Setter for maxScore.
+     * @param maxScore maxScore
      */
-    public void setMaxScore(int password) {
+    public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
     }
 

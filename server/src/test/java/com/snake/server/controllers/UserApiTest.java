@@ -90,6 +90,6 @@ public class UserApiTest {
     @Test
     public void goodUser() {
         ResponseEntity<?> res = toTest.getInfo(name);
-        assertEquals(HttpStatus.FOUND, res.getStatusCode());
+        assertEquals(HttpStatus.OK, res.getStatusCode());
     }
 }
