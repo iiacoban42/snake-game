@@ -12,7 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.ScreenController;
+import com.snake.game.game.User;
 import com.snake.game.requests.Login;
+import com.snake.game.requests.UserInfo;
 
 public class LoginScreen extends Screen implements ApplicationListener {
 
@@ -153,9 +155,21 @@ public class LoginScreen extends Screen implements ApplicationListener {
                     Login login = new Login(username, password);
                     login.execute();
                     if (login.hasErrors()) {
+
                         font.draw(batch, login.getErrors().get(0), 200, 200);
                     } else {
-                        font.draw(batch, login.getResult().getBody(), 200, 200);
+//                        font.draw(batch, login.getResult().getBody(), 200, 200);
+
+                        // fetch more user info
+                        UserInfo userInfo = new UserInfo(username);
+                        userInfo.execute();
+                        int maxScore = (int) userInfo.getResult().getBody().getObject().get("maxScore");
+
+                        // save current user
+                        User.getInstance()
+                                .setUsername(username)
+                                .setMaxScore(maxScore);
+
                         sc.openScreen(sc.gameScreen);
                     }
                 }

@@ -82,7 +82,7 @@ public class UserApi {
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
         }
         UserResponse response = new UserResponse(user.getUsername(), user.getMaxscore().intValue());
-        return ResponseEntity.status(HttpStatus.FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     /**
