@@ -7,11 +7,11 @@ import org.json.JSONObject;
 public class MaxScore extends ApiRequest<String> {
 
     private transient String username;
-    private transient int maxScore;
+    private transient int theMaxScore;
 
     public MaxScore(String username, int maxScore) {
         this.username = username;
-        this.maxScore = maxScore;
+        this.theMaxScore = maxScore;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MaxScore extends ApiRequest<String> {
 
             JSONObject body = new JSONObject();
             body.put("username", this.username);
-            body.put("maxScore", this.maxScore);
+            body.put("maxScore", this.theMaxScore);
 
             HttpResponse<String> response = this.post("/user/maxscore")
                     .header("Content-Type", "application/json")

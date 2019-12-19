@@ -158,12 +158,14 @@ public class LoginScreen extends Screen implements ApplicationListener {
 
                         font.draw(batch, login.getErrors().get(0), 200, 200);
                     } else {
-//                        font.draw(batch, login.getResult().getBody(), 200, 200);
-
                         // fetch more user info
                         UserInfo userInfo = new UserInfo(username);
                         userInfo.execute();
-                        int maxScore = (int) userInfo.getResult().getBody().getObject().get("maxScore");
+                        int maxScore = (int) userInfo
+                                .getResult()
+                                .getBody()
+                                .getObject()
+                                .get("maxScore");
 
                         // save current user
                         User.getInstance()

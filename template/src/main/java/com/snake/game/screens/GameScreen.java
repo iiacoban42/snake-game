@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.snake.game.game.Board;
-import com.snake.game.game.Score;
 import com.snake.game.game.ScoreLabel;
 import com.snake.game.game.ScreenController;
 import com.snake.game.game.Snake;
@@ -19,9 +18,9 @@ public class GameScreen extends Screen {
 
     final Board board;
     final ShapeRenderer renderer;
-    final ScoreLabel scoreLabel;
-    final Label usernameLabel;
-    final String usernameLabelFormat = "Welcome %s";
+    final transient ScoreLabel scoreLabel;
+    final transient Label usernameLabel;
+    final transient String usernameLabelFormat = "Welcome %s";
 
     public Board getBoard() {
         return board;

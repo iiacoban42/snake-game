@@ -51,7 +51,13 @@ public class Board {
         this.apple = apple;
     }
 
-    public Score getScore() { return score; }
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
 
     public int getDx() {
         return dx;
