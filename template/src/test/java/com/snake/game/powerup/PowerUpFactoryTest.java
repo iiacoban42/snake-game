@@ -43,6 +43,12 @@ public class PowerUpFactoryTest {
     }
 
     @Test
+    public void moreApplesTest() {
+        PowerUp powerUp = powerUpFactory.getPowerUp(4);
+        assertTrue(powerUp instanceof MoreApples);
+    }
+
+    @Test
     public void defaultTest() {
         PowerUp powerUp = powerUpFactory.getPowerUp(100);
         assertTrue(powerUp instanceof MegaApple);

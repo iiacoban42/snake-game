@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.powerup.SpeedUp;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 
 public class BoardTest {
 
@@ -136,6 +138,29 @@ public class BoardTest {
     }
 
     @Test
+    void addApples() {
+        ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
+        Board board = new Board(shapeRenderer);
+        board.setIsUp(true);
+        board.addApples(3);
+        ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());
+        assertEquals(apples.size(), 3);
+        assertEquals(board.getExtraApples(), 3);
+    }
+
+    @Test
+    void addApplesNoExtra() {
+        ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
+        Board board = new Board(shapeRenderer);
+        board.setIsUp(true);
+        board.addApples(0);
+        ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());
+        assertEquals(apples.isEmpty(), true);
+        assertEquals(board.getExtraApples(), 0);
+    }
+
+
+    @Test
     void runPowerUpTest() {
         SpeedUp speedUp = Mockito.mock(SpeedUp.class);
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
@@ -148,5 +173,35 @@ public class BoardTest {
         Mockito.when(snake.collides(5, 5)).thenReturn(true);
         board.run();
         assertEquals(board.isIsUp(), false);
+    }
+
+    @Test
+    void snakeEatsExtraApple() {
+
+        Board board = new Board(null);
+
+        board.addApples(1);
+        ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());
+        apples.get(0).setXcoord(5);
+        apples.get(0).setYcoord(0);
+        board.run();
+
+        assertEquals(board.getSnake().getLength(), 8);
+
+    }
+
+    @Test
+    void snakeDoesntEatExtraApple() {
+
+        Board board = new Board(null);
+
+        board.addApples(1);
+        ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());
+        apples.get(0).setXcoord(5);
+        apples.get(0).setYcoord(1);
+        board.run();
+
+        assertEquals(board.getSnake().getLength(), 5);
+
     }
 }

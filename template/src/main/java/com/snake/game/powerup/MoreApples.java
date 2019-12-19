@@ -21,7 +21,7 @@ public class MoreApples extends PowerUp {
     }
 
     /**
-     * Adds 5 apples to the board.
+     * Adds 3 apples to the board.
      */
     @Override
     public void handle() {

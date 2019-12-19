@@ -19,7 +19,8 @@ public class Board {
     final int tile = 16;
 
     final int powerUpNumber = 4;
-    int extraAplles = 0;
+    int extraApples = 0;
+
     final ShapeRenderer rend;
     public Timer<Runnable> gameUpdateTimer;
 
@@ -73,12 +74,12 @@ public class Board {
         powerUpFactory = new PowerUpFactory(this, this.snake);
     }
 
-    public int getExtraAplles() {
-        return extraAplles;
+    public int getExtraApples() {
+        return extraApples;
     }
 
-    public void setExtraAplles(int extraAplles) {
-        this.extraAplles = extraAplles;
+    public void setExtraApples(int extraApples) {
+        this.extraApples = extraApples;
     }
 
     public ArrayList<Apple> getMoreApples() {
@@ -264,7 +265,7 @@ public class Board {
             powerUp.draw();
         }
 
-        if (extraAplles > 0) {
+        if (extraApples > 0) {
             for (int i = 0; i < moreApples.size(); i++) {
                 moreApples.get(i).draw(this);
             }
@@ -280,7 +281,7 @@ public class Board {
         for (int i = 0; i < number; i++) {
             moreApples.add(new Apple(this, snake, Math.random(), Math.random()));
         }
-        extraAplles = number;
+        extraApples = number;
     }
 
 
