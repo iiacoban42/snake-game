@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 
 public class UserApiTest {
 
+    private final transient String NO_USER = "noUser";
+
     transient User user;
 
     transient UserRepository userRepository;
@@ -36,12 +38,12 @@ public class UserApiTest {
         userRepository = Mockito.mock(UserRepository.class);
         toTest = new UserApi(userRepository);
         Mockito.when(userRepository.findByUsername(name)).thenReturn(Optional.of(user));
-        Mockito.when(userRepository.findByUsername("noUser")).thenReturn(Optional.empty());
+        Mockito.when(userRepository.findByUsername(NO_USER)).thenReturn(Optional.empty());
     }
 
     @Test
     public void nonExistentLoginTest() {
-        LogInRequest req = new LogInRequest("noUser", "somePwd");
+        LogInRequest req = new LogInRequest(NO_USER, "somePwd");
         ResponseEntity<?> res = toTest.authenticate(req);
         assertEquals(res.getStatusCode(), HttpStatus.NOT_FOUND);
         assertEquals(res.getBody(), "User not found!");
@@ -83,7 +85,7 @@ public class UserApiTest {
 
     @Test
     public void noUserTest() {
-        ResponseEntity<?> res = toTest.getInfo("noUser");
+        ResponseEntity<?> res = toTest.getInfo(NO_USER);
         assertEquals(HttpStatus.NOT_FOUND, res.getStatusCode());
         assertEquals("User not found!", res.getBody());
     }
@@ -105,7 +107,7 @@ public class UserApiTest {
 
     @Test
     public void updateMaxScoreIncorrectTest() {
-        MaxScoreRequest msr = new MaxScoreRequest("noUser", 15);
+        MaxScoreRequest msr = new MaxScoreRequest(NO_USER, 15);
         ResponseEntity<?> res = toTest.updateMaxScore(msr);
         assertEquals(HttpStatus.NOT_FOUND, res.getStatusCode());
     }
