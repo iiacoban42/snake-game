@@ -6,6 +6,10 @@ import com.snake.game.powerup.PowerUpFactory;
 
 import java.util.ArrayList;
 
+/**
+ * The board is the field on which the game takes place. The snake and consumables take place
+ * on the board within the given boundaries.
+ */
 public class Board {
 
     boolean portalWalls = false;

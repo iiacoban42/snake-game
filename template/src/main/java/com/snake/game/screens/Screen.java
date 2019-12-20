@@ -3,6 +3,9 @@ package com.snake.game.screens;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+/**
+ * An abstract screen class.
+ */
 public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationListener {
 
     public static final float standardWidth = 640f;
@@ -28,11 +31,30 @@ public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationList
         return stage;
     }
 
+    /**
+     * Returns the validity to be a 'username' of the given string.
+     * @param text the given string
+     * @return returns true if it is the correct length and only contains alpha-numeral characters
+     */
     public static boolean validUser(String text) {
-        return text != null && !text.isEmpty();
+        assert text != null;
+        final int minLength = 1;
+        final int maxLength = 32;
+        return text.length() >= minLength
+                && text.length() < maxLength
+                && text.matches("[a-zA-Z0-9_ ]+");
     }
 
+    /**
+     * Returns the validity to be a 'password' of the given string.
+     * @param text the given string
+     * @return returns true if it is the correct length
+     */
     public static boolean validPassword(String text) {
-        return text.length() >= 8 && text.length() < 32;
+        assert text != null;
+        final int minLength = 1;
+        final int maxLength = 32;
+        return text.length() >= minLength
+                && text.length() < maxLength;
     }
 }

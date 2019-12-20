@@ -3,6 +3,9 @@ package com.snake.game.powerup;
 import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
 
+/**
+ * Creates new (randomized) power-ups.
+ */
 public class PowerUpFactory {
 
     private Board board;

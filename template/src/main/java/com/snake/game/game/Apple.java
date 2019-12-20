@@ -2,6 +2,11 @@ package com.snake.game.game;
 
 import com.badlogic.gdx.graphics.Color;
 
+/**
+ * An apple, also known as 'cookies' in other snake versions, is an object on the board that
+ * the player should attempt to eat by moving the snake head towards it. Eating one increases
+ * the score and the snake length
+ */
 public class Apple {
 
     private int xcoord;

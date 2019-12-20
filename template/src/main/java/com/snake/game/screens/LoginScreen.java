@@ -17,6 +17,10 @@ import com.snake.game.game.User;
 import com.snake.game.requests.Login;
 import com.snake.game.requests.UserInfo;
 
+/**
+ * The screen on which the user may login to their account using their username and password
+ * and launch the game.
+ */
 public class LoginScreen extends Screen {
 
     private final transient SpriteBatch batch;

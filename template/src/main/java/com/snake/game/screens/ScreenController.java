@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.HashMap;
 
+/**
+ * The controller which handles screen switching and initialization process.
+ */
 public class ScreenController extends Game {
 
     private SpriteBatch batch;

@@ -14,6 +14,9 @@ import com.snake.game.game.ScoreLabel;
 import com.snake.game.game.Snake;
 import com.snake.game.game.User;
 
+/**
+ * The screen on which the playing board predominately takes place.
+ */
 public class GameScreen extends Screen {
 
     final Board board;

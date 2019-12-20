@@ -1,5 +1,7 @@
 package com.snake.game.states;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.Board;
 import com.snake.game.game.Game;
@@ -7,7 +9,6 @@ import com.snake.game.screens.ScreenController;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ActiveGameTest {
 

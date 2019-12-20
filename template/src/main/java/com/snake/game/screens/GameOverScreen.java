@@ -11,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.snake.game.game.Board;
 import com.snake.game.game.Game;
 
+/**
+ * The limbo screen when the player has lost the game.
+ */
 public class GameOverScreen extends Screen {
 
     final Board board;

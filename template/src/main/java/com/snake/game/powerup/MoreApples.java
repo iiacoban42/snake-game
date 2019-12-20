@@ -6,6 +6,9 @@ import com.snake.game.game.Snake;
 
 import java.util.TimerTask;
 
+/**
+ * A power-up which spawns in a bunch of apples.
+ */
 public class MoreApples extends PowerUp {
     public MoreApples(Board board, Snake snake, float random, float randomy) {
         super(board, snake, random, randomy);

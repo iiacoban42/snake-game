@@ -4,6 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 
 import java.util.LinkedList;
 
+/**
+ * The snake is the player-controlled entity which can move around the board. The snake grows
+ * in length when it consumes an apple. This increases the score, and incrementally makes it
+ * more difficult for the player, as the player must try to avoid the snake colliding with itself.
+ */
 public class Snake {
 
     private LinkedList<BodyPart> snakeBody;

@@ -15,6 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.requests.Signup;
 
+/**
+ * The screen on which the user may register a new account.
+ */
 public class RegisterScreen extends Screen {
 
     private final transient SpriteBatch batch;
