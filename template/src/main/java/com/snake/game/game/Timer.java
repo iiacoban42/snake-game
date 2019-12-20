@@ -1,6 +1,9 @@
 package com.snake.game.game;
 
-
+/**
+ * A timer which will fire an action periodically.
+ * @param <T> the action which is fired periodically
+ */
 public class Timer<T extends Runnable> {
 
     private double duration;

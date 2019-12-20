@@ -4,18 +4,23 @@ import com.badlogic.gdx.graphics.Color;
 
 import java.util.LinkedList;
 
+/**
+ * The snake is the player-controlled entity which can move around the board. The snake grows
+ * in length when it consumes an apple. This increases the score, and incrementally makes it
+ * more difficult for the player, as the player must try to avoid the snake colliding with itself.
+ */
 public class Snake {
 
-    private LinkedList<Body> snakeBody;
+    private LinkedList<BodyPart> snakeBody;
     private int length;
     private DirectionQueue direction;
     private int score;
 
-    public LinkedList<Body> getSnakeBody() {
+    public LinkedList<BodyPart> getSnakeBody() {
         return snakeBody;
     }
 
-    public void setSnakeBody(LinkedList<Body> snake) {
+    public void setSnakeBody(LinkedList<BodyPart> snake) {
         this.snakeBody = snake;
     }
 
@@ -51,7 +56,7 @@ public class Snake {
         init(x, y, length);
     }
 
-    public Body getHead() {
+    public BodyPart getHead() {
         return snakeBody.getLast();
     }
 
@@ -63,7 +68,7 @@ public class Snake {
      */
     public void init(int x, int y, int length) {
         snakeBody = new LinkedList<>();
-        snakeBody.addLast(new Body(x, y));
+        snakeBody.addLast(new BodyPart(x, y));
         direction = new DirectionQueue(Direction.RIGHT);
         this.length = length;
         for (int i = 1; i < length; i++) {
@@ -77,8 +82,11 @@ public class Snake {
      */
     public boolean move() {
         direction.dequeue();
-        Body newHead = new Body(getHead().getXc(), getHead().getYc(), direction.getDirection());
-        if (collides(newHead.getXc(), newHead.getYc())) {
+        BodyPart newHead = new BodyPart(
+                getHead().getXcoord(),
+                getHead().getYcoord(),
+                direction.getDirection());
+        if (collides(newHead.getXcoord(), newHead.getYcoord())) {
             return true;
         }
 
@@ -100,8 +108,8 @@ public class Snake {
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
     //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     public boolean collides(int x, int y) {
-        for (Body body : snakeBody) {
-            if (body.getXc() == x && body.getYc() == y) {
+        for (BodyPart bodyPart : snakeBody) {
+            if (bodyPart.getXcoord() == x && bodyPart.getYcoord() == y) {
                 return true;
             }
         }
@@ -113,6 +121,7 @@ public class Snake {
      */
     public void killSnake() {
         snakeBody = new LinkedList<>();
+        length = 0;
 
     }
 
@@ -123,7 +132,7 @@ public class Snake {
     @SuppressWarnings("PMD")
     //UR anomaly. Same issue described above in method collides()
     public void draw(Board board) {
-        for (Body b : snakeBody) {
+        for (BodyPart b : snakeBody) {
             b.draw(board);
         }
     }
@@ -140,26 +149,26 @@ public class Snake {
         this.score += inc;
     }
 
-    public class Body {
-        private final int xc;
-        private final int yc;
+    public class BodyPart {
+        private final int xcoord;
+        private final int ycoord;
 
-        Body(int xc, int yc) {
-            this.xc = xc;
-            this.yc = yc;
+        BodyPart(int xcoord, int ycoord) {
+            this.xcoord = xcoord;
+            this.ycoord = ycoord;
         }
 
-        Body(int xc, int yc, Direction direction) {
-            this.xc = xc + direction.getDx();
-            this.yc = yc + direction.getDy();
+        BodyPart(int xcoord, int ycoord, Direction direction) {
+            this.xcoord = xcoord + direction.getDx();
+            this.ycoord = ycoord + direction.getDy();
         }
 
-        public int getXc() {
-            return xc;
+        public int getXcoord() {
+            return xcoord;
         }
 
-        public int getYc() {
-            return yc;
+        public int getYcoord() {
+            return ycoord;
         }
 
         /**
@@ -169,15 +178,20 @@ public class Snake {
         public void draw(Board board) {
             board.getRend().setColor(Color.PURPLE);
             board.getRend().rect(
-                    board.getDx() + xc * board.getTile(),
-                    board.getDy() + yc * board.getTile(),
+                    board.getDx() + xcoord * board.getTile(),
+                    board.getDy() + ycoord * board.getTile(),
                     board.getTile(),
                     board.getTile());
         }
     }
 
     public enum Direction {
-        UP(0, 1), DOWN(0, -1), LEFT(-1, 0), RIGHT(1, 0), SPACE(0,0);
+        UP(0, 1),
+        DOWN(0, -1),
+        LEFT(-1, 0),
+        RIGHT(1, 0),
+        SPACE(0,0);
+
         private final int dx;
         private final int dy;
 

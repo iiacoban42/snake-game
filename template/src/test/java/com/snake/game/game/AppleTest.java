@@ -1,65 +1,29 @@
 package com.snake.game.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
 public class AppleTest {
 
     @Test
-    void testAppleConstructor() {
+    void testAppleConstructorAndGetters() {
+        Apple appleTest = new Apple(5, 3);
 
-        Snake snake = new Snake(1,2,2);
-        //ShapeRenderer renderer = new ShapeRenderer();
-        //renderer.setAutoShapeType(true);
-        Board board = new Board(null);
-
-        Apple appleTest = new Apple(board, snake, Math.random(), Math.random());
-
-        assertEquals((appleTest.getXcoord() >= 0), true);
-        assertEquals((appleTest.getYcoord() >= 0), true);
-
+        assertEquals(5, appleTest.getXcoord());
+        assertEquals(3, appleTest.getYcoord());
     }
 
     @Test
-    void testGetX() {
-
+    void test() {
         Snake snake = new Snake(1,2,2);
-        //ShapeRenderer renderer = new ShapeRenderer();
-        //renderer.setAutoShapeType(true);
         Board board = new Board(null);
+        board.setSnake(snake);
 
-        Apple appleTest = new Apple(board, snake, 5, 3);
-
-        assertEquals((appleTest.getXcoord() > 0), true);
-
-    }
-
-    @Test
-    void testGetY() {
-
-        Snake snake = new Snake(1,2,2);
-        //ShapeRenderer renderer = new ShapeRenderer();
-        //renderer.setAutoShapeType(true);
-        Board board = new Board(null);
-
-        Apple appleTest = new Apple(board, snake, 5, 3);
-
-        assertEquals((appleTest.getYcoord() > 0), true);
-
-    }
-
-    @Test
-    void testConstructorSnakeCollide() {
-
-        Snake snake = new Snake(100,100,1);
-        //ShapeRenderer renderer = new ShapeRenderer();
-        //renderer.setAutoShapeType(true);
-        Board board = new Board(null);
-
-        Apple appleTest = new Apple(board, snake, 5, 3);
-
-        assertEquals((appleTest.getYcoord() > 0), true);
-
+        for (int i = 0; i < 200; i++) {
+            Apple apple = Apple.spawnApplePersistent(board);
+            assertFalse(board.getSnake().collides(apple.getXcoord(), apple.getYcoord()));
+        }
     }
 }

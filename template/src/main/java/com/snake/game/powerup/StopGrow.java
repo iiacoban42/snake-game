@@ -7,6 +7,9 @@ import com.snake.game.game.Timer;
 
 import java.util.TimerTask;
 
+/**
+ * A power-up which will temporarily top the snake from increasing in length.
+ */
 public class StopGrow extends PowerUp {
 
     public StopGrow(Board board, Snake snake, float random, float randomy) {

@@ -6,6 +6,10 @@ import com.snake.game.powerup.PowerUpFactory;
 
 import java.util.ArrayList;
 
+/**
+ * The board is the field on which the game takes place. The snake and consumables take place
+ * on the board within the given boundaries.
+ */
 public class Board {
 
     boolean portalWalls = false;
@@ -28,6 +32,7 @@ public class Board {
     Snake snake;
     Apple apple;
     ArrayList<Apple> moreApples;
+    Score score;
 
     PowerUp powerUp;
     private boolean isUp;
@@ -42,7 +47,7 @@ public class Board {
         this.rend = rend;
 
         snake = new Snake(0, 0, 5);
-        apple = new Apple(this, snake, Math.random(), Math.random());
+        apple = Apple.spawnApplePersistent(this);
         moreApples = new ArrayList<>();
 
         gameUpdateTimer = new Timer<>(this::run);
@@ -50,8 +55,7 @@ public class Board {
 
         isUp = false;
         powerUpFactory = new PowerUpFactory(this, this.snake);
-
-
+        score = new Score();
     }
 
     /**
@@ -64,8 +68,9 @@ public class Board {
         this.rend = rend;
         this.snake = snake;
 
-        apple = new Apple(this, snake, Math.random(), Math.random());
+        apple = Apple.spawnApplePersistent(this);
         moreApples = new ArrayList<>();
+        score = new Score();
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
@@ -125,6 +130,14 @@ public class Board {
 
     public void setApple(Apple apple) {
         this.apple = apple;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
     }
 
     public int getDx() {
@@ -206,7 +219,8 @@ public class Board {
 
         if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
             snake.addLength(3);
-            apple = new Apple(this, snake, Math.random(), Math.random());
+            apple = Apple.spawnApplePersistent(this);
+            score.increment();
         }
 
         if (!moreApples.isEmpty()) {
@@ -222,7 +236,6 @@ public class Board {
             isUp = false;
             powerUp.handle();
         }
-
     }
 
     /**
@@ -232,8 +245,7 @@ public class Board {
 
         if (random > 0 && random <= 0.01 && !isUp) {
             isUp = true;
-            PowerUp powerUp = powerUpFactory.getPowerUp(number);
-            this.powerUp = powerUp;
+            this.powerUp = powerUpFactory.getPowerUp(number);
         }
     }
 
@@ -247,6 +259,9 @@ public class Board {
     /**
      * Main draw method.
      */
+    @SuppressWarnings("PMD")
+    //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
+    //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     public void draw() {
 
         final float backgroundGrayScale = .85f;
@@ -266,8 +281,8 @@ public class Board {
         }
 
         if (extraApples > 0) {
-            for (int i = 0; i < moreApples.size(); i++) {
-                moreApples.get(i).draw(this);
+            for (Apple extraApple : moreApples) {
+                extraApple.draw(this);
             }
         }
     }
@@ -279,7 +294,7 @@ public class Board {
      */
     public void addApples(int number) {
         for (int i = 0; i < number; i++) {
-            moreApples.add(new Apple(this, snake, Math.random(), Math.random()));
+            moreApples.add(Apple.spawnApplePersistent(this));
         }
         extraApples = number;
     }
@@ -305,8 +320,9 @@ public class Board {
         }
 
         if (direction == Snake.Direction.SPACE) {
+            score.reset();
             snake.init(0, 0, 5);
-            apple = new Apple(this, snake, Math.random(), Math.random());
+            apple = Apple.spawnApplePersistent(this);
             gameUpdateTimer.setActive(true);
         }
     }
