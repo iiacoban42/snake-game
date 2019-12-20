@@ -39,6 +39,10 @@ public class Game {
         this.board = board;
     }
 
+    public State getState(){
+        return this.state;
+    }
+
     public ScreenController getSc() {
         return sc;
     }
