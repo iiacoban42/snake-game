@@ -8,11 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.snake.game.game.Board;
-import com.snake.game.game.ScoreLabel;
-import com.snake.game.game.ScreenController;
-import com.snake.game.game.Snake;
-import com.snake.game.game.User;
+import com.snake.game.game.*;
 
 public class GameScreen extends Screen {
 
@@ -21,6 +17,7 @@ public class GameScreen extends Screen {
     final transient ScoreLabel scoreLabel;
     final transient Label usernameLabel;
     final transient String usernameLabelFormat = "Welcome %s";
+    private Game game = new Game();
 
     public Board getBoard() {
         return board;
@@ -53,6 +50,7 @@ public class GameScreen extends Screen {
         usernameLabel.setPosition(400, 330);
         usernameLabel.setFontScale(1.3f);
         stage.addActor(usernameLabel);
+        game.setBoard(board);
     }
 
 
@@ -83,7 +81,7 @@ public class GameScreen extends Screen {
         }
 
         
-        board.timerHandler();
+        game.updateBoardTimer();
 
         // Clear the screen
         Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
@@ -97,7 +95,7 @@ public class GameScreen extends Screen {
         renderer.rect(0, 380, 640, 200);
 
         // Draw the board
-        board.draw();
+        game.observe();
 
         // Finalize renderer
         renderer.end();
