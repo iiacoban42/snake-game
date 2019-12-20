@@ -96,6 +96,7 @@ public class Snake {
      */
     public void killSnake() {
         snakeBody = new LinkedList<>();
+        length = 0;
 
     }
 

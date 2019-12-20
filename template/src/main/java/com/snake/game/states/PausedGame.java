@@ -5,14 +5,14 @@ import com.snake.game.game.Game;
 /**
  * Just a simple state class for when the game is active
  */
-public class ActiveGame implements State {
+public class PausedGame implements State {
 
     private Game game;
 
     /**
-     * Constructor for ActiveGame
+     * Constructor for PausedGame
      */
-    public ActiveGame(Game game){
+    public PausedGame(Game game){
         this.game = game;
     }
 
@@ -22,9 +22,6 @@ public class ActiveGame implements State {
     @Override
     public void observe() {
         game.getBoard().draw();
-        if(game.getBoard().getSnake().getLength() == 0){
-            game.changeState(new FinishedGame(game));
-        }
     }
 
     /**
