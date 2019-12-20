@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
@@ -32,7 +33,7 @@ public class User {
     @NotBlank
     private String password;
 
-    @NotBlank
+    @NotNull
     private Long maxscore;
 
     /**

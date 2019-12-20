@@ -1,27 +1,25 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.graphics.Color;
+
+/**
+ * An apple, also known as 'cookies' in other snake versions, is an object on the board that
+ * the player should attempt to eat by moving the snake head towards it. Eating one increases
+ * the score and the snake length
+ */
 public class Apple {
+
     private int xcoord;
     private int ycoord;
-    private double random;
 
     /**
      * Construct apple.
-     * @param board .
-     * @param snake .
-     * @param random .
+     * @param xcoord .
+     * @param ycoord .
      */
-    public Apple(Board board, Snake snake, double random) {
-        this.random = random;
-        int xrand = (int) (random * board.gridWidth);
-        int yrand = (int) (random * board.gridHeight);
-        while (snake.collides(xrand, yrand)) {
-            random = Math.random();
-            xrand = (int) (random * board.gridWidth);
-            yrand = (int) (random * board.gridHeight);
-        }
-        xcoord = xrand;
-        ycoord = yrand;
+    public Apple(int xcoord, int ycoord) {
+        this.xcoord = xcoord;
+        this.ycoord = ycoord;
     }
 
     public int getXcoord() {
@@ -32,10 +30,6 @@ public class Apple {
         return ycoord;
     }
 
-    public double getRandom() {
-        return this.random;
-    }
-
     public void setXcoord(int xcoord) {
         this.xcoord = xcoord;
     }
@@ -44,18 +38,46 @@ public class Apple {
         this.ycoord = ycoord;
     }
 
-    public void setRandom(double random) {
-        this.random = random;
-    }
-
     /**
      * Render board.
      * @param board to render.
      */
     public void draw(Board board) {
+
+        board.getRend().setColor(Color.LIME);
         board.getRend().circle(
                 board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
                 board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
                 board.getTile() / 2.0f);
+
+    }
+
+    /**
+     * Creates an apple which is guaranteed to be in a proper spawn location.
+     * @param board the board on which the apple must spawn
+     * @return a new randomized apple which applies to the isProperSpawnLocation rules
+     */
+    public static Apple spawnApplePersistent(Board board) {
+        int randx;
+        int randy;
+        do {
+            randx = (int) (board.getGridWidth() * Math.random());
+            randy = (int) (board.getGridHeight() * Math.random());
+        } while (!isProperSpawnLocation(board, randx, randy));
+        return new Apple(randx, randy);
+    }
+
+    /**
+     * Checks whether a location is suitable for an apple to spawn.
+     * @param board the board that contains all possible obstacles
+     * @param xcoord the x-coordinate to test
+     * @param ycoord the y-coordinate to test
+     * @return returns true if the given location is suitable
+     */
+    private static boolean isProperSpawnLocation(Board board, int xcoord, int ycoord) {
+        if (board.getSnake().collides(xcoord, ycoord)) {
+            return false;
+        }
+        return true;
     }
 }

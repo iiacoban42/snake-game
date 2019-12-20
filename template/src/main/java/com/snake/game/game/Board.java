@@ -1,7 +1,15 @@
 package com.snake.game.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.snake.game.powerup.PowerUp;
+import com.snake.game.powerup.PowerUpFactory;
 
+import java.util.ArrayList;
+
+/**
+ * The board is the field on which the game takes place. The snake and consumables take place
+ * on the board within the given boundaries.
+ */
 public class Board {
 
     boolean portalWalls = false;
@@ -14,12 +22,86 @@ public class Board {
 
     final int tile = 16;
 
+    final int powerUpNumber = 4;
+    int extraApples = 0;
+
     final ShapeRenderer rend;
-    final Timer<Runnable> gameUpdateTimer;
+    public Timer<Runnable> gameUpdateTimer;
+
 
     Snake snake;
     Apple apple;
+    ArrayList<Apple> moreApples;
+    Score score;
 
+    PowerUp powerUp;
+    private boolean isUp;
+    private PowerUpFactory powerUpFactory;
+
+    /**
+     * Constructor.
+     *
+     * @param rend a ShapeRenderer to draw its graphics to
+     */
+    public Board(ShapeRenderer rend) {
+        this.rend = rend;
+
+        snake = new Snake(0, 0, 5);
+        apple = Apple.spawnApplePersistent(this);
+        moreApples = new ArrayList<>();
+
+        gameUpdateTimer = new Timer<>(this::run);
+        gameUpdateTimer.setActive(true);
+
+        isUp = false;
+        powerUpFactory = new PowerUpFactory(this, this.snake);
+        score = new Score();
+    }
+
+    /**
+     * Optional constructor but you can pass snake to it.
+     *
+     * @param rend  shape renderer.
+     * @param snake snake.
+     */
+    public Board(ShapeRenderer rend, Snake snake) {
+        this.rend = rend;
+        this.snake = snake;
+
+        apple = Apple.spawnApplePersistent(this);
+        moreApples = new ArrayList<>();
+        score = new Score();
+
+        gameUpdateTimer = new Timer<>(this::run);
+        gameUpdateTimer.setActive(true);
+
+        isUp = false;
+        powerUpFactory = new PowerUpFactory(this, this.snake);
+    }
+
+    public int getExtraApples() {
+        return extraApples;
+    }
+
+    public void setExtraApples(int extraApples) {
+        this.extraApples = extraApples;
+    }
+
+    public ArrayList<Apple> getMoreApples() {
+        return moreApples;
+    }
+
+    public void setMoreApples(ArrayList<Apple> moreApples) {
+        this.moreApples = moreApples;
+    }
+
+    public boolean isUpp() {
+        return isUp;
+    }
+
+    public void setUp(boolean up) {
+        isUp = up;
+    }
 
     /**
      * Returns the setting whether the snake can go through walls.
@@ -48,6 +130,14 @@ public class Board {
 
     public void setApple(Apple apple) {
         this.apple = apple;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
     }
 
     public int getDx() {
@@ -86,36 +176,77 @@ public class Board {
         this.portalWalls = portalWalls;
     }
 
+    public int getPowerUpNumber() {
+        return powerUpNumber;
+    }
+
+    public PowerUp getPowerUp() {
+        return powerUp;
+    }
+
+    public void setPowerUp(PowerUp powerUp) {
+        this.powerUp = powerUp;
+    }
+
+    public boolean isIsUp() {
+        return isUp;
+    }
+
+    public void setIsUp(boolean up) {
+        isUp = up;
+    }
+
+    public PowerUpFactory getPowerUpFactory() {
+        return powerUpFactory;
+    }
+
+    public void setPowerUpFactory(PowerUpFactory powerUpFactory) {
+        this.powerUpFactory = powerUpFactory;
+    }
+
     /**
      * Game update.
      */
     public void run() {
+
+        updatePowerUp((float) Math.random(), (int) ((float) Math.random() * powerUpNumber + 1));
 
         if (snake.move()) {
             snake.killSnake();
             gameUpdateTimer.setActive(false);
             return;
         }
+
         if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
             snake.addLength(3);
-            apple = new Apple(this, snake,Math.random());
+            apple = Apple.spawnApplePersistent(this);
+            score.increment();
         }
 
+        if (!moreApples.isEmpty()) {
+            for (int i = 0; i < moreApples.size(); i++) {
+                if (snake.collides(moreApples.get(i).getXcoord(), moreApples.get(i).getYcoord())) {
+                    snake.addLength(3);
+                    moreApples.remove(moreApples.get(i));
+                }
+            }
+        }
+
+        if (isUp && snake.collides(powerUp.getXcoord(), powerUp.getYcoord())) {
+            isUp = false;
+            powerUp.handle();
+        }
     }
 
     /**
-     * Constructor.
-     *
-     * @param rend a ShapeRenderer to draw its graphics to
+     * Method to update current powerUp. Chooses what powerUp to use (if any).
      */
-    public Board(ShapeRenderer rend) {
-        this.rend = rend;
+    public void updatePowerUp(float random, int number) {
 
-        snake = new Snake(0, 0, 5);
-        apple = new Apple(this, snake, Math.random());
-
-        gameUpdateTimer = new Timer<>(this::run);
-        gameUpdateTimer.setActive(true);
+        if (random > 0 && random <= 0.01 && !isUp) {
+            isUp = true;
+            this.powerUp = powerUpFactory.getPowerUp(number);
+        }
     }
 
     /**
@@ -128,6 +259,9 @@ public class Board {
     /**
      * Main draw method.
      */
+    @SuppressWarnings("PMD")
+    //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
+    //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     public void draw() {
 
         final float backgroundGrayScale = .85f;
@@ -142,11 +276,33 @@ public class Board {
         rend.setColor(.0f, .0f, .0f, 1);
         snake.draw(this);
         apple.draw(this);
+        if (isUp) {
+            powerUp.draw();
+        }
+
+        if (extraApples > 0) {
+            for (Apple extraApple : moreApples) {
+                extraApple.draw(this);
+            }
+        }
+    }
+
+    /**
+     * Adds more apples to the board.
+     *
+     * @param number of apples to add.
+     */
+    public void addApples(int number) {
+        for (int i = 0; i < number; i++) {
+            moreApples.add(Apple.spawnApplePersistent(this));
+        }
+        extraApples = number;
     }
 
 
     /**
      * Method to update snake direction.
+     *
      * @param direction direction of a snake
      */
     public void updateDirection(Snake.Direction direction) {
@@ -164,9 +320,15 @@ public class Board {
         }
 
         if (direction == Snake.Direction.SPACE) {
+            score.reset();
             snake.init(0, 0, 5);
-            apple = new Apple(this, snake,Math.random());
+            apple = Apple.spawnApplePersistent(this);
             gameUpdateTimer.setActive(true);
         }
+    }
+
+    public void setGameUpdateTimer(Timer<Runnable> gameUpdateTimer) {
+        this.gameUpdateTimer = gameUpdateTimer;
+        gameUpdateTimer.setActive(true);
     }
 }

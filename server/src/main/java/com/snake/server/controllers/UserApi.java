@@ -4,6 +4,7 @@ import com.snake.server.domain.User;
 import com.snake.server.domain.UserInfo;
 import com.snake.server.repositories.UserRepository;
 import com.snake.server.requests.LogInRequest;
+import com.snake.server.requests.MaxScoreRequest;
 import com.snake.server.requests.SignUpRequest;
 import com.snake.server.responses.UserResponse;
 
@@ -82,7 +83,7 @@ public class UserApi {
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
         }
         UserResponse response = new UserResponse(user.getUsername(), user.getMaxscore().intValue());
-        return ResponseEntity.status(HttpStatus.FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     /**
@@ -100,5 +101,21 @@ public class UserApi {
             i++;
         }
         return ResponseEntity.status(HttpStatus.OK).body(responses);
+    }
+
+    /**
+     * Update a user's maxScore.
+     * @param maxScoreRequest Request with username and maxScore
+     * @return whether or not the user was found and updated
+     */
+    @PostMapping("/maxscore")
+    public ResponseEntity<?> updateMaxScore(@Valid @RequestBody MaxScoreRequest maxScoreRequest) {
+        User user = userRepository.findByUsername(maxScoreRequest.getUsername()).orElse(null);
+        if (user != null) {
+            user.setMaxscore((long) maxScoreRequest.getMaxScore());
+            userRepository.save(user);
+            return ResponseEntity.status(HttpStatus.OK).body("Max score updated");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
 }

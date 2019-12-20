@@ -1,9 +1,11 @@
 package com.snake.game.screens;
 
-import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,77 +13,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.snake.game.game.ScreenController;
 import com.snake.game.requests.Signup;
 
-public class RegisterScreen extends Screen implements ApplicationListener {
-    private TextField usernameTextField;
-    private TextField passwordTextField;
-    private TextButton registerButton;
-    private SpriteBatch batch;
-    private BitmapFont font;
+/**
+ * The screen on which the user may register a new account.
+ */
+public class RegisterScreen extends Screen {
 
+    private final transient SpriteBatch batch;
+    private final transient BitmapFont font;
 
-    private Group group;
+    private final transient TextField usernameTextField;
+    private final transient TextField passwordTextField;
+    private final transient TextButton registerButton;
 
-    public TextField getUsernameTextField() {
-        return usernameTextField;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-
-    public void setBatch(SpriteBatch batch) {
-        this.batch = batch;
-    }
-
-    public BitmapFont getFont() {
-        return font;
-    }
-
-    public void setFont(BitmapFont font) {
-        this.font = font;
-    }
-
-
-    public void setUsernameTextField(TextField usernameTextField) {
-        this.usernameTextField = usernameTextField;
-    }
-
-    public TextField getPasswordTextField() {
-        return passwordTextField;
-    }
-
-    public void setPasswordTextField(TextField passwordTextField) {
-        this.passwordTextField = passwordTextField;
-    }
-
-    public static boolean validUser(String text) {
-        return text != null && !text.isEmpty();
-    }
-
-    public static boolean validPassword(String text) {
-        return text != null && !text.isEmpty()
-                && (text.length() >= 8) && (text.length() < 32);
-    }
-
-
-    public TextButton getRegisterButton() {
-        return registerButton;
-    }
-
-    public void setRegisterButton(TextButton registerButton) {
-        this.registerButton = registerButton;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
+    private final transient Group group;
 
     /**
      * Constructor for register screen.
@@ -93,6 +39,8 @@ public class RegisterScreen extends Screen implements ApplicationListener {
     public RegisterScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();
+        batch = new SpriteBatch();
+        font = new BitmapFont();
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         Skin skin = new Skin(fileHandle);
@@ -149,7 +97,7 @@ public class RegisterScreen extends Screen implements ApplicationListener {
                         font.draw(batch, signup.getErrors().get(0), 200, 200);
                     } else {
                         font.draw(batch, signup.getResult().getBody(), 200, 200);
-                        sc.openScreen(sc.gameScreen);
+                        sc.openScreen(ScreenController.ScreenName.gameScreen);
                     }
                 }
             }
@@ -157,7 +105,22 @@ public class RegisterScreen extends Screen implements ApplicationListener {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void show() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
 
     }
 
@@ -170,8 +133,6 @@ public class RegisterScreen extends Screen implements ApplicationListener {
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        font = new BitmapFont();
         // font.setColor(Color.RED);
     }
 
@@ -180,6 +141,25 @@ public class RegisterScreen extends Screen implements ApplicationListener {
 
     }
 
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(.7f, .7f, .7f, 1);
+        shapeRenderer.rect(0, 0, 640, 50);
+        shapeRenderer.rect(0, 380, 640, 200);
+        shapeRenderer.end();
+
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        group.setScale(standardWidth / width, standardHeight / height);
+    }
 }
 
 

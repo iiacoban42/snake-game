@@ -1,0 +1,26 @@
+# Snake
+
+A remake of the classic snake game
+
+## Getting Started
+
+Import the project into your IDE with gradle
+
+## Prerequisites
+
+Java 13 and Gradle 6  
+
+## Built With
+
+Spring - The client-server communication
+Libgdx - Graphics  
+Junit, mockito - Tests  
+Gradle - Dependency Management
+
+## Authors
+
+Marius Birkhoff
+Oleksandr Fomin
+Kamron Geijsen
+Paula Iacoban
+Mikolaj Knap

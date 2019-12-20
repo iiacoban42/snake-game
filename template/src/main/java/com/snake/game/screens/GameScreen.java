@@ -2,17 +2,29 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.snake.game.game.Board;
-import com.snake.game.game.ScreenController;
+import com.snake.game.game.Game;
+import com.snake.game.game.ScoreLabel;
 import com.snake.game.game.Snake;
+import com.snake.game.game.User;
 
+/**
+ * The screen on which the playing board predominately takes place.
+ */
 public class GameScreen extends Screen {
 
     final Board board;
     final ShapeRenderer renderer;
+    final transient ScoreLabel scoreLabel;
+    final transient Label usernameLabel;
+    final transient String usernameLabelFormat = "Welcome %s";
+    private transient Game game;
 
     public Board getBoard() {
         return board;
@@ -30,11 +42,36 @@ public class GameScreen extends Screen {
         super(sc);
         stage = new Stage();
 
+        game = new Game(sc);
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
         board = new Board(renderer);
+        scoreLabel = new ScoreLabel(board.getScore(), stage);
+
+
+
+        Label.LabelStyle usernameLabelStyle = new Label.LabelStyle();
+        usernameLabelStyle.font = new BitmapFont();
+        usernameLabelStyle.fontColor = Color.DARK_GRAY;
+
+        usernameLabel = new Label("", usernameLabelStyle);
+        usernameLabel.setPosition(400, 330);
+        usernameLabel.setFontScale(1.3f);
+        stage.addActor(usernameLabel);
+        game.setBoard(board);
     }
 
+
+    @Override
+    public void show() {
+
+    }
+
+
+    @Override
+    public void render() {
+
+    }
 
     @Override
     public void render(float delta) {
@@ -63,7 +100,7 @@ public class GameScreen extends Screen {
         }
 
         
-        board.timerHandler();
+        game.updateBoardTimer();
 
         // Clear the screen
         Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
@@ -77,15 +114,38 @@ public class GameScreen extends Screen {
         renderer.rect(0, 380, 640, 200);
 
         // Draw the board
-        board.draw();
+        game.observe();
 
         // Finalize renderer
         renderer.end();
 
+        scoreLabel.draw();
+        usernameLabel.setText(String.format(usernameLabelFormat, User.getInstance().getUsername()));
+
         // Draw overlaying Actors of stage
-        //stage.draw();
+        stage.draw();
     }
 
+
+    @Override
+    public void create() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
 
     @Override
     public void resize(int width, int height) {

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.snake.server.domain.User;
 import com.snake.server.repositories.UserRepository;
 import com.snake.server.requests.LogInRequest;
+import com.snake.server.requests.MaxScoreRequest;
 import com.snake.server.requests.SignUpRequest;
 
 import java.util.Optional;
@@ -17,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 
 
 public class UserApiTest {
+
+    private final transient String NO_USER = "noUser";
 
     transient User user;
 
@@ -35,12 +38,12 @@ public class UserApiTest {
         userRepository = Mockito.mock(UserRepository.class);
         toTest = new UserApi(userRepository);
         Mockito.when(userRepository.findByUsername(name)).thenReturn(Optional.of(user));
-        Mockito.when(userRepository.findByUsername("noUser")).thenReturn(Optional.empty());
+        Mockito.when(userRepository.findByUsername(NO_USER)).thenReturn(Optional.empty());
     }
 
     @Test
     public void nonExistentLoginTest() {
-        LogInRequest req = new LogInRequest("noUser", "somePwd");
+        LogInRequest req = new LogInRequest(NO_USER, "somePwd");
         ResponseEntity<?> res = toTest.authenticate(req);
         assertEquals(res.getStatusCode(), HttpStatus.NOT_FOUND);
         assertEquals(res.getBody(), "User not found!");
@@ -82,7 +85,7 @@ public class UserApiTest {
 
     @Test
     public void noUserTest() {
-        ResponseEntity<?> res = toTest.getInfo("noUser");
+        ResponseEntity<?> res = toTest.getInfo(NO_USER);
         assertEquals(HttpStatus.NOT_FOUND, res.getStatusCode());
         assertEquals("User not found!", res.getBody());
     }
@@ -90,6 +93,22 @@ public class UserApiTest {
     @Test
     public void goodUser() {
         ResponseEntity<?> res = toTest.getInfo(name);
-        assertEquals(HttpStatus.FOUND, res.getStatusCode());
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+    }
+
+    @Test
+    public void updateMaxScoreCorrectTest() {
+        int score = (int) Math.ceil(Math.random() * 100);
+        MaxScoreRequest msr = new MaxScoreRequest(name, score);
+        ResponseEntity<?> res = toTest.updateMaxScore(msr);
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(score, user.getMaxscore());
+    }
+
+    @Test
+    public void updateMaxScoreIncorrectTest() {
+        MaxScoreRequest msr = new MaxScoreRequest(NO_USER, 15);
+        ResponseEntity<?> res = toTest.updateMaxScore(msr);
+        assertEquals(HttpStatus.NOT_FOUND, res.getStatusCode());
     }
 }
