@@ -1,7 +1,9 @@
 package com.snake.game.states;
+
 /**
- * Interface for the state classes
+ * Interface for the state classes.
  */
+
 public interface State {
 
     void observe();

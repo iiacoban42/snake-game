@@ -3,21 +3,21 @@ package com.snake.game.states;
 import com.snake.game.game.Game;
 
 /**
- * Just a simple state class for when the game is active
+ * Just a simple state class for when the game is active.
  */
 public class PausedGame implements State {
 
-    private Game game;
+    private transient Game game;
 
     /**
-     * Constructor for PausedGame
+     * Constructor for PausedGame.
      */
-    public PausedGame(Game game){
+    public PausedGame(Game game) {
         this.game = game;
     }
 
     /**
-     * Main method to continuously call while the game is in this state
+     * Main method to continuously call while the game is in this state.
      */
     @Override
     public void observe() {
@@ -25,7 +25,7 @@ public class PausedGame implements State {
     }
 
     /**
-     *  method to call when game enters in this state
+     *  method to call when game enters in this state.
      */
     @Override
     public void enterState() {

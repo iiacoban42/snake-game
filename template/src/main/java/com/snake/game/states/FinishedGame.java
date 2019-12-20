@@ -3,32 +3,31 @@ package com.snake.game.states;
 import com.snake.game.game.Game;
 
 /**
- * A simple state class for when the game is finished (puts the player into the end screen/sends score)
+ * A simple state class for when the game is finished.
  */
 public class FinishedGame implements State {
 
-    private Game game;
+    private transient Game game;
 
     /**
-     * Constructor for FinishedGame
+     * Constructor for FinishedGame.
      */
-    public FinishedGame(Game game){
+    public FinishedGame(Game game) {
         this.game = game;
     }
 
     /**
-     * Main method to continuously call while the game is in this state
+     * Main method to continuously call while the game is in this state.
      */
     @Override
     public void observe() {
     }
 
     /**
-     * Method to call when the state is entered
+     * Method to call when the state is entered.
      */
     @Override
     public void enterState() {
-        System.out.println("asfdasdfdf");
         game.getSc().openScreen(game.getSc().gameOverScreen);
     }
 }

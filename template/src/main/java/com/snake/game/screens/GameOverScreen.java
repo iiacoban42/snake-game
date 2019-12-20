@@ -8,14 +8,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.snake.game.game.*;
+import com.snake.game.game.Board;
+import com.snake.game.game.Game;
+import com.snake.game.game.ScreenController;
 
 public class GameOverScreen extends Screen {
 
     final Board board;
     final ShapeRenderer renderer;
-    final transient String usernameLabelFormat = "Welcome %s";
-    private Game game;
+    final transient Label endgameLabel;
+    private transient Game game;
 
     public Board getBoard() {
         return board;
@@ -38,6 +40,15 @@ public class GameOverScreen extends Screen {
         renderer.setAutoShapeType(true);
         board = new Board(renderer);
         game.setBoard(board);
+
+        Label.LabelStyle endgameLabelStyle = new Label.LabelStyle();
+        endgameLabelStyle.font = new BitmapFont();
+        endgameLabelStyle.fontColor = Color.RED;
+
+        endgameLabel = new Label("", endgameLabelStyle);
+        endgameLabel.setPosition(300, 330);
+        endgameLabel.setFontScale(1.3f);
+        stage.addActor(endgameLabel);
     }
 
 
@@ -47,10 +58,7 @@ public class GameOverScreen extends Screen {
         // Handlers that rely on per-frame firing
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-           sc.openScreen(new GameScreen(sc));
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            sc.openScreen(new GameScreen(sc));
         }
 
         // Clear the screen
@@ -64,11 +72,11 @@ public class GameOverScreen extends Screen {
         renderer.setColor(.7f, .7f, .7f, 1);
         renderer.rect(0, 380, 640, 200);
 
-        // Draw the board
-        game.observe();
 
         // Finalize renderer
         renderer.end();
+
+        endgameLabel.setText("Game is done, press r to restart");
 
         // Draw overlaying Actors of stage
         stage.draw();
