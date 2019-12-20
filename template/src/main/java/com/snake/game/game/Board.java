@@ -43,7 +43,7 @@ public class Board {
         this.rend = rend;
 
         snake = new Snake(0, 0, 5);
-        apple = new Apple(this, snake, Math.random(), Math.random());
+        apple = Apple.spawnApplePersistent(this);
         moreApples = new ArrayList<>();
 
         gameUpdateTimer = new Timer<>(this::run);
@@ -52,8 +52,6 @@ public class Board {
         isUp = false;
         powerUpFactory = new PowerUpFactory(this, this.snake);
         score = new Score();
-
-
     }
 
     /**
@@ -66,7 +64,7 @@ public class Board {
         this.rend = rend;
         this.snake = snake;
 
-        apple = new Apple(this, snake, Math.random(), Math.random());
+        apple = Apple.spawnApplePersistent(this);
         moreApples = new ArrayList<>();
         score = new Score();
 
@@ -217,7 +215,7 @@ public class Board {
 
         if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
             snake.addLength(3);
-            apple = new Apple(this, snake, Math.random(), Math.random());
+            apple = Apple.spawnApplePersistent(this);
             score.increment();
         }
 
@@ -292,7 +290,7 @@ public class Board {
      */
     public void addApples(int number) {
         for (int i = 0; i < number; i++) {
-            moreApples.add(new Apple(this, snake, Math.random(), Math.random()));
+            moreApples.add(Apple.spawnApplePersistent(this));
         }
         extraApples = number;
     }
@@ -320,7 +318,7 @@ public class Board {
         if (direction == Snake.Direction.SPACE) {
             score.reset();
             snake.init(0, 0, 5);
-            apple = new Apple(this, snake, Math.random(), Math.random());
+            apple = Apple.spawnApplePersistent(this);
             gameUpdateTimer.setActive(true);
         }
     }
