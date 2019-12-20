@@ -1,5 +1,7 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.graphics.Color;
+
 import java.util.LinkedList;
 
 public class Snake {
@@ -7,6 +9,7 @@ public class Snake {
     private LinkedList<Body> snakeBody;
     private int length;
     private DirectionQueue direction;
+    private int score;
 
     public LinkedList<Body> getSnakeBody() {
         return snakeBody;
@@ -28,8 +31,23 @@ public class Snake {
         this.direction = direction;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * Constructor of snake.
+     * @param x x
+     * @param y y
+     * @param length default length
+     */
     public Snake(int x, int y, int length) {
         snakeBody = new LinkedList<>();
+        score = 0;
         init(x, y, length);
     }
 
@@ -50,12 +68,11 @@ public class Snake {
         this.length = length;
         for (int i = 1; i < length; i++) {
             move();
-
         }
     }
 
     /**
-     * Method to mocve a snake around.
+     * Method to move a snake around.
      * @return true in case of collision
      */
     public boolean move() {
@@ -120,6 +137,10 @@ public class Snake {
         length += increment;
     }
 
+    public void addScore(int inc) {
+        this.score += inc;
+    }
+
     public class Body {
         private final int xc;
         private final int yc;
@@ -147,6 +168,7 @@ public class Snake {
          * @param board current board
          */
         public void draw(Board board) {
+            board.getRend().setColor(Color.PURPLE);
             board.getRend().rect(
                     board.getDx() + xc * board.getTile(),
                     board.getDy() + yc * board.getTile(),

@@ -18,75 +18,20 @@ import com.snake.game.requests.UserInfo;
 
 public class LoginScreen extends Screen implements ApplicationListener {
 
-    private TextField usernameTextField;
-    private TextField passwordTextField;
-    private TextButton loginButton;
-    private TextButton registerButton;
-    private SpriteBatch batch;
-    private BitmapFont font;
+    private transient TextField usernameTextField;
+    private transient TextField passwordTextField;
+    private transient TextButton loginButton;
+    private transient TextButton registerButton;
+    private transient TextButton playButton;
+    private transient SpriteBatch batch;
+    private transient BitmapFont font;
 
 
-    private Group group;
-
-    public TextField getUsernameTextField() {
-        return usernameTextField;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-
-    public void setBatch(SpriteBatch batch) {
-        this.batch = batch;
-    }
-
-    public BitmapFont getFont() {
-        return font;
-    }
-
-    public void setFont(BitmapFont font) {
-        this.font = font;
-    }
-
-
-    public void setUsernameTextField(TextField usernameTextField) {
-        this.usernameTextField = usernameTextField;
-    }
-
-    public TextField getPasswordTextField() {
-        return passwordTextField;
-    }
-
-    public void setPasswordTextField(TextField passwordTextField) {
-        this.passwordTextField = passwordTextField;
-    }
-
-    public TextButton getLoginButton() {
-        return loginButton;
-    }
-
-    public void setLoginButton(TextButton loginButton) {
-        this.loginButton = loginButton;
-    }
-
-    public TextButton getRegisterButton() {
-        return registerButton;
-    }
-
-    public void setRegisterButton(TextButton registerButton) {
-        this.registerButton = registerButton;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
+    private transient Group group;
 
     /**
      * Constructor for login screen.
+     *
      * @param sc screen controller
      */
     @SuppressWarnings("PMD")
@@ -117,12 +62,16 @@ public class LoginScreen extends Screen implements ApplicationListener {
         registerButton = new TextButton("Register", skin);
         registerButton.setSize(80, 35);
 
+        playButton = new TextButton("Play", skin);
+        playButton.setSize(80, 35);
+
 
         group = new Group();
         group.addActor(usernameTextField);
         group.addActor(passwordTextField);
         group.addActor(loginButton);
         group.addActor(registerButton);
+        group.addActor(playButton);
         stage.addActor(group);
 
         stage.setKeyboardFocus(usernameTextField);
@@ -141,6 +90,7 @@ public class LoginScreen extends Screen implements ApplicationListener {
 
         loginButton.setPosition(pivotX, pivotY - 90);
         registerButton.setPosition(pivotX + 90, pivotY - 90);
+        playButton.setPosition(pivotX + 45, pivotY - 150);
     }
 
     void addListeners() {
@@ -178,6 +128,14 @@ public class LoginScreen extends Screen implements ApplicationListener {
             }
         });
         registerButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(new RegisterScreen(sc));
+
+            }
+        });
+
+        playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(sc.gameScreen);
