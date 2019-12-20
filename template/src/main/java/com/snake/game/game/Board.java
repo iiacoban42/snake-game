@@ -27,8 +27,8 @@ public class Board {
 
     Snake snake;
     Apple apple;
-    Score score;
     ArrayList<Apple> moreApples;
+    Score score;
 
     PowerUp powerUp;
     private boolean isUp;
@@ -51,6 +51,7 @@ public class Board {
 
         isUp = false;
         powerUpFactory = new PowerUpFactory(this, this.snake);
+        score = new Score();
 
 
     }
@@ -67,6 +68,7 @@ public class Board {
 
         apple = new Apple(this, snake, Math.random(), Math.random());
         moreApples = new ArrayList<>();
+        score = new Score();
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
@@ -216,6 +218,7 @@ public class Board {
         if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
             snake.addLength(3);
             apple = new Apple(this, snake, Math.random(), Math.random());
+            score.increment();
         }
 
         if (!moreApples.isEmpty()) {
