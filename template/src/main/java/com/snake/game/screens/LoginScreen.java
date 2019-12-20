@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.snake.game.game.ScreenController;
 import com.snake.game.game.User;
 import com.snake.game.requests.Login;
 import com.snake.game.requests.UserInfo;
@@ -127,7 +126,7 @@ public class LoginScreen extends Screen {
                                 .setUsername(username)
                                 .setMaxScore(maxScore);
 
-                        sc.openScreen(sc.gameScreen);
+                        sc.openScreen(ScreenController.ScreenName.gameScreen);
                     }
                 }
             }
@@ -135,7 +134,7 @@ public class LoginScreen extends Screen {
         registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(new RegisterScreen(sc));
+                sc.openScreen(ScreenController.ScreenName.loginScreen);
 
             }
         });

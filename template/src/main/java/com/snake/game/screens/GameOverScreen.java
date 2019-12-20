@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.snake.game.game.Board;
 import com.snake.game.game.Game;
-import com.snake.game.game.ScreenController;
 
 public class GameOverScreen extends Screen {
 
@@ -53,12 +52,22 @@ public class GameOverScreen extends Screen {
 
 
     @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render() {
+
+    }
+
+    @Override
     public void render(float delta) {
 
         // Handlers that rely on per-frame firing
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-            sc.openScreen(new GameScreen(sc));
+            sc.openScreen(ScreenController.ScreenName.gameScreen);
         }
 
         // Clear the screen
@@ -84,7 +93,27 @@ public class GameOverScreen extends Screen {
 
 
     @Override
+    public void create() {
+
+    }
+
+    @Override
     public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
 
     }
 

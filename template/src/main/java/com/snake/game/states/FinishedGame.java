@@ -28,6 +28,6 @@ public class FinishedGame implements State {
      */
     @Override
     public void enterState() {
-        game.getSc().openScreen(game.getSc().gameOverScreen);
+        game.gameover();
     }
 }

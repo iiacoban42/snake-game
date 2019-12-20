@@ -234,7 +234,6 @@ public class Board {
             isUp = false;
             powerUp.handle();
         }
-
     }
 
     /**
@@ -244,8 +243,7 @@ public class Board {
 
         if (random > 0 && random <= 0.01 && !isUp) {
             isUp = true;
-            PowerUp powerUp = powerUpFactory.getPowerUp(number);
-            this.powerUp = powerUp;
+            this.powerUp = powerUpFactory.getPowerUp(number);
         }
     }
 
@@ -259,6 +257,9 @@ public class Board {
     /**
      * Main draw method.
      */
+    @SuppressWarnings("PMD")
+    //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
+    //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     public void draw() {
 
         final float backgroundGrayScale = .85f;
@@ -278,8 +279,8 @@ public class Board {
         }
 
         if (extraApples > 0) {
-            for (int i = 0; i < moreApples.size(); i++) {
-                moreApples.get(i).draw(this);
+            for (Apple extraApple : moreApples) {
+                extraApple.draw(this);
             }
         }
     }

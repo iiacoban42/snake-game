@@ -30,6 +30,7 @@ public class ScreenController extends Game {
      */
     public void openScreen(ScreenName screenName) {
         Screen screen = screens.get(screenName);
+        assert screen != null;
         setScreen(screen);
         Gdx.input.setInputProcessor(screen.getStage());
     }
@@ -38,12 +39,14 @@ public class ScreenController extends Game {
     public void create() {
         batch = new SpriteBatch();
         screens.put(ScreenName.loginScreen, new LoginScreen(this));
+        screens.put(ScreenName.registerScreen, new RegisterScreen(this));
         screens.put(ScreenName.gameScreen, new GameScreen(this));
+        screens.put(ScreenName.gameOverScreen, new GameOverScreen(this));
 
         openScreen(ScreenName.loginScreen);
     }
 
-    enum ScreenName {
-        loginScreen, registerScreen, gameScreen
+    public enum ScreenName {
+        loginScreen, registerScreen, gameScreen, gameOverScreen
     }
 }

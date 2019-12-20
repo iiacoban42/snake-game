@@ -1,5 +1,6 @@
 package com.snake.game.game;
 
+import com.snake.game.screens.ScreenController;
 import com.snake.game.states.ActiveGame;
 import com.snake.game.states.State;
 
@@ -39,7 +40,7 @@ public class Game {
         this.board = board;
     }
 
-    public State getState(){
+    public State getState() {
         return this.state;
     }
 
@@ -49,5 +50,9 @@ public class Game {
 
     public void setSc(ScreenController sc) {
         this.sc = sc;
+    }
+
+    public void gameover() {
+        sc.openScreen(ScreenController.ScreenName.gameOverScreen);
     }
 }

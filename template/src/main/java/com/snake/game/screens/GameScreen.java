@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.snake.game.game.Board;
 import com.snake.game.game.Game;
 import com.snake.game.game.ScoreLabel;
-import com.snake.game.game.ScreenController;
 import com.snake.game.game.Snake;
 import com.snake.game.game.User;
 
