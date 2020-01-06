@@ -110,7 +110,7 @@ public class GameScreen extends Screen {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Draw background design props
-        renderer.setColor(.7f, .7f, .7f, 1);
+        renderer.setColor(.42f, .82f, .32f, 1);
         renderer.rect(0, 380, 640, 200);
 
         // Draw the board

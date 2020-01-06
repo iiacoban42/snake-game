@@ -3,12 +3,15 @@ package com.snake.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -27,6 +30,7 @@ public class RegisterScreen extends Screen {
     private final transient TextField passwordTextField;
     private final transient TextButton registerButton;
     private final transient TextButton backButton;
+    private final transient Image logo;
 
     private final transient Group group;
 
@@ -45,6 +49,10 @@ public class RegisterScreen extends Screen {
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         Skin skin = new Skin(fileHandle);
+
+        Texture logoIcon = new Texture(Gdx.files.internal("logo.png"));
+        TextureRegion textureRegion = new TextureRegion(logoIcon, 256, 256);
+        logo = new Image(textureRegion);
 
         usernameTextField = new TextField("", skin);
         usernameTextField.setMessageText("Username");
@@ -65,6 +73,7 @@ public class RegisterScreen extends Screen {
         backButton.setSize(80, 35);
 
         group = new Group();
+        group.addActor(logo);
         group.addActor(usernameTextField);
         group.addActor(passwordTextField);
         group.addActor(registerButton);
@@ -84,6 +93,7 @@ public class RegisterScreen extends Screen {
         int pivotY = 280;
         usernameTextField.setPosition(pivotX, pivotY);
         passwordTextField.setPosition(pivotX, pivotY - 45);
+        logo.setPosition(pivotX - 325, pivotY - 180);
         backButton.setPosition(pivotX, pivotY - 90);
         registerButton.setPosition(pivotX + 90, pivotY - 90);
     }
@@ -117,25 +127,7 @@ public class RegisterScreen extends Screen {
         });
     }
 
-    @Override
-    public void show() {
 
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
 
     @Override
     public void dispose() {
