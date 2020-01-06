@@ -29,6 +29,7 @@ public class ScreenController extends Game {
 
     /**
      * Opens a screen.
+     *
      * @param screenName the name of the screen
      */
     public void openScreen(ScreenName screenName) {

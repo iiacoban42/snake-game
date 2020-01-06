@@ -31,6 +31,7 @@ public class GameOverScreen extends Screen {
 
     /**
      * Create Game screen.
+     *
      * @param sc Screen Controller
      */
     public GameOverScreen(ScreenController sc) {

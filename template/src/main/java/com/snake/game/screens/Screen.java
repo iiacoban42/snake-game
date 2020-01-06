@@ -3,7 +3,6 @@ package com.snake.game.screens;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -37,6 +36,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationList
 
     /**
      * Returns the validity to be a 'username' of the given string.
+     *
      * @param text the given string
      * @return returns true if it is the correct length and only contains alpha-numeral characters
      */
@@ -51,6 +51,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationList
 
     /**
      * Returns the validity to be a 'password' of the given string.
+     *
      * @param text the given string
      * @return returns true if it is the correct length
      */
@@ -77,6 +78,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationList
 
         stage.draw();
     }
+
     @Override
     public void show() {
 

@@ -14,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+/**
+ * The screen contains the start menu.
+ */
 public class StartScreen extends Screen {
 
     private final transient SpriteBatch batch;
@@ -24,6 +27,14 @@ public class StartScreen extends Screen {
 
     private final transient Group group;
 
+    /**
+     * Constructor for start screen.
+     *
+     * @param sc screen controller
+     */
+    @SuppressWarnings("PMD")
+    //Understand why we can't call overridable method, but it can't be escaped here
+    //Because of how libgdx structures classes.
     public StartScreen(ScreenController sc) {
         super(sc);
         batch = new SpriteBatch();

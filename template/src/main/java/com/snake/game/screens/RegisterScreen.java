@@ -34,6 +34,7 @@ public class RegisterScreen extends Screen {
 
     /**
      * Constructor for register screen.
+     *
      * @param sc screen controller
      */
     @SuppressWarnings("PMD")
@@ -124,7 +125,6 @@ public class RegisterScreen extends Screen {
             }
         });
     }
-
 
 
     @Override

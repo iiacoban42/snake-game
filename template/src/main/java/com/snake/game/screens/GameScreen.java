@@ -36,6 +36,7 @@ public class GameScreen extends Screen {
 
     /**
      * Create Game screen.
+     *
      * @param sc Screen Controller
      */
     public GameScreen(ScreenController sc) {
@@ -47,7 +48,6 @@ public class GameScreen extends Screen {
         renderer.setAutoShapeType(true);
         board = new Board(renderer);
         scoreLabel = new ScoreLabel(board.getScore(), stage);
-
 
 
         Label.LabelStyle usernameLabelStyle = new Label.LabelStyle();
@@ -99,7 +99,7 @@ public class GameScreen extends Screen {
             board.updateDirection(Snake.Direction.SPACE);
         }
 
-        
+
         game.updateBoardTimer();
 
         // Clear the screen
