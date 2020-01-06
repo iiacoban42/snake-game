@@ -45,7 +45,7 @@ public class GameOverScreen extends Screen {
 
         Label.LabelStyle endgameLabelStyle = new Label.LabelStyle();
         endgameLabelStyle.font = new BitmapFont();
-        endgameLabelStyle.fontColor = Color.RED;
+        endgameLabelStyle.fontColor = Color.BLACK;
 
         endgameLabel = new Label("", endgameLabelStyle);
         endgameLabel.setPosition(300, 330);
