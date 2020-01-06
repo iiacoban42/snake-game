@@ -29,6 +29,11 @@ public class LengthPowerUp extends PowerUp {
      */
     @Override
     public void handle() {
-        this.snake.addLength(-3);
+        int length = 4;
+        if (snake.getLength() > length) {
+            this.snake.addLength(-3);
+        }
+
+        board.getScore().increment(10);
     }
 }

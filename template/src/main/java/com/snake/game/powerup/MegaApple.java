@@ -32,6 +32,6 @@ public class MegaApple extends PowerUp {
     @Override
     public void handle() {
         this.snake.addLength(5);
-        this.snake.addScore(10);
+        board.getScore().increment(30);
     }
 }

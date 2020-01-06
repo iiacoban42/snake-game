@@ -30,6 +30,7 @@ public class MoreApples extends PowerUp {
     public void handle() {
         this.snake.addScore(20);
         board.addApples(3);
+        board.getScore().increment(10);
     }
 
 }

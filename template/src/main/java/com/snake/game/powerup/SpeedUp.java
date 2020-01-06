@@ -33,10 +33,10 @@ public class SpeedUp extends PowerUp {
      */
     @Override
     public void handle() {
-        Timer<Runnable> gameUpdateTimer = new Timer<>(board::run, 30);
+        Timer<Runnable> gameUpdateTimer = new Timer<>(board::run, 60);
         board.setGameUpdateTimer(gameUpdateTimer);
         gameUpdateTimer.setActive(true);
-        this.snake.addScore(10);
+        board.getScore().increment(50);
 
         TimerTask task = new TimerTask() {
             @Override
@@ -48,6 +48,6 @@ public class SpeedUp extends PowerUp {
         };
 
         java.util.Timer timer = new java.util.Timer("Timer");
-        timer.schedule(task, 30000);
+        timer.schedule(task, 15000);
     }
 }

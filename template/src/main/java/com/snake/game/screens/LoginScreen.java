@@ -138,7 +138,7 @@ public class LoginScreen extends Screen {
                                 .setUsername(username)
                                 .setMaxScore(maxScore);
 
-                        sc.openScreen(ScreenController.ScreenName.gameScreen);
+                        sc.openScreen(ScreenController.ScreenName.startScreen);
                     }
                 }
             }
