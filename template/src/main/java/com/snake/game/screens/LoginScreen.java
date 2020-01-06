@@ -90,7 +90,7 @@ public class LoginScreen extends Screen {
 
         stage.setKeyboardFocus(usernameTextField);
 
-
+        super.position(usernameTextField, passwordTextField, registerButton, loginButton, logo);
         updatePosition();
         addListeners();
     }
@@ -99,12 +99,6 @@ public class LoginScreen extends Screen {
 
         int pivotX = 400;
         int pivotY = 280;
-        usernameTextField.setPosition(pivotX, pivotY);
-        passwordTextField.setPosition(pivotX, pivotY - 45);
-
-        logo.setPosition(pivotX - 325, pivotY - 180);
-        loginButton.setPosition(pivotX, pivotY - 90);
-        registerButton.setPosition(pivotX + 90, pivotY - 90);
         playButton.setPosition(pivotX + 45, pivotY - 150);
     }
 

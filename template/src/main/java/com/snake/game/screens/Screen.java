@@ -5,6 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 /**
  * An abstract screen class.
@@ -97,5 +100,17 @@ public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationList
     @Override
     public void hide() {
 
+    }
+
+    void position(TextField user, TextField password, TextButton left,
+                  TextButton right, Image logo) {
+
+        int pivotX = 400;
+        int pivotY = 280;
+        user.setPosition(pivotX, pivotY);
+        password.setPosition(pivotX, pivotY - 45);
+        logo.setPosition(pivotX - 325, pivotY - 180);
+        right.setPosition(pivotX, pivotY - 90);
+        left.setPosition(pivotX + 90, pivotY - 90);
     }
 }

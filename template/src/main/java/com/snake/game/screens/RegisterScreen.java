@@ -82,19 +82,8 @@ public class RegisterScreen extends Screen {
         stage.setKeyboardFocus(usernameTextField);
 
 
-        updatePosition();
+        super.position(usernameTextField, passwordTextField, registerButton, backButton, logo);
         addListeners();
-    }
-
-    void updatePosition() {
-
-        int pivotX = 400;
-        int pivotY = 280;
-        usernameTextField.setPosition(pivotX, pivotY);
-        passwordTextField.setPosition(pivotX, pivotY - 45);
-        logo.setPosition(pivotX - 325, pivotY - 180);
-        backButton.setPosition(pivotX, pivotY - 90);
-        registerButton.setPosition(pivotX + 90, pivotY - 90);
     }
 
     void addListeners() {
