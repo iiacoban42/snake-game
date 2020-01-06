@@ -46,6 +46,7 @@ public class ScreenController extends Game {
         screens.put(ScreenName.gameScreen, new GameScreen(this));
         screens.put(ScreenName.gameOverScreen, new GameOverScreen(this));
 
+
         openScreen(ScreenName.loginScreen);
     }
 

@@ -138,7 +138,7 @@ public class LoginScreen extends Screen {
         registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.loginScreen);
+                sc.openScreen(ScreenController.ScreenName.registerScreen);
 
             }
         });
@@ -192,21 +192,6 @@ public class LoginScreen extends Screen {
     @Override
     public void render() {
 
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(.7f, .7f, .7f, 1);
-        shapeRenderer.rect(0, 0, 640, 50);
-        shapeRenderer.rect(0, 380, 640, 200);
-        shapeRenderer.end();
-
-        stage.draw();
     }
 
 }

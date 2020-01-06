@@ -1,6 +1,9 @@
 package com.snake.game.screens;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
@@ -56,5 +59,20 @@ public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationList
         final int maxLength = 32;
         return text.length() >= minLength
                 && text.length() < maxLength;
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(.42f, .82f, .32f, 1);
+        shapeRenderer.rect(0, 0, 640, 50);
+        shapeRenderer.rect(0, 380, 640, 200);
+        shapeRenderer.end();
+
+        stage.draw();
     }
 }

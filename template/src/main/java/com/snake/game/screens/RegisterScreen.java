@@ -26,6 +26,7 @@ public class RegisterScreen extends Screen {
     private final transient TextField usernameTextField;
     private final transient TextField passwordTextField;
     private final transient TextButton registerButton;
+    private final transient TextButton backButton;
 
     private final transient Group group;
 
@@ -60,10 +61,14 @@ public class RegisterScreen extends Screen {
         registerButton = new TextButton("Register", skin);
         registerButton.setSize(80, 35);
 
+        backButton = new TextButton("Back", skin);
+        backButton.setSize(80, 35);
+
         group = new Group();
         group.addActor(usernameTextField);
         group.addActor(passwordTextField);
         group.addActor(registerButton);
+        group.addActor(backButton);
         stage.addActor(group);
 
         stage.setKeyboardFocus(usernameTextField);
@@ -79,7 +84,8 @@ public class RegisterScreen extends Screen {
         int pivotY = 280;
         usernameTextField.setPosition(pivotX, pivotY);
         passwordTextField.setPosition(pivotX, pivotY - 45);
-        registerButton.setPosition(pivotX, pivotY - 90);
+        backButton.setPosition(pivotX, pivotY - 90);
+        registerButton.setPosition(pivotX + 90, pivotY - 90);
     }
 
     void addListeners() {
@@ -100,6 +106,13 @@ public class RegisterScreen extends Screen {
                         sc.openScreen(ScreenController.ScreenName.gameScreen);
                     }
                 }
+            }
+        });
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.loginScreen);
             }
         });
     }
@@ -141,20 +154,6 @@ public class RegisterScreen extends Screen {
 
     }
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(.7f, .7f, .7f, 1);
-        shapeRenderer.rect(0, 0, 640, 50);
-        shapeRenderer.rect(0, 380, 640, 200);
-        shapeRenderer.end();
-
-        stage.draw();
-    }
 
     @Override
     public void resize(int width, int height) {
