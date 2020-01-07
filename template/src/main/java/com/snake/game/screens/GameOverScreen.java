@@ -46,7 +46,7 @@ public class GameOverScreen extends Screen {
 
         Label.LabelStyle endgameLabelStyle = new Label.LabelStyle();
         endgameLabelStyle.font = new BitmapFont();
-        endgameLabelStyle.fontColor = Color.BLACK;
+        endgameLabelStyle.fontColor = Color.RED;
 
         endgameLabel = new Label("", endgameLabelStyle);
         endgameLabel.setPosition(300, 330);
@@ -89,7 +89,7 @@ public class GameOverScreen extends Screen {
         // Finalize renderer
         renderer.end();
 
-        endgameLabel.setText("Game is done, press r to restart");
+        endgameLabel.setText("Game Over \n Press R to restart");
 
         // Draw overlaying Actors of stage
         stage.draw();

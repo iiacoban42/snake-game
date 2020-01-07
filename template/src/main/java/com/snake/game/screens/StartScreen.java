@@ -23,6 +23,9 @@ public class StartScreen extends Screen {
     private final transient BitmapFont font;
 
     private final transient TextButton playButton;
+    private final transient TextButton quitButton;
+    private final transient TextButton settingsButton;
+
     private final transient Image logo;
 
     private final transient Group group;
@@ -51,11 +54,16 @@ public class StartScreen extends Screen {
 
         playButton = new TextButton("Start", skin);
         playButton.setSize(80, 35);
-
+        settingsButton = new TextButton("Settings", skin);
+        settingsButton.setSize(80, 35);
+        quitButton = new TextButton("Quit", skin);
+        quitButton.setSize(80, 35);
 
         group = new Group();
         group.addActor(logo);
         group.addActor(playButton);
+        group.addActor(settingsButton);
+        group.addActor(quitButton);
         stage.addActor(group);
 
         updatePosition();
@@ -64,11 +72,13 @@ public class StartScreen extends Screen {
 
     void updatePosition() {
 
-        int pivotX = 200;
+        int pivotX = 400;
         int pivotY = 280;
 
-        logo.setPosition(pivotX, pivotY - 150);
-        playButton.setPosition(pivotX + 90, pivotY - 200);
+        logo.setPosition(pivotX - 325, pivotY - 180);
+        playButton.setPosition(pivotX + 50, pivotY - 10);
+        settingsButton.setPosition(pivotX + 50, pivotY - 60);
+        quitButton.setPosition(pivotX + 50, pivotY - 110);
     }
 
     void addListeners() {
