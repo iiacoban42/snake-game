@@ -179,6 +179,8 @@ public class BoardTest {
     void snakeEatsExtraApple() {
 
         Board board = new Board(null);
+        Apple apple = new Apple(4, 3);
+        board.setApple(apple);
 
         board.addApples(1);
         ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());
@@ -194,6 +196,8 @@ public class BoardTest {
     void snakeDoesntEatExtraApple() {
 
         Board board = new Board(null);
+        Apple apple = new Apple(4, 3);
+        board.setApple(apple);
 
         board.addApples(1);
         ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());

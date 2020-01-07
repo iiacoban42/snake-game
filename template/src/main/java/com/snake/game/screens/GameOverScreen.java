@@ -31,6 +31,7 @@ public class GameOverScreen extends Screen {
 
     /**
      * Create Game screen.
+     *
      * @param sc Screen Controller
      */
     public GameOverScreen(ScreenController sc) {
@@ -81,14 +82,14 @@ public class GameOverScreen extends Screen {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Draw background design props
-        renderer.setColor(.7f, .7f, .7f, 1);
+        renderer.setColor(.42f, .82f, .32f, 1);
         renderer.rect(0, 380, 640, 200);
 
 
         // Finalize renderer
         renderer.end();
 
-        endgameLabel.setText("Game is done, press r to restart");
+        endgameLabel.setText("Game Over \n Press R to restart");
 
         // Draw overlaying Actors of stage
         stage.draw();

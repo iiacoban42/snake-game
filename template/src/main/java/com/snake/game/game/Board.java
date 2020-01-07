@@ -220,13 +220,14 @@ public class Board {
         if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
             snake.addLength(3);
             apple = Apple.spawnApplePersistent(this);
-            score.increment();
+            score.increment(10);
         }
 
         if (!moreApples.isEmpty()) {
             for (int i = 0; i < moreApples.size(); i++) {
                 if (snake.collides(moreApples.get(i).getXcoord(), moreApples.get(i).getYcoord())) {
                     snake.addLength(3);
+                    score.increment(10);
                     moreApples.remove(moreApples.get(i));
                 }
             }
