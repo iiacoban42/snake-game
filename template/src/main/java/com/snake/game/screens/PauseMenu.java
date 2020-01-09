@@ -24,6 +24,7 @@ public class PauseMenu extends Screen {
     private final transient TextButton resumeButton;
     private final transient TextButton quitButton;
     private final transient TextButton restartButton;
+    private final transient TextButton exitButton;
     private transient Game game;
     private State state;
 
@@ -61,12 +62,15 @@ public class PauseMenu extends Screen {
         restartButton.setSize(80, 35);
         quitButton = new TextButton("Quit", skin);
         quitButton.setSize(80, 35);
+        exitButton = new TextButton("Exit", skin);
+        exitButton.setSize(80, 35);
 
         group = new Group();
         group.addActor(scoreLabel);
         group.addActor(resumeButton);
         group.addActor(restartButton);
         group.addActor(quitButton);
+        group.addActor(exitButton);
         stage.addActor(group);
 
         updatePosition();
@@ -89,6 +93,8 @@ public class PauseMenu extends Screen {
         resumeButton.setPosition(pivotX + 50, pivotY - 10);
         restartButton.setPosition(pivotX + 50, pivotY - 60);
         quitButton.setPosition(pivotX + 50, pivotY - 110);
+        exitButton.setPosition(pivotX + 50, pivotY - 160);
+
     }
 
     void addListeners() {
@@ -106,6 +112,15 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
+                state = new FinishedGame(game);
+                state.enterState();
+            }
+        });
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.loginScreen);
                 state = new FinishedGame(game);
                 state.enterState();
             }
