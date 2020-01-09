@@ -11,6 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.snake.game.game.Game;
+import com.snake.game.states.ActiveGame;
+import com.snake.game.states.FinishedGame;
+import com.snake.game.states.State;
 
 public class PauseMenu extends Screen {
 
@@ -20,6 +24,8 @@ public class PauseMenu extends Screen {
     private final transient TextButton resumeButton;
     private final transient TextButton quitButton;
     private final transient TextButton restartButton;
+    private transient Game game;
+    private State state;
 
     private final transient Group group;
 
@@ -36,9 +42,7 @@ public class PauseMenu extends Screen {
         batch = new SpriteBatch();
         font = new BitmapFont();
         stage = new Stage();
-
-        FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
-        Skin skin = new Skin(fileHandle);
+        game = new Game(sc);
 
         Label.LabelStyle scoreLabelStyle = new Label.LabelStyle();
         scoreLabelStyle.font = new BitmapFont();
@@ -49,7 +53,8 @@ public class PauseMenu extends Screen {
         scoreLabel.setFontScale(1.3f);
         scoreLabel.setText("Score: ");
 
-
+        FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
+        Skin skin = new Skin(fileHandle);
         resumeButton = new TextButton("Resume", skin);
         resumeButton.setSize(80, 35);
         restartButton = new TextButton("Restart", skin);
@@ -68,6 +73,14 @@ public class PauseMenu extends Screen {
         addListeners();
     }
 
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
     void updatePosition() {
 
         int pivotX = 250;
@@ -84,6 +97,8 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
+                state = new ActiveGame(game);
+                state.enterState();
             }
         });
 
@@ -91,13 +106,16 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
+                state = new FinishedGame(game);
+                state.enterState();
             }
         });
 
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                game = new Game(sc);
+                sc.openScreen(ScreenController.ScreenName.gameScreen);
             }
         });
 

@@ -13,6 +13,9 @@ import com.snake.game.game.Game;
 import com.snake.game.game.ScoreLabel;
 import com.snake.game.game.Snake;
 import com.snake.game.game.User;
+import com.snake.game.states.FinishedGame;
+import com.snake.game.states.PausedGame;
+import com.snake.game.states.State;
 
 /**
  * The screen on which the playing board predominately takes place.
@@ -107,7 +110,14 @@ public class GameScreen extends Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             sc.openScreen(ScreenController.ScreenName.pauseMenu);
+            State state = new PausedGame(game);
+            state.enterState();
         }
+
+        if (game.getState() instanceof FinishedGame) {
+            sc.openScreen(ScreenController.ScreenName.gameOverScreen);
+        }
+
 
         game.updateBoardTimer();
 

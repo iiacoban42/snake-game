@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.snake.game.game.Board;
 import com.snake.game.game.Game;
+import com.snake.game.states.ActiveGame;
+import com.snake.game.states.State;
 
 /**
  * The limbo screen when the player has lost the game.
@@ -71,6 +73,7 @@ public class GameOverScreen extends Screen {
         // Handlers that rely on per-frame firing
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+            game.changeState(new ActiveGame(game));
             sc.openScreen(ScreenController.ScreenName.gameScreen);
         }
 
