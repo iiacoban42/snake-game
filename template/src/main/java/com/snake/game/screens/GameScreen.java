@@ -23,6 +23,7 @@ public class GameScreen extends Screen {
     final ShapeRenderer renderer;
     final transient ScoreLabel scoreLabel;
     final transient Label usernameLabel;
+    final transient Label pauseLabel;
     final transient String usernameLabelFormat = "Welcome %s";
     private transient Game game;
 
@@ -57,6 +58,11 @@ public class GameScreen extends Screen {
         usernameLabel = new Label("", usernameLabelStyle);
         usernameLabel.setPosition(400, 330);
         usernameLabel.setFontScale(1.3f);
+
+        pauseLabel = new Label("Press Esc pause", usernameLabelStyle);
+        pauseLabel.setPosition(400, 200);
+
+        stage.addActor(pauseLabel);
         stage.addActor(usernameLabel);
         game.setBoard(board);
     }
@@ -99,6 +105,9 @@ public class GameScreen extends Screen {
             board.updateDirection(Snake.Direction.SPACE);
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            sc.openScreen(ScreenController.ScreenName.pauseMenu);
+        }
 
         game.updateBoardTimer();
 

@@ -16,9 +16,9 @@ import com.snake.game.game.Game;
  */
 public class GameOverScreen extends Screen {
 
-    final Board board;
-    final ShapeRenderer renderer;
-    final transient Label endgameLabel;
+    private final Board board;
+    private final ShapeRenderer renderer;
+    private final transient Label endgameLabel;
     private transient Game game;
 
     public Board getBoard() {
