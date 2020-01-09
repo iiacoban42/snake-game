@@ -56,7 +56,7 @@ public class StartScreen extends Screen {
         playButton.setSize(80, 35);
         settingsButton = new TextButton("Settings", skin);
         settingsButton.setSize(80, 35);
-        quitButton = new TextButton("Quit", skin);
+        quitButton = new TextButton("Exit", skin);
         quitButton.setSize(80, 35);
 
         group = new Group();
@@ -86,6 +86,14 @@ public class StartScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
+
+            }
+        });
+
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.loginScreen);
 
             }
         });
