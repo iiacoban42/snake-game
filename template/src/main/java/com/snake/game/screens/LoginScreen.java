@@ -2,13 +2,14 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -31,6 +32,7 @@ public class LoginScreen extends Screen {
     private final transient TextButton loginButton;
     private final transient TextButton registerButton;
     private final transient TextButton playButton;
+    private final transient Image logo;
 
     private final transient Group group;
 
@@ -50,6 +52,10 @@ public class LoginScreen extends Screen {
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         Skin skin = new Skin(fileHandle);
+
+        Texture logoIcon = new Texture(Gdx.files.internal("logo.png"));
+        TextureRegion textureRegion = new TextureRegion(logoIcon, 256, 256);
+        logo = new Image(textureRegion);
 
         usernameTextField = new TextField("", skin);
         usernameTextField.setMessageText("Username");
@@ -74,6 +80,7 @@ public class LoginScreen extends Screen {
 
 
         group = new Group();
+        group.addActor(logo);
         group.addActor(usernameTextField);
         group.addActor(passwordTextField);
         group.addActor(loginButton);
@@ -83,7 +90,7 @@ public class LoginScreen extends Screen {
 
         stage.setKeyboardFocus(usernameTextField);
 
-
+        super.position(usernameTextField, passwordTextField, registerButton, loginButton, logo);
         updatePosition();
         addListeners();
     }
@@ -92,11 +99,6 @@ public class LoginScreen extends Screen {
 
         int pivotX = 400;
         int pivotY = 280;
-        usernameTextField.setPosition(pivotX, pivotY);
-        passwordTextField.setPosition(pivotX, pivotY - 45);
-
-        loginButton.setPosition(pivotX, pivotY - 90);
-        registerButton.setPosition(pivotX + 90, pivotY - 90);
         playButton.setPosition(pivotX + 45, pivotY - 150);
     }
 
@@ -130,7 +132,7 @@ public class LoginScreen extends Screen {
                                 .setUsername(username)
                                 .setMaxScore(maxScore);
 
-                        sc.openScreen(ScreenController.ScreenName.gameScreen);
+                        sc.openScreen(ScreenController.ScreenName.startScreen);
                     }
                 }
             }
@@ -138,7 +140,7 @@ public class LoginScreen extends Screen {
         registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.loginScreen);
+                sc.openScreen(ScreenController.ScreenName.registerScreen);
 
             }
         });
@@ -146,15 +148,10 @@ public class LoginScreen extends Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.gameScreen);
+                sc.openScreen(ScreenController.ScreenName.startScreen);
 
             }
         });
-    }
-
-    @Override
-    public void show() {
-
     }
 
     @Override
@@ -163,20 +160,6 @@ public class LoginScreen extends Screen {
         updatePosition();
     }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
 
     @Override
     public void dispose() {
@@ -192,21 +175,6 @@ public class LoginScreen extends Screen {
     @Override
     public void render() {
 
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(.7f, .7f, .7f, 1);
-        shapeRenderer.rect(0, 0, 640, 50);
-        shapeRenderer.rect(0, 380, 640, 200);
-        shapeRenderer.end();
-
-        stage.draw();
     }
 
 }
