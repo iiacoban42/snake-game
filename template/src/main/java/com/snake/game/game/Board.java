@@ -3,6 +3,7 @@ package com.snake.game.game;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.powerup.PowerUp;
 import com.snake.game.powerup.PowerUpFactory;
+import com.snake.game.powerup.PowerUps;
 
 import java.util.ArrayList;
 
@@ -12,19 +13,19 @@ import java.util.ArrayList;
  */
 public class Board {
 
-    boolean portalWalls = false;
-    final int dx = 50;
-    final int dy = 100;
-    final int width = 320;
-    final int height = 320;
-    final int gridWidth = 20;
-    final int gridHeight = 20;
+    private static boolean PORTAL_WALLS = false;
+    private static final int DX = 50;
+    private static final int DY = 100;
+    private static final int WIDTH = 320;
+    private static final int HEIGHT = 320;
+    private static final int GRID_WIDTH = 20;
+    private static final int GRID_HEIGHT = 20;
 
-    final int tile = 16;
+    private static final int TILE = 16;
 
     final int powerUpNumber = 5;
 
-    final ShapeRenderer rend;
+    private final ShapeRenderer rend;
     public Timer<Runnable> gameUpdateTimer;
 
 
@@ -115,7 +116,7 @@ public class Board {
      * @return boolean
      */
     public boolean isPortalWalls() {
-        return portalWalls;
+        return PORTAL_WALLS;
     }
 
     public Timer<Runnable> getGameUpdateTimer() {
@@ -140,31 +141,31 @@ public class Board {
     }
 
     public int getDx() {
-        return dx;
+        return DX;
     }
 
     public int getDy() {
-        return dy;
+        return DY;
     }
 
     public int getWidth() {
-        return width;
+        return WIDTH;
     }
 
     public int getHeight() {
-        return height;
+        return HEIGHT;
     }
 
     public int getGridWidth() {
-        return gridWidth;
+        return GRID_WIDTH;
     }
 
     public int getGridHeight() {
-        return gridHeight;
+        return GRID_HEIGHT;
     }
 
     public int getTile() {
-        return tile;
+        return TILE;
     }
 
     public ShapeRenderer getRend() {
@@ -172,11 +173,7 @@ public class Board {
     }
 
     public void setPortalWalls(boolean portalWalls) {
-        this.portalWalls = portalWalls;
-    }
-
-    public int getPowerUpNumber() {
-        return powerUpNumber;
+        this.PORTAL_WALLS = portalWalls;
     }
 
     public PowerUp getPowerUp() {
@@ -210,7 +207,10 @@ public class Board {
     //there must be at least one apple in the list we must not remove (line 229)
     public void run() {
 
-        updatePowerUp((float) Math.random(), (int) ((float) Math.random() * powerUpNumber + 1));
+        updatePowerUp(
+                (float) Math.random(),
+                PowerUps.values()[(int) ((float) Math.random() * PowerUps.values().length)]
+        );
 
         if (snake.move()) {
             snake.killSnake();
@@ -247,11 +247,11 @@ public class Board {
     /**
      * Method to update current powerUp. Chooses what powerUp to use (if any).
      */
-    public void updatePowerUp(float random, int number) {
+    public void updatePowerUp(float random, PowerUps powerUp) {
 
         if (random > 0 && random <= 0.01 && !isUp) {
             isUp = true;
-            this.powerUp = powerUpFactory.getPowerUp(number);
+            this.powerUp = powerUpFactory.getPowerUp(powerUp);
         }
     }
 
@@ -273,10 +273,10 @@ public class Board {
         final float backgroundGrayScale = .85f;
         //final float snakeGrayScale = .85f;
         rend.setColor(backgroundGrayScale, backgroundGrayScale, backgroundGrayScale, 1);
-        rend.rect(dx, dy, width, height);
+        rend.rect(DX, DY, WIDTH, HEIGHT);
         rend.set(ShapeRenderer.ShapeType.Line);
         rend.setColor(.0f, .0f, .0f, 1);
-        rend.rect(dx, dy, width, height);
+        rend.rect(DX, DY, WIDTH, HEIGHT);
 
         rend.set(ShapeRenderer.ShapeType.Filled);
         rend.setColor(.0f, .0f, .0f, 1);

@@ -11,8 +11,10 @@ import java.util.TimerTask;
  */
 public class StopGrow extends PowerUp {
 
-    public StopGrow(Board board, Snake snake) {
-        super(board, snake);
+    private static final int SCORE = 20;
+
+    public StopGrow(Board board, Snake snake, float randomX, float randomY) {
+        super(board, snake, randomX, randomY);
     }
 
     @Override
@@ -29,9 +31,7 @@ public class StopGrow extends PowerUp {
      */
     @Override
     public void handle() {
-
-        board.setStopGrowFlag(true);
-        this.snake.addScore(20);
+        this.board.getScore().increment(SCORE);
 
         TimerTask task = new TimerTask() {
             @Override

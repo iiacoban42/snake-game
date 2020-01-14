@@ -9,8 +9,11 @@ import com.snake.game.game.Snake;
  */
 public class MegaApple extends PowerUp {
 
-    public MegaApple(Board board, Snake snake) {
-        super(board, snake);
+    private static final int LENGTH_INCREASE = 5;
+    private static final int SCORE = 30;
+
+    public MegaApple(Board board, Snake snake, float randomX, float randomY) {
+        super(board, snake, randomX, randomY);
     }
 
     /**
@@ -31,7 +34,7 @@ public class MegaApple extends PowerUp {
      */
     @Override
     public void handle() {
-        this.snake.addLength(5);
-        board.getScore().increment(30);
+        this.snake.addLength(LENGTH_INCREASE);
+        board.getScore().increment(SCORE);
     }
 }

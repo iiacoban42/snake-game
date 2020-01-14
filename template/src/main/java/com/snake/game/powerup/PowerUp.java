@@ -5,29 +5,28 @@ import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
 
 /**
- * Abstract class.
+ * Abstract class to support any type of power up.
  */
 public abstract class PowerUp {
 
-    public Board board;
-    public Snake snake;
-    public int xcoord;
-    public int ycoord;
+    protected Board board;
+    protected Snake snake;
+    protected int xcoord;
+    protected int ycoord;
 
     /**
      * Constructor.
      *
      * @param board board
      * @param snake snake
+     * @param randomX random for x-coordinate
+     * @param randomY random for y-coordinate
      */
-    public PowerUp(Board board, Snake snake) {
+    public PowerUp(Board board, Snake snake, float randomX, float randomY) {
         this.board = board;
         this.snake = snake;
-        //do {
-        xcoord = (int) (board.getGridWidth() * Math.random());
-        ycoord = (int) (board.getGridHeight() * Math.random());
-        //} while (!snake.collides(xcoord, ycoord));
-
+        xcoord = (int) (randomX * board.getGridWidth());
+        ycoord = (int) (randomY * board.getGridHeight());
     }
 
     /**

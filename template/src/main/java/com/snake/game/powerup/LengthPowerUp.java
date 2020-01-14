@@ -9,8 +9,12 @@ import com.snake.game.game.Snake;
  */
 public class LengthPowerUp extends PowerUp {
 
-    public LengthPowerUp(Board board, Snake snake) {
-        super(board, snake);
+    private static final int MIN_LENGTH = 4;
+    private static final int SIZE_DECREASE = 3;
+    private static final int SCORE = 10;
+
+    public LengthPowerUp(Board board, Snake snake, float randomX, float randomY) {
+        super(board, snake, randomX, randomY);
     }
 
     /**
@@ -30,11 +34,10 @@ public class LengthPowerUp extends PowerUp {
      */
     @Override
     public void handle() {
-        int length = 4;
-        if (snake.getLength() > length) {
-            this.snake.addLength(-3);
+        if (snake.getLength() > MIN_LENGTH) {
+            this.snake.addLength(-SIZE_DECREASE);
         }
 
-        board.getScore().increment(10);
+        board.getScore().increment(SCORE);
     }
 }

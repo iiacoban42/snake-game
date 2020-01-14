@@ -27,37 +27,25 @@ public class PowerUpFactoryTest {
 
     @Test
     public void speedUpTest() {
-        PowerUp powerUp = powerUpFactory.getPowerUp(1);
+        PowerUp powerUp = powerUpFactory.getPowerUp(PowerUps.SPEED_UP);
         assertTrue(powerUp instanceof SpeedUp);
     }
 
     @Test
     public void megaAppleTest() {
-        PowerUp powerUp = powerUpFactory.getPowerUp(2);
+        PowerUp powerUp = powerUpFactory.getPowerUp(PowerUps.MEGA_APPLE);
         assertTrue(powerUp instanceof MegaApple);
     }
 
     @Test
     public void lengthPowerUpTest() {
-        PowerUp powerUp = powerUpFactory.getPowerUp(3);
+        PowerUp powerUp = powerUpFactory.getPowerUp(PowerUps.LENGTH);
         assertTrue(powerUp instanceof LengthPowerUp);
     }
 
     @Test
     public void moreApplesTest() {
-        PowerUp powerUp = powerUpFactory.getPowerUp(4);
+        PowerUp powerUp = powerUpFactory.getPowerUp(PowerUps.MORE_APPLES);
         assertTrue(powerUp instanceof MoreApples);
-    }
-
-    @Test
-    public void stopGrowTest() {
-        PowerUp powerUp = powerUpFactory.getPowerUp(5);
-        assertTrue(powerUp instanceof StopGrow);
-    }
-
-    @Test
-    public void defaultTest() {
-        PowerUp powerUp = powerUpFactory.getPowerUp(100);
-        assertTrue(powerUp instanceof MegaApple);
     }
 }

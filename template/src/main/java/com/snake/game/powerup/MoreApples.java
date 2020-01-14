@@ -10,8 +10,12 @@ import java.util.TimerTask;
  * A power-up which spawns in a bunch of apples.
  */
 public class MoreApples extends PowerUp {
-    public MoreApples(Board board, Snake snake) {
-        super(board, snake);
+
+    private static final int SCORE = 10;
+    private static final int APPLES_TO_ADD = 3;
+
+    public MoreApples(Board board, Snake snake, float randomX, float randomY) {
+        super(board, snake, randomX, randomY);
     }
 
     @Override
@@ -28,9 +32,8 @@ public class MoreApples extends PowerUp {
      */
     @Override
     public void handle() {
-        this.snake.addScore(20);
-        board.addApples(3);
-        board.getScore().increment(10);
+        board.addApples(APPLES_TO_ADD);
+        board.getScore().increment(SCORE);
     }
 
 }

@@ -25,25 +25,26 @@ public class PowerUpFactory {
 
     /**
      * Method to get powerUp based on a number.
-     * @param number number
+     * @param powerUp the power up.
      * @return specific powerUp.
      */
-    public PowerUp getPowerUp(int number) {
-        switch (number) {
-            case 1:
-                returned = new SpeedUp(board, snake);
+    public PowerUp getPowerUp(PowerUps powerUp) {
+        switch (powerUp) {
+            case SPEED_UP:
+                returned = new SpeedUp(board, snake,
+                        (float) Math.random(), (float) Math.random());
                 break;
-            case 2:
-                returned = new MegaApple(board, snake);
+            case MEGA_APPLE:
+                returned = new MegaApple(board, snake,
+                        (float) Math.random(), (float) Math.random());
                 break;
-            case 3:
-                returned = new LengthPowerUp(board, snake);
+            case LENGTH:
+                returned = new LengthPowerUp(board, snake,
+                        (float) Math.random(), (float) Math.random());
                 break;
-            case 4:
-                returned = new MoreApples(board, snake);
-                break;
-            case 5:
-                returned = new StopGrow(board, snake);
+            case MORE_APPLES:
+                returned = new MoreApples(board, snake,
+                        (float) Math.random(), (float) Math.random());
                 break;
             default:
                 break;
