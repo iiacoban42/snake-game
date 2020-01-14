@@ -20,8 +20,7 @@ public class PowerUpFactory {
     public PowerUpFactory(Board board, Snake snake) {
         this.board = board;
         this.snake = snake;
-        this.returned = new MegaApple(board, snake,
-                (float) Math.random(), (float) Math.random());
+        this.returned = new MegaApple(board, snake);
     }
 
     /**
@@ -32,20 +31,19 @@ public class PowerUpFactory {
     public PowerUp getPowerUp(int number) {
         switch (number) {
             case 1:
-                returned = new SpeedUp(board, snake,
-                        (float) Math.random(), (float) Math.random());
+                returned = new SpeedUp(board, snake);
                 break;
             case 2:
-                returned = new MegaApple(board, snake,
-                        (float) Math.random(), (float) Math.random());
+                returned = new MegaApple(board, snake);
                 break;
             case 3:
-                returned = new LengthPowerUp(board, snake,
-                        (float) Math.random(), (float) Math.random());
+                returned = new LengthPowerUp(board, snake);
                 break;
             case 4:
-                returned = new MoreApples(board, snake,
-                        (float) Math.random(), (float) Math.random());
+                returned = new MoreApples(board, snake);
+                break;
+            case 5:
+                returned = new StopGrow(board, snake);
                 break;
             default:
                 break;

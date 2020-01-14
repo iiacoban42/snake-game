@@ -3,7 +3,6 @@ package com.snake.game.powerup;
 import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
-import com.snake.game.game.Timer;
 
 import java.util.TimerTask;
 
@@ -12,13 +11,13 @@ import java.util.TimerTask;
  */
 public class StopGrow extends PowerUp {
 
-    public StopGrow(Board board, Snake snake, float random, float randomy) {
-        super(board, snake, random, randomy);
+    public StopGrow(Board board, Snake snake) {
+        super(board, snake);
     }
 
     @Override
     public void draw() {
-        board.getRend().setColor(Color.BLACK);
+        board.getRend().setColor(Color.ORANGE);
         board.getRend().circle(
                 board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
                 board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
@@ -30,18 +29,20 @@ public class StopGrow extends PowerUp {
      */
     @Override
     public void handle() {
+
+        board.setStopGrowFlag(true);
         this.snake.addScore(20);
 
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-
-
+                board.setStopGrowFlag(false);
             }
         };
 
         java.util.Timer timer = new java.util.Timer("Timer");
         timer.schedule(task, 30000);
+
     }
 
 

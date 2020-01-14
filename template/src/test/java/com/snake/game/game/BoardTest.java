@@ -90,19 +90,6 @@ public class BoardTest {
 
     }
 
-    @Test
-    void testRunSnakeApple() {
-
-        Board board = new Board(null);
-
-        board.getApple().setXcoord(5);
-        board.getApple().setYcoord(0);
-
-        board.run();
-
-        assertEquals(board.getSnake().getLength(), 8);
-
-    }
 
     @Test
     void updatePowerUpWrongRandomTest() {
@@ -143,9 +130,8 @@ public class BoardTest {
         Board board = new Board(shapeRenderer);
         board.setIsUp(true);
         board.addApples(3);
-        ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());
-        assertEquals(apples.size(), 3);
-        assertEquals(board.getExtraApples(), 3);
+        ArrayList<Apple> apples = new ArrayList<>(board.getApples());
+        assertEquals(apples.size(), 4);
     }
 
     @Test
@@ -154,9 +140,8 @@ public class BoardTest {
         Board board = new Board(shapeRenderer);
         board.setIsUp(true);
         board.addApples(0);
-        ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());
-        assertEquals(apples.isEmpty(), true);
-        assertEquals(board.getExtraApples(), 0);
+        ArrayList<Apple> apples = new ArrayList<>(board.getApples());
+        assertEquals(apples.size(), 1);
     }
 
 
@@ -179,13 +164,13 @@ public class BoardTest {
     void snakeEatsExtraApple() {
 
         Board board = new Board(null);
-        Apple apple = new Apple(4, 3);
-        board.setApple(apple);
 
         board.addApples(1);
-        ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());
-        apples.get(0).setXcoord(5);
-        apples.get(0).setYcoord(0);
+        ArrayList<Apple> apples = new ArrayList<>(board.getApples());
+        apples.get(0).setXcoord(4);
+        apples.get(0).setYcoord(2);
+        apples.get(1).setXcoord(5);
+        apples.get(1).setYcoord(0);
         board.run();
 
         assertEquals(board.getSnake().getLength(), 8);
@@ -196,13 +181,13 @@ public class BoardTest {
     void snakeDoesntEatExtraApple() {
 
         Board board = new Board(null);
-        Apple apple = new Apple(4, 3);
-        board.setApple(apple);
 
         board.addApples(1);
-        ArrayList<Apple> apples = new ArrayList<>(board.getMoreApples());
+        ArrayList<Apple> apples = new ArrayList<>(board.getApples());
         apples.get(0).setXcoord(5);
         apples.get(0).setYcoord(1);
+        apples.get(1).setXcoord(3);
+        apples.get(1).setYcoord(1);
         board.run();
 
         assertEquals(board.getSnake().getLength(), 5);

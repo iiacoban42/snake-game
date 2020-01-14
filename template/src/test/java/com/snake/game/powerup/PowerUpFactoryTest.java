@@ -24,6 +24,7 @@ public class PowerUpFactoryTest {
         powerUpFactory = new PowerUpFactory(board, snake);
     }
 
+
     @Test
     public void speedUpTest() {
         PowerUp powerUp = powerUpFactory.getPowerUp(1);
@@ -46,6 +47,12 @@ public class PowerUpFactoryTest {
     public void moreApplesTest() {
         PowerUp powerUp = powerUpFactory.getPowerUp(4);
         assertTrue(powerUp instanceof MoreApples);
+    }
+
+    @Test
+    public void stopGrowTest() {
+        PowerUp powerUp = powerUpFactory.getPowerUp(5);
+        assertTrue(powerUp instanceof StopGrow);
     }
 
     @Test

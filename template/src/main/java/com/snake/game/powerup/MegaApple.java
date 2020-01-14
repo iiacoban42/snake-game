@@ -9,8 +9,8 @@ import com.snake.game.game.Snake;
  */
 public class MegaApple extends PowerUp {
 
-    public MegaApple(Board board, Snake snake, float random, float randomy) {
-        super(board, snake, random, randomy);
+    public MegaApple(Board board, Snake snake) {
+        super(board, snake);
     }
 
     /**
