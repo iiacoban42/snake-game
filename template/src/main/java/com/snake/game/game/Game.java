@@ -52,6 +52,8 @@ public class Game {
     }
 
     public void gameover() {
+        sc.create();
         sc.openScreen(ScreenController.ScreenName.gameOverScreen);
+
     }
 }

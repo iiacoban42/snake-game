@@ -130,7 +130,11 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game = new Game(sc);
-                sc.openScreen(ScreenController.ScreenName.gameScreen);
+                state = new FinishedGame(game);
+                state.enterState();
+                state = new ActiveGame(game);
+                state.enterState();
+
             }
         });
 
