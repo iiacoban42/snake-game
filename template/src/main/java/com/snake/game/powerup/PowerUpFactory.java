@@ -20,8 +20,7 @@ public class PowerUpFactory {
     public PowerUpFactory(Board board, Snake snake) {
         this.board = board;
         this.snake = snake;
-        this.returned = new MegaApple(board, snake,
-                (float) Math.random(), (float) Math.random());
+        this.returned = new MegaApple(board, snake);
     }
 
     /**

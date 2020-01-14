@@ -24,6 +24,7 @@ public class PowerUpFactoryTest {
         powerUpFactory = new PowerUpFactory(board, snake);
     }
 
+
     @Test
     public void speedUpTest() {
         PowerUp powerUp = powerUpFactory.getPowerUp(PowerUps.SPEED_UP);

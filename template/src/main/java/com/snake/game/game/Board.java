@@ -23,18 +23,19 @@ public class Board {
 
     private static final int TILE = 16;
 
-    private int extraApples = 0;
+    final int powerUpNumber = 5;
 
     private final ShapeRenderer rend;
     public Timer<Runnable> gameUpdateTimer;
 
 
-    private Snake snake;
-    private Apple apple;
-    private ArrayList<Apple> moreApples;
-    private Score score;
+    Snake snake;
+    ArrayList<Apple> apples;
+    Score score;
 
-    private PowerUp powerUp;
+    private boolean stopGrowFlag;
+
+    PowerUp powerUp;
     private boolean isUp;
     private PowerUpFactory powerUpFactory;
 
@@ -47,8 +48,12 @@ public class Board {
         this.rend = rend;
 
         snake = new Snake(0, 0, 5);
-        apple = Apple.spawnApplePersistent(this);
-        moreApples = new ArrayList<>();
+
+        Apple apple = Apple.spawnApplePersistent(this);
+        apples = new ArrayList<>();
+        apples.add(apple);
+
+        stopGrowFlag = false;
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
@@ -68,8 +73,9 @@ public class Board {
         this.rend = rend;
         this.snake = snake;
 
-        apple = Apple.spawnApplePersistent(this);
-        moreApples = new ArrayList<>();
+        Apple apple = Apple.spawnApplePersistent(this);
+        apples = new ArrayList<>();
+        apples.add(apple);
         score = new Score();
 
         gameUpdateTimer = new Timer<>(this::run);
@@ -79,20 +85,13 @@ public class Board {
         powerUpFactory = new PowerUpFactory(this, this.snake);
     }
 
-    public int getExtraApples() {
-        return extraApples;
+
+    public ArrayList<Apple> getApples() {
+        return apples;
     }
 
-    public void setExtraApples(int extraApples) {
-        this.extraApples = extraApples;
-    }
-
-    public ArrayList<Apple> getMoreApples() {
-        return moreApples;
-    }
-
-    public void setMoreApples(ArrayList<Apple> moreApples) {
-        this.moreApples = moreApples;
+    public void setApples(ArrayList<Apple> apples) {
+        this.apples = apples;
     }
 
     public boolean isUpp() {
@@ -101,6 +100,14 @@ public class Board {
 
     public void setUp(boolean up) {
         isUp = up;
+    }
+
+    public boolean isStopGrowFlag() {
+        return stopGrowFlag;
+    }
+
+    public void setStopGrowFlag(boolean stopGrowFlag) {
+        this.stopGrowFlag = stopGrowFlag;
     }
 
     /**
@@ -124,13 +131,6 @@ public class Board {
         this.snake = snake;
     }
 
-    public Apple getApple() {
-        return apple;
-    }
-
-    public void setApple(Apple apple) {
-        this.apple = apple;
-    }
 
     public Score getScore() {
         return score;
@@ -203,6 +203,8 @@ public class Board {
     /**
      * Game update.
      */
+    @SuppressWarnings("PMD")
+    //there must be at least one apple in the list we must not remove (line 229)
     public void run() {
 
         updatePowerUp(
@@ -216,18 +218,22 @@ public class Board {
             return;
         }
 
-        if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
-            snake.addLength(3);
-            apple = Apple.spawnApplePersistent(this);
+        if (snake.collides(apples.get(0).getXcoord(), apples.get(0).getYcoord())) {
+            if (!stopGrowFlag) {
+                snake.addLength(3);
+            }
+            apples.set(0, Apple.spawnApplePersistent(this));
             score.increment(10);
         }
 
-        if (!moreApples.isEmpty()) {
-            for (int i = 0; i < moreApples.size(); i++) {
-                if (snake.collides(moreApples.get(i).getXcoord(), moreApples.get(i).getYcoord())) {
-                    snake.addLength(3);
+        if (apples.size() > 1) {
+            for (int i = 0; i < apples.size(); i++) {
+                if (snake.collides(apples.get(i).getXcoord(), apples.get(i).getYcoord())) {
+                    if (!stopGrowFlag) {
+                        snake.addLength(3);
+                    }
                     score.increment(10);
-                    moreApples.remove(moreApples.get(i));
+                    apples.remove(apples.get(i));
                 }
             }
         }
@@ -275,13 +281,12 @@ public class Board {
         rend.set(ShapeRenderer.ShapeType.Filled);
         rend.setColor(.0f, .0f, .0f, 1);
         snake.draw(this);
-        apple.draw(this);
         if (isUp) {
             powerUp.draw();
         }
 
-        if (extraApples > 0) {
-            for (Apple extraApple : moreApples) {
+        if (apples.size() > 0) {
+            for (Apple extraApple : apples) {
                 extraApple.draw(this);
             }
         }
@@ -294,9 +299,9 @@ public class Board {
      */
     public void addApples(int number) {
         for (int i = 0; i < number; i++) {
-            moreApples.add(Apple.spawnApplePersistent(this));
+            apples.add(Apple.spawnApplePersistent(this));
         }
-        extraApples = number;
+
     }
 
 
@@ -322,7 +327,7 @@ public class Board {
         if (direction == Snake.Direction.SPACE) {
             score.reset();
             snake.init(0, 0, 5);
-            apple = Apple.spawnApplePersistent(this);
+            apples.set(0, Apple.spawnApplePersistent(this));
             gameUpdateTimer.setActive(true);
         }
     }

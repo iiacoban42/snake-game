@@ -1,5 +1,6 @@
 package com.snake.game.powerup;
 
+import com.snake.game.game.Apple;
 import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
 
@@ -15,6 +16,7 @@ public abstract class PowerUp {
 
     /**
      * Constructor.
+     *
      * @param board board
      * @param snake snake
      * @param randomX random for x-coordinate

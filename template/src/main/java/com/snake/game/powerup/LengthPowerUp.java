@@ -23,6 +23,7 @@ public class LengthPowerUp extends PowerUp {
     @Override
     public void draw() {
         board.getRend().setColor(Color.PINK);
+
         board.getRend().circle(board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
                 board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
                 board.getTile());
