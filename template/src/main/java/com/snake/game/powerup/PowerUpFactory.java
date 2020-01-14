@@ -20,32 +20,37 @@ public class PowerUpFactory {
     public PowerUpFactory(Board board, Snake snake) {
         this.board = board;
         this.snake = snake;
-        this.returned = new MegaApple(board, snake,
-                (float) Math.random(), (float) Math.random());
     }
 
     /**
      * Method to get powerUp based on a number.
-     * @param number number
+     * @param powerUp the power up.
      * @return specific powerUp.
      */
-    public PowerUp getPowerUp(int number) {
-        switch (number) {
-            case 1:
-                returned = new SpeedUp(board, snake,
-                        (float) Math.random(), (float) Math.random());
+    public PowerUp getPowerUp(PowerUps powerUp) {
+        int xcoord, ycoord;
+        do {
+        xcoord = (int) (board.getGridWidth() * Math.random());
+        ycoord = (int) (board.getGridHeight() * Math.random());
+        } while (snake.collides(xcoord, ycoord));
+
+        returned = new MegaApple(board, snake, xcoord, ycoord);
+
+        switch (powerUp) {
+            case SPEED_UP:
+                returned = new SpeedUp(board, snake, xcoord, ycoord);
                 break;
-            case 2:
-                returned = new MegaApple(board, snake,
-                        (float) Math.random(), (float) Math.random());
+            case MEGA_APPLE:
+                returned = new MegaApple(board, snake, xcoord, ycoord);
                 break;
-            case 3:
-                returned = new LengthPowerUp(board, snake,
-                        (float) Math.random(), (float) Math.random());
+            case LENGTH:
+                returned = new LengthPowerUp(board, snake, xcoord, ycoord);
                 break;
-            case 4:
-                returned = new MoreApples(board, snake,
-                        (float) Math.random(), (float) Math.random());
+            case MORE_APPLES:
+                returned = new MoreApples(board, snake, xcoord, ycoord);
+                break;
+            case STOP_GROW:
+                returned = new StopGrow(board, snake, xcoord, ycoord);
                 break;
             default:
                 break;

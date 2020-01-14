@@ -14,7 +14,6 @@ public class Snake {
     private LinkedList<BodyPart> snakeBody;
     private int length;
     private DirectionQueue direction;
-    private int score;
 
     public LinkedList<BodyPart> getSnakeBody() {
         return snakeBody;
@@ -36,14 +35,6 @@ public class Snake {
         this.direction = direction;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
     /**
      * Constructor of snake.
      * @param x x
@@ -52,7 +43,6 @@ public class Snake {
      */
     public Snake(int x, int y, int length) {
         snakeBody = new LinkedList<>();
-        score = 0;
         init(x, y, length);
     }
 
@@ -143,10 +133,6 @@ public class Snake {
 
     public void addLength(int increment) {
         length += increment;
-    }
-
-    public void addScore(int inc) {
-        this.score += inc;
     }
 
     public class BodyPart {

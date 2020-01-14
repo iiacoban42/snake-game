@@ -47,12 +47,13 @@ public class ScreenController extends Game {
         screens.put(ScreenName.gameScreen, new GameScreen(this));
         screens.put(ScreenName.gameOverScreen, new GameOverScreen(this));
         screens.put(ScreenName.startScreen, new StartScreen(this));
+        screens.put(ScreenName.pauseMenu, new PauseMenu(this));
 
 
         openScreen(ScreenName.loginScreen);
     }
 
     public enum ScreenName {
-        loginScreen, registerScreen, startScreen, gameScreen, gameOverScreen
+        loginScreen, registerScreen, startScreen, gameScreen, gameOverScreen, pauseMenu
     }
 }

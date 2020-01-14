@@ -28,6 +28,7 @@ public class FinishedGame implements State {
      */
     @Override
     public void enterState() {
-        game.gameover();
+        game.changeState(this);
+
     }
 }

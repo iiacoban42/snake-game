@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
  */
 public class ScoreLabel {
 
-    private final transient Color fontColor = Color.DARK_GRAY;
-    private final transient String format = "Score: %d\nHighscore: %d";
-    private final transient int coordX = 400;
-    private final transient int coordY = 300;
+    private static final Color FONT_COLOR = Color.DARK_GRAY;
+    private static final String FORMAT = "Score: %d\nHighscore: %d";
+    private static final int COORD_X = 400;
+    private static final int COORD_Y = 300;
 
     private transient Stage stage;
     private transient Label label;
@@ -31,10 +31,10 @@ public class ScoreLabel {
 
         this.style = new Label.LabelStyle();
         this.style.font = new BitmapFont();
-        this.style.fontColor = this.fontColor;
+        this.style.fontColor = this.FONT_COLOR;
 
         this.label = new Label("", this.style);
-        this.label.setPosition(this.coordX, this.coordY);
+        this.label.setPosition(this.COORD_X, this.COORD_Y);
 
         this.stage.addActor(this.label);
     }
@@ -44,7 +44,7 @@ public class ScoreLabel {
      */
     public void draw() {
         this.label.setText(
-            String.format(this.format, this.score.get(), User.getInstance().getMaxScore())
+            String.format(this.FORMAT, this.score.get(), User.getInstance().getMaxScore())
         );
     }
 
