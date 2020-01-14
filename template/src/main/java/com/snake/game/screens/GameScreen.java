@@ -19,11 +19,11 @@ import com.snake.game.game.User;
  */
 public class GameScreen extends Screen {
 
-    final Board board;
-    final ShapeRenderer renderer;
-    final transient ScoreLabel scoreLabel;
-    final transient Label usernameLabel;
-    final transient String usernameLabelFormat = "Welcome %s";
+    private final Board board;
+    private final ShapeRenderer renderer;
+    private final transient ScoreLabel scoreLabel;
+    private final transient Label usernameLabel;
+    private final transient String usernameLabelFormat = "Welcome %s";
     private transient Game game;
 
     public Board getBoard() {

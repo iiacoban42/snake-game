@@ -3,6 +3,7 @@ package com.snake.game.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.snake.game.powerup.PowerUps;
 import com.snake.game.powerup.SpeedUp;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
@@ -108,7 +109,7 @@ public class BoardTest {
     void updatePowerUpWrongRandomTest() {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
         Board board = new Board(shapeRenderer);
-        board.updatePowerUp((float) 0.15, 1);
+        board.updatePowerUp((float) 0.15, PowerUps.SPEED_UP);
         assertEquals(board.isIsUp(), false);
     }
 
@@ -116,7 +117,7 @@ public class BoardTest {
     void updatePowerUpWrongRandomTwoTest() {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
         Board board = new Board(shapeRenderer);
-        board.updatePowerUp((float) -1, 1);
+        board.updatePowerUp((float) -1, PowerUps.SPEED_UP);
         assertEquals(board.isIsUp(), false);
     }
 
@@ -124,7 +125,7 @@ public class BoardTest {
     void updatePowerUpCorrectTest() {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
         Board board = new Board(shapeRenderer);
-        board.updatePowerUp((float) 0.01, 1);
+        board.updatePowerUp((float) 0.01, PowerUps.SPEED_UP);
         assertEquals(board.isIsUp(), true);
     }
 
@@ -133,7 +134,7 @@ public class BoardTest {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
         Board board = new Board(shapeRenderer);
         board.setIsUp(true);
-        board.updatePowerUp((float) 0.01, 1);
+        board.updatePowerUp((float) 0.01, PowerUps.SPEED_UP);
         assertEquals(board.isIsUp(), true);
     }
 

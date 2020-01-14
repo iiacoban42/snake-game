@@ -8,6 +8,9 @@ import com.snake.game.screens.ScreenController;
  * Launches game app.
  */
 public class DesktopLauncher {
+
+    private static final String NAME = "Shnek";
+
     /**
      * Launch game app.
      * @param arg .
@@ -15,7 +18,7 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.forceExit = false;
-        config.title = "Snake";
+        config.title = NAME;
         new LwjglApplication(new ScreenController(), config);
     }
 }

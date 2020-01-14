@@ -7,6 +7,9 @@ import com.mashape.unirest.request.HttpRequestWithBody;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Abstract class to support any type of api request and response.
+ */
 public abstract class ApiRequest<V> {
 
     protected static final int HTTP_OKAY = 200;

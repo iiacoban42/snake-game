@@ -16,9 +16,11 @@ import com.snake.game.game.Game;
  */
 public class GameOverScreen extends Screen {
 
-    final Board board;
-    final ShapeRenderer renderer;
-    final transient Label endgameLabel;
+    private static final String MESSAGE = "Game Over \n Press R to restart";
+
+    private final Board board;
+    private final ShapeRenderer renderer;
+    private final transient Label endgameLabel;
     private transient Game game;
 
     public Board getBoard() {
@@ -89,7 +91,7 @@ public class GameOverScreen extends Screen {
         // Finalize renderer
         renderer.end();
 
-        endgameLabel.setText("Game Over \n Press R to restart");
+        endgameLabel.setText(MESSAGE);
 
         // Draw overlaying Actors of stage
         stage.draw();
