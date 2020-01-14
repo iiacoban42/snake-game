@@ -10,9 +10,9 @@ import org.mockito.Mockito;
 
 public class PowerUpFactoryTest {
 
-    transient Board board;
-    transient Snake snake;
-    transient PowerUpFactory powerUpFactory;
+    private transient Board board;
+    private transient Snake snake;
+    private transient PowerUpFactory powerUpFactory;
 
     /**
      * Setup method.
@@ -48,4 +48,17 @@ public class PowerUpFactoryTest {
         PowerUp powerUp = powerUpFactory.getPowerUp(PowerUps.MORE_APPLES);
         assertTrue(powerUp instanceof MoreApples);
     }
+
+    @Test
+    public void stopGrowTest() {
+        PowerUp powerUp = powerUpFactory.getPowerUp(PowerUps.STOP_GROW);
+        assertTrue(powerUp instanceof StopGrow);
+    }
+
+    @Test
+    public void defaultPowerup() {
+        PowerUp powerUp = powerUpFactory.getPowerUp(PowerUps.TEST_POWER_UP);
+        assertTrue(powerUp instanceof MegaApple);
+    }
+
 }

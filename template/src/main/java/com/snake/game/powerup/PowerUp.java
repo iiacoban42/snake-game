@@ -1,6 +1,5 @@
 package com.snake.game.powerup;
 
-import com.snake.game.game.Apple;
 import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
 
@@ -19,14 +18,14 @@ public abstract class PowerUp {
      *
      * @param board board
      * @param snake snake
-     * @param randomX random for x-coordinate
-     * @param randomY random for y-coordinate
+     * @param ycoord for x-coordinate
+     * @param xcoord y-coordinate
      */
-    public PowerUp(Board board, Snake snake, float randomX, float randomY) {
+    public PowerUp(Board board, Snake snake, int xcoord, int ycoord) {
         this.board = board;
         this.snake = snake;
-        xcoord = (int) (randomX * board.getGridWidth());
-        ycoord = (int) (randomY * board.getGridHeight());
+        this.xcoord = xcoord;
+        this.ycoord = ycoord;
     }
 
     /**

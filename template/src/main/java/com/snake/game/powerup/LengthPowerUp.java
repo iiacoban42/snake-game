@@ -13,8 +13,8 @@ public class LengthPowerUp extends PowerUp {
     private static final int SIZE_DECREASE = 3;
     private static final int SCORE = 10;
 
-    public LengthPowerUp(Board board, Snake snake, float randomX, float randomY) {
-        super(board, snake, randomX, randomY);
+    public LengthPowerUp(Board board, Snake snake, int xcoord, int ycoord) {
+        super(board, snake, xcoord, ycoord);
     }
 
     /**

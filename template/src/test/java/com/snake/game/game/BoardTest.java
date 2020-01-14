@@ -81,7 +81,7 @@ public class BoardTest {
 
         board.updateDirection(Snake.Direction.SPACE);
 
-        assertEquals(board.getSnake().getLength(), 5);
+        assertEquals(5, board.getSnake().getLength());
 
     }
 
@@ -97,7 +97,7 @@ public class BoardTest {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
         Board board = new Board(shapeRenderer);
         board.updatePowerUp((float) 0.15, PowerUps.SPEED_UP);
-        assertEquals(board.isIsUp(), false);
+        assertEquals(false, board.isIsUp());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class BoardTest {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
         Board board = new Board(shapeRenderer);
         board.updatePowerUp((float) -1, PowerUps.SPEED_UP);
-        assertEquals(board.isIsUp(), false);
+        assertEquals(false, board.isIsUp());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class BoardTest {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
         Board board = new Board(shapeRenderer);
         board.updatePowerUp((float) 0.01, PowerUps.SPEED_UP);
-        assertEquals(board.isIsUp(), true);
+        assertEquals(true, board.isIsUp());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class BoardTest {
         Board board = new Board(shapeRenderer);
         board.setIsUp(true);
         board.updatePowerUp((float) 0.01, PowerUps.SPEED_UP);
-        assertEquals(board.isIsUp(), true);
+        assertEquals(true, board.isIsUp());
     }
 
     @Test
@@ -132,7 +132,7 @@ public class BoardTest {
         board.setIsUp(true);
         board.addApples(3);
         ArrayList<Apple> apples = new ArrayList<>(board.getApples());
-        assertEquals(apples.size(), 4);
+        assertEquals(4, apples.size());
     }
 
     @Test
@@ -142,7 +142,7 @@ public class BoardTest {
         board.setIsUp(true);
         board.addApples(0);
         ArrayList<Apple> apples = new ArrayList<>(board.getApples());
-        assertEquals(apples.size(), 1);
+        assertEquals(1, apples.size());
     }
 
 
@@ -158,7 +158,7 @@ public class BoardTest {
         Mockito.when(speedUp.getYcoord()).thenReturn(5);
         Mockito.when(snake.collides(5, 5)).thenReturn(true);
         board.run();
-        assertEquals(board.isIsUp(), false);
+        assertEquals(false,board.isIsUp());
     }
 
     @Test
@@ -174,8 +174,7 @@ public class BoardTest {
         apples.get(1).setYcoord(0);
         board.run();
 
-        assertEquals(board.getSnake().getLength(), 8);
-
+        assertEquals(8, board.getSnake().getLength());
     }
 
     @Test
@@ -191,7 +190,26 @@ public class BoardTest {
         apples.get(1).setYcoord(1);
         board.run();
 
-        assertEquals(board.getSnake().getLength(), 5);
+        assertEquals(5, board.getSnake().getLength());
+    }
 
+    @Test
+    void snakeDoesntGrow() {
+
+        Board board = new Board(null);
+
+        board.addApples(1);
+        ArrayList<Apple> apples = new ArrayList<>(board.getApples());
+        board.setStopGrowFlag(true);
+        apples.get(0).setXcoord(5);
+        apples.get(0).setYcoord(0);
+        apples.get(1).setXcoord(3);
+        apples.get(1).setYcoord(0);
+        board.run();
+
+        assertEquals(5, board.getSnake().getLength());
+        assertEquals(true, board.isStopGrowFlag());
+        board.setStopGrowFlag(false);
+        assertEquals(false, board.isStopGrowFlag());
     }
 }

@@ -5,5 +5,6 @@ public enum PowerUps {
     MEGA_APPLE,
     MORE_APPLES,
     SPEED_UP,
-    STOP_GROW
+    STOP_GROW,
+    TEST_POWER_UP
 }

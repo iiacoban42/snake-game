@@ -12,8 +12,8 @@ import java.util.TimerTask;
  */
 public class SpeedUp extends PowerUp {
 
-    public SpeedUp(Board board, Snake snake, float randomX, float randomY) {
-        super(board, snake, randomX, randomY);
+    public SpeedUp(Board board, Snake snake, int xcoord, int ycoord) {
+        super(board, snake, xcoord, ycoord);
     }
 
     /**

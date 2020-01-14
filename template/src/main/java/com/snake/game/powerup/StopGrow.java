@@ -13,8 +13,8 @@ public class StopGrow extends PowerUp {
 
     private static final int SCORE = 20;
 
-    public StopGrow(Board board, Snake snake, float randomX, float randomY) {
-        super(board, snake, randomX, randomY);
+    public StopGrow(Board board, Snake snake, int xcoord, int ycoord) {
+        super(board, snake, xcoord, ycoord);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class StopGrow extends PowerUp {
     @Override
     public void handle() {
         this.board.getScore().increment(SCORE);
-
+        board.setStopGrowFlag(true);
         TimerTask task = new TimerTask() {
             @Override
             public void run() {

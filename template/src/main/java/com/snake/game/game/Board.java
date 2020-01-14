@@ -23,19 +23,17 @@ public class Board {
 
     private static final int TILE = 16;
 
-    final int powerUpNumber = 5;
-
     private final ShapeRenderer rend;
     public Timer<Runnable> gameUpdateTimer;
 
 
-    Snake snake;
-    ArrayList<Apple> apples;
-    Score score;
+    private Snake snake;
+    private ArrayList<Apple> apples;
+    private Score score;
 
     private boolean stopGrowFlag;
 
-    PowerUp powerUp;
+    private PowerUp powerUp;
     private boolean isUp;
     private PowerUpFactory powerUpFactory;
 

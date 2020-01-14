@@ -12,8 +12,8 @@ public class MegaApple extends PowerUp {
     private static final int LENGTH_INCREASE = 5;
     private static final int SCORE = 30;
 
-    public MegaApple(Board board, Snake snake, float randomX, float randomY) {
-        super(board, snake, randomX, randomY);
+    public MegaApple(Board board, Snake snake, int xcoord, int ycoord) {
+        super(board, snake, xcoord, ycoord);
     }
 
     /**

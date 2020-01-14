@@ -20,7 +20,6 @@ public class PowerUpFactory {
     public PowerUpFactory(Board board, Snake snake) {
         this.board = board;
         this.snake = snake;
-        this.returned = new MegaApple(board, snake);
     }
 
     /**
@@ -29,22 +28,29 @@ public class PowerUpFactory {
      * @return specific powerUp.
      */
     public PowerUp getPowerUp(PowerUps powerUp) {
+        int xcoord, ycoord;
+        do {
+        xcoord = (int) (board.getGridWidth() * Math.random());
+        ycoord = (int) (board.getGridHeight() * Math.random());
+        } while (snake.collides(xcoord, ycoord));
+
+        returned = new MegaApple(board, snake, xcoord, ycoord);
+
         switch (powerUp) {
             case SPEED_UP:
-                returned = new SpeedUp(board, snake,
-                        (float) Math.random(), (float) Math.random());
+                returned = new SpeedUp(board, snake, xcoord, ycoord);
                 break;
             case MEGA_APPLE:
-                returned = new MegaApple(board, snake,
-                        (float) Math.random(), (float) Math.random());
+                returned = new MegaApple(board, snake, xcoord, ycoord);
                 break;
             case LENGTH:
-                returned = new LengthPowerUp(board, snake,
-                        (float) Math.random(), (float) Math.random());
+                returned = new LengthPowerUp(board, snake, xcoord, ycoord);
                 break;
             case MORE_APPLES:
-                returned = new MoreApples(board, snake,
-                        (float) Math.random(), (float) Math.random());
+                returned = new MoreApples(board, snake, xcoord, ycoord);
+                break;
+            case STOP_GROW:
+                returned = new StopGrow(board, snake, xcoord, ycoord);
                 break;
             default:
                 break;
