@@ -17,8 +17,8 @@ public class Game {
 
     private ScreenController sc;
 
-    private boolean PORTAL_WALLS = false;
-    private boolean stopGrowFlag;
+    private boolean portalWalls = false;
+    private boolean stopGrowFlag = false;
 
     private Snake snake;
     private ArrayList<Apple> apples;
@@ -27,6 +27,7 @@ public class Game {
 
     private Board board;
     private GameState state;
+    private final HashMap<GameStateName, GameState> states = new HashMap<>();
 
     private Score score;
 
@@ -36,28 +37,30 @@ public class Game {
         this.gameUpdateTimer = gameUpdateTimer;
     }
 
-    public enum StateName {
-        empty, active, paused, finished
-    }
-
+    /**
+     * Constructor.
+     *
+     * @param sc screen controller
+     */
     public Game(ScreenController sc) {
         this.sc = sc;
 
-        states.put(StateName.empty, new EmptyGameState(sc, this));
-        states.put(StateName.active, new ActiveGameState(sc, this));
-        states.put(StateName.paused, new PauseGameState(sc, this));
-        states.put(StateName.finished, new FinishedGameState(sc, this));
+        states.put(GameStateName.empty, new EmptyGameState(sc, this));
+        states.put(GameStateName.active, new ActiveGameState(sc, this));
+        states.put(GameStateName.paused, new PauseGameState(sc, this));
+        states.put(GameStateName.finished, new FinishedGameState(sc, this));
 
         board = new Board(this);
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
 
         score = new Score();
-
-        enterState(StateName.empty);
     }
 
-    public void spawnSprites(){
+    /**
+     * Spawns in all sprites.
+     */
+    public void spawnSprites() {
         snake = new Snake(0, 0, 5);
 
         Apple apple = Apple.spawnApplePersistent(this);
@@ -67,20 +70,20 @@ public class Game {
         powerUpFactory = new PowerUpFactory(this);
     }
 
-    public void updateBoardTimer(){
+    /**
+     * Handles update timer.
+     */
+    public void updateBoardTimer() {
         gameUpdateTimer.timerHandler(System.currentTimeMillis());
     }
-
-
-    private final HashMap<StateName, GameState> states = new HashMap<>();
 
     /**
      * Enters a state.
      *
-     * @param stateName the name of the state
+     * @param gameStateName the name of the state
      */
-    public void enterState(StateName stateName) {
-        GameState state = states.get(stateName);
+    public void enterState(GameStateName gameStateName) {
+        GameState state = states.get(gameStateName);
         assert state != null;
         this.state = state;
         state.enter();
@@ -94,26 +97,26 @@ public class Game {
     public void run() {
         if (snake.move()) {
             snake.killSnake();
-            enterState(Game.StateName.finished);
+            enterState(GameStateName.finished);
             return;
         }
 
         for (int i = 0; i < apples.size(); i++) {
-            if (snake.collides(apples.get(i).getxPos(), apples.get(i).getyPos())) {
+            if (snake.collides(apples.get(i).getPosX(), apples.get(i).getPosY())) {
                 apples.get(i).consume(this, snake);
                 apples.remove(apples.get(i));
             }
         }
-        if(apples.size() == 0){
+        if (apples.size() == 0) {
             apples.add(Apple.spawnApplePersistent(this));
         }
 
-        if(powerUp == null){
+        if (powerUp == null) {
             double chance = Math.random();
             int powerUpIndex = (int) (Math.random() * PowerUpName.values().length);
             updatePowerUp(chance, PowerUpName.values()[powerUpIndex]);
         }
-        if (powerUp != null && snake.collides(powerUp.getxPos(), powerUp.getyPos())) {
+        if (powerUp != null && snake.collides(powerUp.getPosX(), powerUp.getPosY())) {
             powerUp.consume(this, snake);
             powerUp = null;
         }
@@ -123,8 +126,9 @@ public class Game {
      * Method to update current powerUp. Chooses what powerUp to use (if any).
      */
     public void updatePowerUp(double chance, PowerUpName powerUpName) {
-        if (chance <= 0.01) {
-            this.powerUp = powerUpFactory.getPowerUp(powerUpName);
+        final double threshold = 0.01;
+        if (chance <= threshold) {
+            powerUp = powerUpFactory.getPowerUp(powerUpName);
         }
     }
 
@@ -160,12 +164,20 @@ public class Game {
         }
     }
 
-    public boolean isPortalWalls() {
-        return PORTAL_WALLS;
+    public ScreenController getSc() {
+        return sc;
     }
 
-    public void setPortalWalls(boolean PORTAL_WALLS) {
-        this.PORTAL_WALLS = PORTAL_WALLS;
+    public void setSc(ScreenController sc) {
+        this.sc = sc;
+    }
+
+    public boolean isPortalWalls() {
+        return portalWalls;
+    }
+
+    public void setPortalWalls(boolean portalWalls) {
+        this.portalWalls = portalWalls;
     }
 
     public boolean isStopGrowFlag() {
@@ -208,14 +220,6 @@ public class Game {
         this.powerUpFactory = powerUpFactory;
     }
 
-    public ScreenController getSc() {
-        return sc;
-    }
-
-    public void setSc(ScreenController sc) {
-        this.sc = sc;
-    }
-
     public Board getBoard() {
         return board;
     }
@@ -244,7 +248,7 @@ public class Game {
         return gameUpdateTimer;
     }
 
-    public HashMap<StateName, GameState> getStates() {
+    public HashMap<GameStateName, GameState> getStates() {
         return states;
     }
 }

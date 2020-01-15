@@ -1,4 +1,4 @@
- package com.snake.game.game.powerup;
+package com.snake.game.game.powerup;
 
 import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.Game;
@@ -16,11 +16,11 @@ public class MoreApples extends PowerUp {
     /**
      * Constructor.
      *
-     * @param xPos x-coordinate of position
-     * @param yPos y-coordinate of position
+     * @param posX x-coordinate of position
+     * @param posY y-coordinate of position
      */
-    public MoreApples(int xPos, int yPos) {
-        super(xPos, yPos);
+    public MoreApples(int posX, int posY) {
+        super(posX, posY);
     }
 
     /**
@@ -32,8 +32,8 @@ public class MoreApples extends PowerUp {
     public void draw(Game game) {
         game.getBoard().getRend().setColor(Color.BLUE);
         game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (xPos + .5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (yPos + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardX() + (posX + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (posY + .5f) * game.getBoard().getTile(),
                 game.getBoard().getTile());
     }
 

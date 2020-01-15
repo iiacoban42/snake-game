@@ -73,10 +73,10 @@ public class Snake {
     public boolean move() {
         direction.dequeue();
         BodyPart newHead = new BodyPart(
-                getHead().getXcoord(),
-                getHead().getYcoord(),
+                getHead().getPosX(),
+                getHead().getPosY(),
                 direction.getDirection());
-        if (collides(newHead.getXcoord(), newHead.getYcoord())) {
+        if (collides(newHead.getPosX(), newHead.getPosY())) {
             return true;
         }
 
@@ -99,7 +99,7 @@ public class Snake {
     //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     public boolean collides(int x, int y) {
         for (BodyPart bodyPart : snakeBody) {
-            if (bodyPart.getXcoord() == x && bodyPart.getYcoord() == y) {
+            if (bodyPart.getPosX() == x && bodyPart.getPosY() == y) {
                 return true;
             }
         }
@@ -136,25 +136,25 @@ public class Snake {
     }
 
     public class BodyPart {
-        private final int xcoord;
-        private final int ycoord;
+        private final int posX;
+        private final int posY;
 
-        BodyPart(int xcoord, int ycoord) {
-            this.xcoord = xcoord;
-            this.ycoord = ycoord;
+        BodyPart(int posX, int posY) {
+            this.posX = posX;
+            this.posY = posY;
         }
 
-        BodyPart(int xcoord, int ycoord, Direction direction) {
-            this.xcoord = xcoord + direction.getDx();
-            this.ycoord = ycoord + direction.getDy();
+        BodyPart(int posX, int posY, Direction direction) {
+            this.posX = posX + direction.getDx();
+            this.posY = posY + direction.getDy();
         }
 
-        public int getXcoord() {
-            return xcoord;
+        public int getPosX() {
+            return posX;
         }
 
-        public int getYcoord() {
-            return ycoord;
+        public int getPosY() {
+            return posY;
         }
 
         /**
@@ -164,8 +164,8 @@ public class Snake {
         public void draw(Board board) {
             board.getRend().setColor(Color.PURPLE);
             board.getRend().rect(
-                    board.getBoardX() + xcoord * board.getTile(),
-                    board.getBoardY() + ycoord * board.getTile(),
+                    board.getBoardX() + posX * board.getTile(),
+                    board.getBoardY() + posY * board.getTile(),
                     board.getTile(),
                     board.getTile());
         }

@@ -55,11 +55,11 @@ public class TimerTest {
     }
 
     @Test
-    void testTimerHandlerSKipped() {
+    void testTimerHandlerSkipped() {
 
-        Board board = new Board(null);
+        Game game = new Game(null);
 
-        Timer timer = new Timer<>(board::run);
+        Timer timer = new Timer<>(game::run);
 
         timer.setNextActionTimer(100);
         timer.setActive(true);

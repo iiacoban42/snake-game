@@ -24,30 +24,30 @@ public class PowerUpFactory {
      * @return specific powerUp.
      */
     public PowerUp getPowerUp(PowerUpName powerUp) {
-        int xPos, yPos;
+        int posX, posY;
         do {
-        xPos = (int) (game.getBoard().getGridWidth() * Math.random());
-        yPos = (int) (game.getBoard().getGridHeight() * Math.random());
-        } while (game.getSnake().collides(xPos, yPos));
+            posX = (int) (game.getBoard().getGridWidth() * Math.random());
+            posY = (int) (game.getBoard().getGridHeight() * Math.random());
+        } while (game.getSnake().collides(posX, posY));
 
         switch (powerUp) {
             case SPEED_UP:
-                returned = new SpeedUp(xPos, yPos);
+                returned = new SpeedUp(posX, posY);
                 break;
             case MEGA_APPLE:
-                returned = new MegaApple(xPos, yPos);
+                returned = new MegaApple(posX, posY);
                 break;
             case LENGTH:
-                returned = new LengthPowerUp(xPos, yPos);
+                returned = new LengthPowerUp(posX, posY);
                 break;
             case MORE_APPLES:
-                returned = new MoreApples(xPos, yPos);
+                returned = new MoreApples(posX, posY);
                 break;
             case STOP_GROW:
-                returned = new StopGrow(xPos, yPos);
+                returned = new StopGrow(posX, posY);
                 break;
             default:
-                returned = null;
+                assert false;
                 break;
         }
         return returned;

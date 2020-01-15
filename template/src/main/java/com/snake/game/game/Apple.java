@@ -9,18 +9,18 @@ import com.badlogic.gdx.graphics.Color;
  */
 public class Apple implements Consumable {
 
-    private final int xPos;
-    private final int yPos;
+    private final int posX;
+    private final int posY;
 
     /**
      * Construct apple.
      *
-     * @param xPos x-coordinate of position
-     * @param yPos y-coordinate of position
+     * @param posX x-coordinate of position
+     * @param posY y-coordinate of position
      */
-    public Apple(int xPos, int yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+    public Apple(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
     }
 
 
@@ -41,8 +41,8 @@ public class Apple implements Consumable {
     public void draw(Game game) {
         game.getBoard().getRend().setColor(Color.LIME);
         game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (xPos + .5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (yPos + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardX() + (posX + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (posY + .5f) * game.getBoard().getTile(),
                 game.getBoard().getTile() / 2.0f);
 
     }
@@ -53,35 +53,44 @@ public class Apple implements Consumable {
      * @return a new randomized apple which applies to the isProperSpawnLocation rules
      */
     public static Apple spawnApplePersistent(Game game) {
-        int randx;
-        int randy;
+        int randX;
+        int randY;
         do {
-            randx = (int) (game.getBoard().getGridWidth() * Math.random());
-            randy = (int) (game.getBoard().getGridHeight() * Math.random());
-        } while (!isProperSpawnLocation(game, randx, randy));
-        return new Apple(randx, randy);
+            randX = (int) (game.getBoard().getGridWidth() * Math.random());
+            randY = (int) (game.getBoard().getGridHeight() * Math.random());
+        } while (!isProperSpawnLocation(game, randX, randY));
+        return new Apple(randX, randY);
     }
 
     /**
      * Checks whether a location is suitable for an apple to spawn.
      * @param game the game that contains all possible obstacles
-     * @param xPos the x-coordinate to test
-     * @param yPos the y-coordinate to test
+     * @param posX the x-coordinate to test
+     * @param posY the y-coordinate to test
      * @return returns true if the given location is suitable
      */
-    private static boolean isProperSpawnLocation(Game game, int xPos, int yPos) {
-        if (game.getSnake().collides(xPos, yPos)) {
+    @SuppressWarnings("PMD")
+    //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
+    //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
+    private static boolean isProperSpawnLocation(Game game, int posX, int posY) {
+        if (game.getSnake().collides(posX, posY)) {
             return false;
+        }
+        for (Apple apple : game.getApples()) {
+            if (apple.getPosX() == posX && apple.posY == posY) {
+                return false;
+            }
+
         }
         return true;
     }
 
-    public int getxPos() {
-        return xPos;
+    public int getPosX() {
+        return posX;
     }
 
-    public int getyPos() {
-        return yPos;
+    public int getPosY() {
+        return posY;
     }
 
 }

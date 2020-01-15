@@ -67,9 +67,9 @@ public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationList
     }
 
     /**
-     * Default subroutine for when the screen is opened
+     * Default subroutine for when the screen is opened.
      */
-    public void open(){
+    public void open() {
         Gdx.input.setInputProcessor(stage);
     }
 

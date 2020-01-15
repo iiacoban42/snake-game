@@ -2,6 +2,7 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.snake.game.game.Game;
+import com.snake.game.states.GameStateName;
 
 import java.util.HashMap;
 
@@ -42,6 +43,7 @@ public class ScreenController extends com.badlogic.gdx.Game {
     public void create() {
         batch = new SpriteBatch();
         Game game = new Game(this);
+        game.enterState(GameStateName.empty);
 
         screens.put(ScreenName.loginScreen, new LoginScreen(this));
         screens.put(ScreenName.registerScreen, new RegisterScreen(this));

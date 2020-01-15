@@ -1,32 +1,31 @@
 package com.snake.game.game.powerup;
 
 import com.snake.game.game.Consumable;
-import com.snake.game.game.Game;
 
 /**
  * Abstract class to support any type of power up.
  */
 public abstract class PowerUp implements Consumable {
 
-    protected final int xPos;
-    protected final int yPos;
+    protected final int posX;
+    protected final int posY;
 
     /**
      * Constructor.
      *
-     * @param xPos x-coordinate of position
-     * @param yPos y-coordinate of position
+     * @param posX x-coordinate of position
+     * @param posY y-coordinate of position
      */
-    public PowerUp(int xPos, int yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+    public PowerUp(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
     }
 
-    public int getxPos() {
-        return xPos;
+    public int getPosX() {
+        return posX;
     }
 
-    public int getyPos() {
-        return yPos;
+    public int getPosY() {
+        return posY;
     }
 }

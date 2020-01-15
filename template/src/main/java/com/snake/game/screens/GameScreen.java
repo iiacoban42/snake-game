@@ -9,18 +9,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.snake.game.game.*;
-import com.snake.game.states.ActiveGameState;
 import com.snake.game.states.EmptyGameState;
+import com.snake.game.states.GameStateName;
 
 /**
  * The screen on which the playing board predominately takes place.
  */
 public class GameScreen extends Screen {
 
-    private Game game;
+
 
     // GUI elements
-    private final transient ShapeRenderer renderer;
+    private final ShapeRenderer renderer;
+    private final Game game;
 
     private final transient ScoreLabel scoreLabel;
     private final transient Label usernameLabel;
@@ -102,22 +103,15 @@ public class GameScreen extends Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 
             if (game.getState() instanceof EmptyGameState) {
-                game.enterState(Game.StateName.active);
-            }
-            else {
+                game.enterState(GameStateName.active);
+            } else {
                 game.updateDirection(Snake.Direction.SPACE);
             }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            game.enterState(Game.StateName.paused);
+            game.enterState(GameStateName.paused);
         }
-
-//        if (game.getState() instanceof ActiveGameState) {
-//            sc.openScreen(ScreenController.ScreenName.gameOverScreen);
-//        }
-
-
 
         game.updateBoardTimer();
 
@@ -134,11 +128,6 @@ public class GameScreen extends Screen {
 
         // Draw the board
         game.getBoard().draw(renderer);
-
-
-
-
-
 
         // Finalize renderer
         renderer.end();
@@ -181,4 +170,11 @@ public class GameScreen extends Screen {
 
     }
 
+    public ShapeRenderer getRenderer() {
+        return renderer;
+    }
+
+    public Game getGame() {
+        return game;
+    }
 }

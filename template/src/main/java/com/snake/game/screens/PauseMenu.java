@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.Game;
+import com.snake.game.states.GameStateName;
 
 public class PauseMenu extends Screen {
 
@@ -92,7 +93,7 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
-                game.enterState(Game.StateName.active);
+                game.enterState(GameStateName.active);
             }
         });
 
@@ -100,7 +101,7 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
-                game.enterState(Game.StateName.empty);
+                game.enterState(GameStateName.empty);
             }
         });
 
@@ -108,7 +109,7 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
-                game.enterState(Game.StateName.empty);
+                game.enterState(GameStateName.empty);
             }
         });
 
@@ -116,7 +117,7 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.loginScreen);
-                game.enterState(Game.StateName.empty);
+                game.enterState(GameStateName.empty);
             }
         });
 
@@ -146,5 +147,7 @@ public class PauseMenu extends Screen {
 
     }
 
-
+    public Game getGame() {
+        return game;
+    }
 }

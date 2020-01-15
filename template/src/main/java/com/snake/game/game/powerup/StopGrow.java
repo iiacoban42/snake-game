@@ -3,7 +3,6 @@ package com.snake.game.game.powerup;
 import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
-import javafx.scene.paint.Stop;
 
 import java.util.TimerTask;
 
@@ -17,19 +16,19 @@ public class StopGrow extends PowerUp {
     /**
      * Constructor.
      *
-     * @param xPos x-coordinate of position
-     * @param yPos y-coordinate of position
+     * @param posX x-coordinate of position
+     * @param posY y-coordinate of position
      */
-    public StopGrow(int xPos, int yPos) {
-        super(xPos, yPos);
+    public StopGrow(int posX, int posY) {
+        super(posX, posY);
     }
 
     @Override
     public void draw(Game game) {
         game.getBoard().getRend().setColor(Color.ORANGE);
         game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (xPos + .5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (yPos + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardX() + (posX + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (posY + .5f) * game.getBoard().getTile(),
                 game.getBoard().getTile());
     }
 

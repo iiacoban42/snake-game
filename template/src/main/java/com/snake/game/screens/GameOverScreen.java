@@ -12,20 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.snake.game.game.Board;
 import com.snake.game.game.Game;
+import com.snake.game.states.GameStateName;
 
 /**
  * The limbo screen when the player has lost the game.
  */
 public class GameOverScreen extends Screen {
 
-    private final ShapeRenderer renderer;
     private final transient Label endgameLabel;
     private final transient TextButton quitButton;
     private final transient TextButton restartButton;
     private final transient TextButton exitButton;
 
+    private final ShapeRenderer renderer;
     private final Game game;
 
 
@@ -88,7 +88,7 @@ public class GameOverScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
-                game.enterState(Game.StateName.empty);
+                game.enterState(GameStateName.empty);
             }
         });
 
@@ -96,7 +96,7 @@ public class GameOverScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
-                game.enterState(Game.StateName.empty);
+                game.enterState(GameStateName.empty);
             }
         });
 
@@ -104,7 +104,7 @@ public class GameOverScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.loginScreen);
-                game.enterState(Game.StateName.empty);
+                game.enterState(GameStateName.empty);
             }
         });
     }
@@ -176,5 +176,9 @@ public class GameOverScreen extends Screen {
 
     public ShapeRenderer getRenderer() {
         return renderer;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
