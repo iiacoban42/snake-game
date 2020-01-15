@@ -66,6 +66,12 @@ public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationList
                 && text.length() < maxLength;
     }
 
+    /**
+     * Default subroutine for when the screen is opened
+     */
+    public void open(){
+        Gdx.input.setInputProcessor(stage);
+    }
 
     @Override
     public void render(float delta) {

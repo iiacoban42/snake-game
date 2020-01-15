@@ -36,7 +36,7 @@ public class ScreenController extends Game {
         Screen screen = screens.get(screenName);
         assert screen != null;
         setScreen(screen);
-        Gdx.input.setInputProcessor(screen.getStage());
+        screen.open();
     }
 
     @Override

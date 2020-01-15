@@ -114,8 +114,6 @@ public class GameOverScreen extends Screen {
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game = new Game(sc);
-                game.changeState(new ActiveGame(game));
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
             }
         });

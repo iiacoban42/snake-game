@@ -14,6 +14,7 @@ import com.snake.game.game.ScoreLabel;
 import com.snake.game.game.Snake;
 import com.snake.game.game.User;
 import com.snake.game.states.FinishedGame;
+import com.snake.game.states.ActiveGame;
 import com.snake.game.states.PausedGame;
 import com.snake.game.states.State;
 
@@ -70,6 +71,11 @@ public class GameScreen extends Screen {
         game.setBoard(board);
     }
 
+    @Override
+    public void open() {
+        super.open();
+        game.changeState(new ActiveGame(game));
+    }
 
     @Override
     public void show() {
