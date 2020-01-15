@@ -164,8 +164,8 @@ public class Snake {
         public void draw(Board board) {
             board.getRend().setColor(Color.PURPLE);
             board.getRend().rect(
-                    board.getDx() + xcoord * board.getTile(),
-                    board.getDy() + ycoord * board.getTile(),
+                    board.getBoardX() + xcoord * board.getTile(),
+                    board.getBoardY() + ycoord * board.getTile(),
                     board.getTile(),
                     board.getTile());
         }

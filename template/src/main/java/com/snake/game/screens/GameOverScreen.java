@@ -1,7 +1,6 @@
 package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -15,26 +14,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.Board;
 import com.snake.game.game.Game;
-import com.snake.game.states.ActiveGame;
-import com.snake.game.states.FinishedGame;
-import com.snake.game.states.State;
 
 /**
  * The limbo screen when the player has lost the game.
  */
 public class GameOverScreen extends Screen {
 
-    private final Board board;
+//    private final Board board;
     private final ShapeRenderer renderer;
     private final transient Label endgameLabel;
-    private transient Game game;
+//    private transient Game game;
     private final transient TextButton quitButton;
     private final transient TextButton restartButton;
     private final transient TextButton exitButton;
 
-    public Board getBoard() {
-        return board;
-    }
+//    public Board getBoard() {
+//        return board;
+//    }
 
     public ShapeRenderer getRenderer() {
         return renderer;
@@ -51,13 +47,13 @@ public class GameOverScreen extends Screen {
     public GameOverScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();
-        game = new Game(sc);
 
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
-        board = new Board(renderer);
-        game.setBoard(board);
-
+//        game = new Game(sc, renderer);
+//        board = new Board(renderer);
+//        game.setBoard(board);
+//
         Label.LabelStyle endgameLabelStyle = new Label.LabelStyle();
         endgameLabelStyle.font = new BitmapFont();
         endgameLabelStyle.fontColor = Color.RED;

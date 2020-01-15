@@ -24,8 +24,8 @@ public class LengthPowerUp extends PowerUp {
     public void draw() {
         board.getRend().setColor(Color.PINK);
 
-        board.getRend().circle(board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
-                board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
+        board.getRend().circle(board.getBoardX() + xcoord * board.getTile() + board.getTile() / 2.0f,
+                board.getBoardY() + ycoord * board.getTile() + board.getTile() / 2.0f,
                 board.getTile());
     }
 
@@ -38,6 +38,6 @@ public class LengthPowerUp extends PowerUp {
             this.snake.addLength(-SIZE_DECREASE);
         }
 
-        board.getScore().increment(SCORE);
+        board.getGame().getScore().increment(SCORE);
     }
 }

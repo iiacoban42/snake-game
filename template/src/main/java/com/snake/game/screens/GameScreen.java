@@ -8,36 +8,26 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.snake.game.game.Board;
-import com.snake.game.game.Game;
-import com.snake.game.game.ScoreLabel;
-import com.snake.game.game.Snake;
-import com.snake.game.game.User;
-import com.snake.game.states.FinishedGame;
-import com.snake.game.states.ActiveGame;
-import com.snake.game.states.PausedGame;
-import com.snake.game.states.State;
+import com.snake.game.game.*;
+import com.snake.game.states.ActiveGameState;
+import com.snake.game.states.EmptyGameState;
 
 /**
  * The screen on which the playing board predominately takes place.
  */
 public class GameScreen extends Screen {
 
-    final Board board;
-    final ShapeRenderer renderer;
-    final transient ScoreLabel scoreLabel;
-    final transient Label usernameLabel;
-    final transient Label pauseLabel;
-    final transient String usernameLabelFormat = "Welcome %s";
-    private transient Game game;
+    private Game game;
 
-    public Board getBoard() {
-        return board;
-    }
+    // GUI elements
+    private final transient ShapeRenderer renderer;
 
-    public ShapeRenderer getRenderer() {
-        return renderer;
-    }
+    private final transient ScoreLabel scoreLabel;
+    private final transient Label usernameLabel;
+    private final transient Label pauseLabel;
+    private final transient String usernameLabelFormat = "Welcome %s";
+
+
 
     /**
      * Create Game screen.
@@ -48,11 +38,11 @@ public class GameScreen extends Screen {
         super(sc);
         stage = new Stage();
 
-        game = new Game(sc);
+
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
-        board = new Board(renderer);
-        scoreLabel = new ScoreLabel(board.getScore(), stage);
+        game = new Game(sc, renderer);
+        scoreLabel = new ScoreLabel(game.getScore(), stage);
 
 
         Label.LabelStyle usernameLabelStyle = new Label.LabelStyle();
@@ -68,13 +58,12 @@ public class GameScreen extends Screen {
 
         stage.addActor(pauseLabel);
         stage.addActor(usernameLabel);
-        game.setBoard(board);
     }
 
     @Override
     public void open() {
         super.open();
-        game.changeState(new ActiveGame(game));
+        game.enterState(Game.StateName.empty);
     }
 
     @Override
@@ -95,34 +84,40 @@ public class GameScreen extends Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)
                 || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            board.updateDirection(Snake.Direction.UP);
+            game.getBoard().updateDirection(Snake.Direction.UP);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)
                 || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            board.updateDirection(Snake.Direction.DOWN);
+            game.getBoard().updateDirection(Snake.Direction.DOWN);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)
                 || Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            board.updateDirection(Snake.Direction.LEFT);
+            game.getBoard().updateDirection(Snake.Direction.LEFT);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)
                 || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-            board.updateDirection(Snake.Direction.RIGHT);
+            game.getBoard().updateDirection(Snake.Direction.RIGHT);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            board.updateDirection(Snake.Direction.SPACE);
+
+            if (game.getState() instanceof EmptyGameState) {
+                game.enterState(Game.StateName.active);
+            }
+            else {
+                game.getBoard().updateDirection(Snake.Direction.SPACE);
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             sc.openScreen(ScreenController.ScreenName.pauseMenu);
-            State state = new PausedGame(game);
-            state.enterState();
+            game.enterState(Game.StateName.paused);
         }
 
-        if (game.getState() instanceof FinishedGame) {
-            sc.openScreen(ScreenController.ScreenName.gameOverScreen);
-        }
+//        if (game.getState() instanceof ActiveGameState) {
+//            sc.openScreen(ScreenController.ScreenName.gameOverScreen);
+//        }
+
 
 
         game.updateBoardTimer();
@@ -139,7 +134,12 @@ public class GameScreen extends Screen {
         renderer.rect(0, 380, 640, 200);
 
         // Draw the board
-        game.observe();
+        game.getBoard().draw();
+
+
+
+
+
 
         // Finalize renderer
         renderer.end();

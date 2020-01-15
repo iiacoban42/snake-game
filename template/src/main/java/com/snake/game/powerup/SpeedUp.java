@@ -23,8 +23,8 @@ public class SpeedUp extends PowerUp {
     public void draw() {
         board.getRend().setColor(Color.RED);
         board.getRend().circle(
-                board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
-                board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
+                board.getBoardX() + xcoord * board.getTile() + board.getTile() / 2.0f,
+                board.getBoardY() + ycoord * board.getTile() + board.getTile() / 2.0f,
                 board.getTile());
     }
 
@@ -34,20 +34,20 @@ public class SpeedUp extends PowerUp {
     @Override
     public void handle() {
         Timer<Runnable> gameUpdateTimer = new Timer<>(board::run, 60);
-        board.setGameUpdateTimer(gameUpdateTimer);
+        board.getGame().setGameUpdateTimer(gameUpdateTimer);
         gameUpdateTimer.setActive(true);
-        board.getScore().increment(50);
+        board.getGame().getScore().increment(50);
 
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 Timer<Runnable> gameUpdateTimer = new Timer<>(board::run);
-                board.setGameUpdateTimer(gameUpdateTimer);
+                board.getGame().setGameUpdateTimer(gameUpdateTimer);
                 gameUpdateTimer.setActive(true);
             }
         };
 
         java.util.Timer timer = new java.util.Timer("Timer");
-        timer.schedule(task, 15000);
+        timer.schedule(task, 5000);
     }
 }

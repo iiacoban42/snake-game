@@ -23,8 +23,8 @@ public class MegaApple extends PowerUp {
     public void draw() {
         board.getRend().setColor(Color.LIME);
         board.getRend().circle(
-                board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
-                board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
+                board.getBoardX() + xcoord * board.getTile() + board.getTile() / 2.0f,
+                board.getBoardY() + ycoord * board.getTile() + board.getTile() / 2.0f,
                 board.getTile());
 
     }
@@ -35,6 +35,6 @@ public class MegaApple extends PowerUp {
     @Override
     public void handle() {
         this.snake.addLength(LENGTH_INCREASE);
-        board.getScore().increment(SCORE);
+        board.getGame().getScore().increment(SCORE);
     }
 }

@@ -21,8 +21,8 @@ public class MoreApples extends PowerUp {
     public void draw() {
         board.getRend().setColor(Color.BLUE);
         board.getRend().circle(
-                board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
-                board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
+                board.getBoardX() + xcoord * board.getTile() + board.getTile() / 2.0f,
+                board.getBoardY() + ycoord * board.getTile() + board.getTile() / 2.0f,
                 board.getTile());
     }
 
@@ -32,7 +32,7 @@ public class MoreApples extends PowerUp {
     @Override
     public void handle() {
         board.addApples(APPLES_TO_ADD);
-        board.getScore().increment(SCORE);
+        board.getGame().getScore().increment(SCORE);
     }
 
 }
