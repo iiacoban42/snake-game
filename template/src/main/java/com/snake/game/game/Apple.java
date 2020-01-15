@@ -76,11 +76,12 @@ public class Apple implements Consumable {
         if (game.getSnake().collides(posX, posY)) {
             return false;
         }
-        for (Apple apple : game.getApples()) {
-            if (apple.getPosX() == posX && apple.posY == posY) {
-                return false;
+        if (game.getApples() != null) {
+            for (Apple apple : game.getApples()) {
+                if (apple.getPosX() == posX && apple.posY == posY) {
+                    return false;
+                }
             }
-
         }
         return true;
     }
