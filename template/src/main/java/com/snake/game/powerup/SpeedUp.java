@@ -2,6 +2,7 @@ package com.snake.game.powerup;
 
 import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.Board;
+import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
 import com.snake.game.game.Timer;
 
@@ -12,8 +13,8 @@ import java.util.TimerTask;
  */
 public class SpeedUp extends PowerUp {
 
-    public SpeedUp(Board board, Snake snake, int xcoord, int ycoord) {
-        super(board, snake, xcoord, ycoord);
+    public SpeedUp(Game game, int xcoord, int ycoord) {
+        super(game, xcoord, ycoord);
     }
 
     /**
@@ -21,11 +22,11 @@ public class SpeedUp extends PowerUp {
      */
     @Override
     public void draw() {
-        board.getRend().setColor(Color.RED);
-        board.getRend().circle(
-                board.getBoardX() + xcoord * board.getTile() + board.getTile() / 2.0f,
-                board.getBoardY() + ycoord * board.getTile() + board.getTile() / 2.0f,
-                board.getTile());
+        game.getBoard().getRend().setColor(Color.RED);
+        game.getBoard().getRend().circle(
+                game.getBoard().getBoardX() + (xcoord+.5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (ycoord+.5f) * game.getBoard().getTile(),
+                game.getBoard().getTile());
     }
 
     /**
@@ -33,16 +34,16 @@ public class SpeedUp extends PowerUp {
      */
     @Override
     public void handle() {
-        Timer<Runnable> gameUpdateTimer = new Timer<>(board::run, 60);
-        board.getGame().setGameUpdateTimer(gameUpdateTimer);
+        Timer<Runnable> gameUpdateTimer = new Timer<>(game::run, 60);
+        game.setGameUpdateTimer(gameUpdateTimer);
         gameUpdateTimer.setActive(true);
-        board.getGame().getScore().increment(50);
+        game.getScore().increment(50);
 
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                Timer<Runnable> gameUpdateTimer = new Timer<>(board::run);
-                board.getGame().setGameUpdateTimer(gameUpdateTimer);
+                Timer<Runnable> gameUpdateTimer = new Timer<>(game::run);
+                game.setGameUpdateTimer(gameUpdateTimer);
                 gameUpdateTimer.setActive(true);
             }
         };

@@ -1,6 +1,7 @@
 package com.snake.game.powerup;
 
 import com.snake.game.game.Board;
+import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
 
 /**
@@ -8,22 +9,19 @@ import com.snake.game.game.Snake;
  */
 public abstract class PowerUp {
 
-    protected Board board;
-    protected Snake snake;
+    protected Game game;
     protected int xcoord;
     protected int ycoord;
 
     /**
      * Constructor.
      *
-     * @param board board
-     * @param snake snake
+     * @param game game
      * @param ycoord for x-coordinate
      * @param xcoord y-coordinate
      */
-    public PowerUp(Board board, Snake snake, int xcoord, int ycoord) {
-        this.board = board;
-        this.snake = snake;
+    public PowerUp(Game game, int xcoord, int ycoord) {
+        this.game = game;
         this.xcoord = xcoord;
         this.ycoord = ycoord;
     }
@@ -38,20 +36,12 @@ public abstract class PowerUp {
      */
     public abstract void handle();
 
-    public Board getBoard() {
-        return board;
+    public Game getGame() {
+        return game;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public Snake getSnake() {
-        return snake;
-    }
-
-    public void setSnake(Snake snake) {
-        this.snake = snake;
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public int getXcoord() {

@@ -54,28 +54,28 @@ public class Apple {
 
     /**
      * Creates an apple which is guaranteed to be in a proper spawn location.
-     * @param board the board on which the apple must spawn
+     * @param game the game on which the apple must spawn
      * @return a new randomized apple which applies to the isProperSpawnLocation rules
      */
-    public static Apple spawnApplePersistent(Board board) {
+    public static Apple spawnApplePersistent(Game game) {
         int randx;
         int randy;
         do {
-            randx = (int) (board.getGridWidth() * Math.random());
-            randy = (int) (board.getGridHeight() * Math.random());
-        } while (!isProperSpawnLocation(board, randx, randy));
+            randx = (int) (game.getBoard().getGridWidth() * Math.random());
+            randy = (int) (game.getBoard().getGridHeight() * Math.random());
+        } while (!isProperSpawnLocation(game, randx, randy));
         return new Apple(randx, randy);
     }
 
     /**
      * Checks whether a location is suitable for an apple to spawn.
-     * @param board the board that contains all possible obstacles
+     * @param game the game that contains all possible obstacles
      * @param xcoord the x-coordinate to test
      * @param ycoord the y-coordinate to test
      * @return returns true if the given location is suitable
      */
-    private static boolean isProperSpawnLocation(Board board, int xcoord, int ycoord) {
-        if (board.getSnake().collides(xcoord, ycoord)) {
+    private static boolean isProperSpawnLocation(Game game, int xcoord, int ycoord) {
+        if (game.getSnake().collides(xcoord, ycoord)) {
             return false;
         }
         return true;

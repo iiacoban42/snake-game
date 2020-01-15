@@ -1,15 +1,14 @@
 package com.snake.game.screens;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.snake.game.game.Game;
 
 import java.util.HashMap;
 
 /**
  * The controller which handles screen switching and initialization process.
  */
-public class ScreenController extends Game {
+public class ScreenController extends com.badlogic.gdx.Game {
 
     private SpriteBatch batch;
 
@@ -42,12 +41,14 @@ public class ScreenController extends Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
+        Game game = new Game(this);
+
         screens.put(ScreenName.loginScreen, new LoginScreen(this));
         screens.put(ScreenName.registerScreen, new RegisterScreen(this));
-        screens.put(ScreenName.gameScreen, new GameScreen(this));
-        screens.put(ScreenName.gameOverScreen, new GameOverScreen(this));
+        screens.put(ScreenName.gameScreen, new GameScreen(this, game));
+        screens.put(ScreenName.gameOverScreen, new GameOverScreen(this, game));
         screens.put(ScreenName.startScreen, new StartScreen(this));
-        screens.put(ScreenName.pauseMenu, new PauseMenu(this));
+        screens.put(ScreenName.pauseMenu, new PauseMenu(this, game));
 
         openScreen(ScreenName.loginScreen);
     }

@@ -20,21 +20,15 @@ import com.snake.game.game.Game;
  */
 public class GameOverScreen extends Screen {
 
-//    private final Board board;
     private final ShapeRenderer renderer;
     private final transient Label endgameLabel;
-//    private transient Game game;
     private final transient TextButton quitButton;
     private final transient TextButton restartButton;
     private final transient TextButton exitButton;
 
-//    public Board getBoard() {
-//        return board;
-//    }
+    private final Game game;
 
-    public ShapeRenderer getRenderer() {
-        return renderer;
-    }
+
 
     /**
      * Constructor for Game over screen.
@@ -44,16 +38,15 @@ public class GameOverScreen extends Screen {
     @SuppressWarnings("PMD")
     //Understand why we can't call overridable method, but it can't be escaped here
     //Because of how libgdx structures classes.
-    public GameOverScreen(ScreenController sc) {
+    public GameOverScreen(ScreenController sc, Game game) {
         super(sc);
         stage = new Stage();
+        this.game = game;
 
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
-//        game = new Game(sc, renderer);
-//        board = new Board(renderer);
-//        game.setBoard(board);
-//
+
+
         Label.LabelStyle endgameLabelStyle = new Label.LabelStyle();
         endgameLabelStyle.font = new BitmapFont();
         endgameLabelStyle.fontColor = Color.RED;
@@ -91,11 +84,19 @@ public class GameOverScreen extends Screen {
 
     void addListeners() {
 
+        restartButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.gameScreen);
+                game.enterState(Game.StateName.empty);
+            }
+        });
+
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
-
+                game.enterState(Game.StateName.empty);
             }
         });
 
@@ -103,17 +104,9 @@ public class GameOverScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.loginScreen);
-
+                game.enterState(Game.StateName.empty);
             }
         });
-
-        restartButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.gameScreen);
-            }
-        });
-
     }
 
 
@@ -181,4 +174,7 @@ public class GameOverScreen extends Screen {
 
     }
 
+    public ShapeRenderer getRenderer() {
+        return renderer;
+    }
 }

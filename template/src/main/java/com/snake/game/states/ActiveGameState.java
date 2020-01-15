@@ -11,7 +11,6 @@ public class ActiveGameState extends GameState {
 
     @Override
     public void enter() {
-        game.getBoard().spawnSprites();
         game.getGameUpdateTimer().setActive(true);
     }
 }

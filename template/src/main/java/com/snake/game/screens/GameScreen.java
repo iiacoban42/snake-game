@@ -34,14 +34,14 @@ public class GameScreen extends Screen {
      *
      * @param sc Screen Controller
      */
-    public GameScreen(ScreenController sc) {
+    public GameScreen(ScreenController sc, Game game) {
         super(sc);
         stage = new Stage();
 
 
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
-        game = new Game(sc, renderer);
+        this.game = game;
         scoreLabel = new ScoreLabel(game.getScore(), stage);
 
 
@@ -63,7 +63,7 @@ public class GameScreen extends Screen {
     @Override
     public void open() {
         super.open();
-        game.enterState(Game.StateName.empty);
+
     }
 
     @Override
@@ -84,19 +84,19 @@ public class GameScreen extends Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)
                 || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            game.getBoard().updateDirection(Snake.Direction.UP);
+            game.updateDirection(Snake.Direction.UP);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)
                 || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            game.getBoard().updateDirection(Snake.Direction.DOWN);
+            game.updateDirection(Snake.Direction.DOWN);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)
                 || Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            game.getBoard().updateDirection(Snake.Direction.LEFT);
+            game.updateDirection(Snake.Direction.LEFT);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)
                 || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-            game.getBoard().updateDirection(Snake.Direction.RIGHT);
+            game.updateDirection(Snake.Direction.RIGHT);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -105,12 +105,11 @@ public class GameScreen extends Screen {
                 game.enterState(Game.StateName.active);
             }
             else {
-                game.getBoard().updateDirection(Snake.Direction.SPACE);
+                game.updateDirection(Snake.Direction.SPACE);
             }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            sc.openScreen(ScreenController.ScreenName.pauseMenu);
             game.enterState(Game.StateName.paused);
         }
 
@@ -134,7 +133,7 @@ public class GameScreen extends Screen {
         renderer.rect(0, 380, 640, 200);
 
         // Draw the board
-        game.getBoard().draw();
+        game.getBoard().draw(renderer);
 
 
 

@@ -11,8 +11,7 @@ public class FinishedGameState extends GameState {
 
     @Override
     public void enter() {
-
-
+        sc.openScreen(ScreenController.ScreenName.gameOverScreen);
         game.gameUpdateTimer.setActive(false);
     }
 }

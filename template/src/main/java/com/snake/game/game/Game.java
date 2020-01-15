@@ -1,9 +1,14 @@
 package com.snake.game.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.snake.game.powerup.PowerUp;
+import com.snake.game.powerup.PowerUpFactory;
+import com.snake.game.powerup.PowerUps;
 import com.snake.game.screens.ScreenController;
 import com.snake.game.states.*;
 
+import javax.swing.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -12,6 +17,13 @@ import java.util.HashMap;
  */
 public class Game {
 
+    private boolean PORTAL_WALLS = false;
+    private boolean stopGrowFlag;
+
+    private Snake snake;
+    private ArrayList<Apple> apples;
+    private PowerUp powerUp;
+    private PowerUpFactory powerUpFactory;
 
     private ScreenController sc;
 
@@ -30,24 +42,31 @@ public class Game {
         empty, active, paused, finished
     }
 
-    public Game(ScreenController sc, ShapeRenderer rend) {
+    public Game(ScreenController sc) {
         this.sc = sc;
-
-
 
         states.put(StateName.empty, new EmptyGameState(sc, this));
         states.put(StateName.active, new ActiveGameState(sc, this));
         states.put(StateName.paused, new PauseGameState(sc, this));
         states.put(StateName.finished, new FinishedGameState(sc, this));
 
-        enterState(StateName.empty);
-
-
-        board = new Board(this, rend);
-        gameUpdateTimer = new Timer<>(board::run);
+        board = new Board(this);
+        gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
 
         score = new Score();
+
+        enterState(StateName.empty);
+    }
+
+    public void spawnSprites(){
+        snake = new Snake(0, 0, 5);
+
+        Apple apple = Apple.spawnApplePersistent(this);
+        apples = new ArrayList<>();
+        apples.add(apple);
+
+        powerUpFactory = new PowerUpFactory(this);
     }
 
     public void updateBoardTimer(){
@@ -71,17 +90,139 @@ public class Game {
 
 
 
+    /**
+     * Game update.
+     */
+    @SuppressWarnings("PMD")
+    //there must be at least one apple in the list we must not remove (line 229)
+    public void run() {
 
-    public Timer<Runnable> getGameUpdateTimer() {
-        return gameUpdateTimer;
+        updatePowerUp(
+                (float) Math.random(),
+                PowerUps.values()[(int) (Math.random() * PowerUps.values().length)]
+        );
+
+        if (snake.move()) {
+            snake.killSnake();
+            enterState(Game.StateName.finished);
+            return;
+        }
+
+        if (snake.collides(apples.get(0).getXcoord(), apples.get(0).getYcoord())) {
+            if (!stopGrowFlag) {
+                snake.addLength(3);
+            }
+            apples.set(0, Apple.spawnApplePersistent(this));
+            score.increment(10);
+        }
+
+        if (apples.size() > 1) {
+            for (int i = 0; i < apples.size(); i++) {
+                if (snake.collides(apples.get(i).getXcoord(), apples.get(i).getYcoord())) {
+                    if (!stopGrowFlag) {
+                        snake.addLength(3);
+                    }
+                    score.increment(10);
+                    apples.remove(apples.get(i));
+                }
+            }
+        }
+
+        if (powerUp != null && snake.collides(powerUp.getXcoord(), powerUp.getYcoord())) {
+            powerUp.handle();
+            powerUp = null;
+        }
     }
 
-    public Board getBoard() {
-        return board;
+    /**
+     * Method to update current powerUp. Chooses what powerUp to use (if any).
+     */
+    public void updatePowerUp(float random, PowerUps powerUp) {
+
+        if (random <= 0.01 && this.powerUp == null) {
+            this.powerUp = powerUpFactory.getPowerUp(powerUp);
+        }
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
+    /**
+     * Adds more apples to the board.
+     *
+     * @param number of apples to add.
+     */
+    public void addApples(int number) {
+        for (int i = 0; i < number; i++) {
+            apples.add(Apple.spawnApplePersistent(this));
+        }
+
+    }
+
+
+    /**
+     * Method to update snake direction.
+     *
+     * @param direction direction of a snake
+     */
+    public void updateDirection(Snake.Direction direction) {
+        if (direction == Snake.Direction.UP) {
+            snake.getDirection().enqueue(Snake.Direction.UP);
+        }
+        if (direction == Snake.Direction.DOWN) {
+            snake.getDirection().enqueue(Snake.Direction.DOWN);
+        }
+        if (direction == Snake.Direction.LEFT) {
+            snake.getDirection().enqueue(Snake.Direction.LEFT);
+        }
+        if (direction == Snake.Direction.RIGHT) {
+            snake.getDirection().enqueue(Snake.Direction.RIGHT);
+        }
+    }
+
+    public boolean isPortalWalls() {
+        return PORTAL_WALLS;
+    }
+
+    public void setPortalWalls(boolean PORTAL_WALLS) {
+        this.PORTAL_WALLS = PORTAL_WALLS;
+    }
+
+    public boolean isStopGrowFlag() {
+        return stopGrowFlag;
+    }
+
+    public void setStopGrowFlag(boolean stopGrowFlag) {
+        this.stopGrowFlag = stopGrowFlag;
+    }
+
+    public Snake getSnake() {
+        return snake;
+    }
+
+    public void setSnake(Snake snake) {
+        this.snake = snake;
+    }
+
+    public ArrayList<Apple> getApples() {
+        return apples;
+    }
+
+    public void setApples(ArrayList<Apple> apples) {
+        this.apples = apples;
+    }
+
+    public PowerUp getPowerUp() {
+        return powerUp;
+    }
+
+    public void setPowerUp(PowerUp powerUp) {
+        this.powerUp = powerUp;
+    }
+
+    public PowerUpFactory getPowerUpFactory() {
+        return powerUpFactory;
+    }
+
+    public void setPowerUpFactory(PowerUpFactory powerUpFactory) {
+        this.powerUpFactory = powerUpFactory;
     }
 
     public ScreenController getSc() {
@@ -92,8 +233,20 @@ public class Game {
         this.sc = sc;
     }
 
-    public GameState getState(){
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public GameState getState() {
         return state;
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
     }
 
     public Score getScore() {
@@ -104,4 +257,11 @@ public class Game {
         this.score = score;
     }
 
+    public Timer<Runnable> getGameUpdateTimer() {
+        return gameUpdateTimer;
+    }
+
+    public HashMap<StateName, GameState> getStates() {
+        return states;
+    }
 }

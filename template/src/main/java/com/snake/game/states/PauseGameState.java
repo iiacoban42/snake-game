@@ -11,6 +11,7 @@ public class PauseGameState extends GameState {
 
     @Override
     public void enter() {
-
+        sc.openScreen(ScreenController.ScreenName.pauseMenu);
+        game.getGameUpdateTimer().setActive(false);
     }
 }

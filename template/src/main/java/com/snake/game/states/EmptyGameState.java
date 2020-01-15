@@ -11,6 +11,8 @@ public class EmptyGameState extends GameState {
 
     @Override
     public void enter() {
-
+//        sc.openScreen(ScreenController.ScreenName.gameScreen);
+        game.getGameUpdateTimer().setActive(false);
+        game.spawnSprites();
     }
 }

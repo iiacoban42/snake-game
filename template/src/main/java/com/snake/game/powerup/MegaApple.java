@@ -2,6 +2,7 @@ package com.snake.game.powerup;
 
 import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.Board;
+import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
 
 /**
@@ -12,8 +13,8 @@ public class MegaApple extends PowerUp {
     private static final int LENGTH_INCREASE = 5;
     private static final int SCORE = 30;
 
-    public MegaApple(Board board, Snake snake, int xcoord, int ycoord) {
-        super(board, snake, xcoord, ycoord);
+    public MegaApple(Game game, int xcoord, int ycoord) {
+        super(game, xcoord, ycoord);
     }
 
     /**
@@ -21,11 +22,11 @@ public class MegaApple extends PowerUp {
      */
     @Override
     public void draw() {
-        board.getRend().setColor(Color.LIME);
-        board.getRend().circle(
-                board.getBoardX() + xcoord * board.getTile() + board.getTile() / 2.0f,
-                board.getBoardY() + ycoord * board.getTile() + board.getTile() / 2.0f,
-                board.getTile());
+        game.getBoard().getRend().setColor(Color.LIME);
+        game.getBoard().getRend().circle(
+                game.getBoard().getBoardX() + (xcoord+.5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (ycoord+.5f) * game.getBoard().getTile(),
+                game.getBoard().getTile());
 
     }
 
@@ -34,7 +35,7 @@ public class MegaApple extends PowerUp {
      */
     @Override
     public void handle() {
-        this.snake.addLength(LENGTH_INCREASE);
-        board.getGame().getScore().increment(SCORE);
+        game.getSnake().addLength(LENGTH_INCREASE);
+        game.getScore().increment(SCORE);
     }
 }

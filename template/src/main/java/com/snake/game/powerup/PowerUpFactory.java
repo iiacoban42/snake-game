@@ -1,6 +1,7 @@
 package com.snake.game.powerup;
 
 import com.snake.game.game.Board;
+import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
 
 /**
@@ -8,18 +9,15 @@ import com.snake.game.game.Snake;
  */
 public class PowerUpFactory {
 
-    private Board board;
-    private Snake snake;
+    private Game game;
     private PowerUp returned;
 
     /**
      * Constructor.
-     * @param board board
-     * @param snake snake
+     * @param game game
      */
-    public PowerUpFactory(Board board, Snake snake) {
-        this.board = board;
-        this.snake = snake;
+    public PowerUpFactory(Game game) {
+        this.game = game;
     }
 
     /**
@@ -30,27 +28,27 @@ public class PowerUpFactory {
     public PowerUp getPowerUp(PowerUps powerUp) {
         int xcoord, ycoord;
         do {
-        xcoord = (int) (board.getGridWidth() * Math.random());
-        ycoord = (int) (board.getGridHeight() * Math.random());
-        } while (snake.collides(xcoord, ycoord));
+        xcoord = (int) (game.getBoard().getGridWidth() * Math.random());
+        ycoord = (int) (game.getBoard().getGridHeight() * Math.random());
+        } while (game.getSnake().collides(xcoord, ycoord));
 
-        returned = new MegaApple(board, snake, xcoord, ycoord);
+        returned = new MegaApple(game, xcoord, ycoord);
 
         switch (powerUp) {
             case SPEED_UP:
-                returned = new SpeedUp(board, snake, xcoord, ycoord);
+                returned = new SpeedUp(game, xcoord, ycoord);
                 break;
             case MEGA_APPLE:
-                returned = new MegaApple(board, snake, xcoord, ycoord);
+                returned = new MegaApple(game, xcoord, ycoord);
                 break;
             case LENGTH:
-                returned = new LengthPowerUp(board, snake, xcoord, ycoord);
+                returned = new LengthPowerUp(game, xcoord, ycoord);
                 break;
             case MORE_APPLES:
-                returned = new MoreApples(board, snake, xcoord, ycoord);
+                returned = new MoreApples(game, xcoord, ycoord);
                 break;
             case STOP_GROW:
-                returned = new StopGrow(board, snake, xcoord, ycoord);
+                returned = new StopGrow(game, xcoord, ycoord);
                 break;
             default:
                 break;
@@ -58,20 +56,12 @@ public class PowerUpFactory {
         return returned;
     }
 
-    public Board getBoard() {
-        return board;
+    public Game getGame() {
+        return game;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public Snake getSnake() {
-        return snake;
-    }
-
-    public void setSnake(Snake snake) {
-        this.snake = snake;
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public PowerUp getReturned() {

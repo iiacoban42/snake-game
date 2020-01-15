@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.snake.game.game.Game;
 
 public class PauseMenu extends Screen {
 
@@ -24,6 +25,8 @@ public class PauseMenu extends Screen {
 
     private final transient Group group;
 
+    private final Game game;
+
     /**
      * Constructor for pause menu.
      *
@@ -32,8 +35,9 @@ public class PauseMenu extends Screen {
     @SuppressWarnings("PMD")
     //Understand why we can't call overridable method, but it can't be escaped here
     //Because of how libgdx structures classes.
-    public PauseMenu(ScreenController sc) {
+    public PauseMenu(ScreenController sc, Game game) {
         super(sc);
+        this.game = game;
         batch = new SpriteBatch();
         font = new BitmapFont();
         stage = new Stage();
@@ -83,24 +87,12 @@ public class PauseMenu extends Screen {
 
     void addListeners() {
 
+
         resumeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
-            }
-        });
-
-        quitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.startScreen);
-            }
-        });
-
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.loginScreen);
+                game.enterState(Game.StateName.active);
             }
         });
 
@@ -108,8 +100,26 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
+                game.enterState(Game.StateName.empty);
             }
         });
+
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.startScreen);
+                game.enterState(Game.StateName.empty);
+            }
+        });
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.loginScreen);
+                game.enterState(Game.StateName.empty);
+            }
+        });
+
 
     }
 
