@@ -1,7 +1,6 @@
-package com.snake.game.powerup;
+package com.snake.game.game.powerup;
 
 import com.badlogic.gdx.graphics.Color;
-import com.snake.game.game.Board;
 import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
 
@@ -14,19 +13,27 @@ public class LengthPowerUp extends PowerUp {
     private static final int SIZE_DECREASE = 3;
     private static final int SCORE = 10;
 
-    public LengthPowerUp(Game game, int xcoord, int ycoord) {
-        super(game, xcoord, ycoord);
+    /**
+     * Constructor.
+     *
+     * @param xPos x-coordinate of position
+     * @param yPos y-coordinate of position
+     */
+    public LengthPowerUp(int xPos, int yPos) {
+        super(xPos, yPos);
     }
 
     /**
-     * Draws length power up on the board.
+     * Draws the LengthPowerUp power-up to the board of the game.
+     *
+     * @param game game
      */
     @Override
-    public void draw() {
+    public void draw(Game game) {
         game.getBoard().getRend().setColor(Color.PINK);
         game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (xcoord+.5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (ycoord+.5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardX() + (xPos + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (yPos + .5f) * game.getBoard().getTile(),
                 game.getBoard().getTile());
     }
 
@@ -34,7 +41,7 @@ public class LengthPowerUp extends PowerUp {
      * Decrease length.
      */
     @Override
-    public void handle() {
+    public void consume(Game game, Snake snake) {
         if (game.getSnake().getLength() > MIN_LENGTH) {
             game.getSnake().addLength(-SIZE_DECREASE);
         }

@@ -1,8 +1,6 @@
-package com.snake.game.powerup;
+package com.snake.game.game.powerup;
 
-import com.snake.game.game.Board;
 import com.snake.game.game.Game;
-import com.snake.game.game.Snake;
 
 /**
  * Creates new (randomized) power-ups.
@@ -25,32 +23,31 @@ public class PowerUpFactory {
      * @param powerUp the power up.
      * @return specific powerUp.
      */
-    public PowerUp getPowerUp(PowerUps powerUp) {
-        int xcoord, ycoord;
+    public PowerUp getPowerUp(PowerUpName powerUp) {
+        int xPos, yPos;
         do {
-        xcoord = (int) (game.getBoard().getGridWidth() * Math.random());
-        ycoord = (int) (game.getBoard().getGridHeight() * Math.random());
-        } while (game.getSnake().collides(xcoord, ycoord));
-
-        returned = new MegaApple(game, xcoord, ycoord);
+        xPos = (int) (game.getBoard().getGridWidth() * Math.random());
+        yPos = (int) (game.getBoard().getGridHeight() * Math.random());
+        } while (game.getSnake().collides(xPos, yPos));
 
         switch (powerUp) {
             case SPEED_UP:
-                returned = new SpeedUp(game, xcoord, ycoord);
+                returned = new SpeedUp(xPos, yPos);
                 break;
             case MEGA_APPLE:
-                returned = new MegaApple(game, xcoord, ycoord);
+                returned = new MegaApple(xPos, yPos);
                 break;
             case LENGTH:
-                returned = new LengthPowerUp(game, xcoord, ycoord);
+                returned = new LengthPowerUp(xPos, yPos);
                 break;
             case MORE_APPLES:
-                returned = new MoreApples(game, xcoord, ycoord);
+                returned = new MoreApples(xPos, yPos);
                 break;
             case STOP_GROW:
-                returned = new StopGrow(game, xcoord, ycoord);
+                returned = new StopGrow(xPos, yPos);
                 break;
             default:
+                returned = null;
                 break;
         }
         return returned;

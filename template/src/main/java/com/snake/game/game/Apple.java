@@ -7,48 +7,43 @@ import com.badlogic.gdx.graphics.Color;
  * the player should attempt to eat by moving the snake head towards it. Eating one increases
  * the score and the snake length
  */
-public class Apple {
+public class Apple implements Consumable {
 
-    private int xcoord;
-    private int ycoord;
+    private final int xPos;
+    private final int yPos;
 
     /**
      * Construct apple.
-     * @param xcoord .
-     * @param ycoord .
+     *
+     * @param xPos x-coordinate of position
+     * @param yPos y-coordinate of position
      */
-    public Apple(int xcoord, int ycoord) {
-        this.xcoord = xcoord;
-        this.ycoord = ycoord;
+    public Apple(int xPos, int yPos) {
+        this.xPos = xPos;
+        this.yPos = yPos;
     }
 
-    public int getXcoord() {
-        return xcoord;
+
+    @Override
+    public void consume(Game game, Snake snake) {
+        if (!game.isStopGrowFlag()) {
+            snake.addLength(3);
+        }
+        game.getScore().increment(10);
     }
 
-    public int getYcoord() {
-        return ycoord;
-    }
-
-    public void setXcoord(int xcoord) {
-        this.xcoord = xcoord;
-    }
-
-    public void setYcoord(int ycoord) {
-        this.ycoord = ycoord;
-    }
 
     /**
-     * Render board.
-     * @param board to render.
+     * Render apple on board of given Game.
+     * @param game game.
      */
-    public void draw(Board board) {
-
-        board.getRend().setColor(Color.LIME);
-        board.getRend().circle(
-                board.getBoardX() + xcoord * board.getTile() + board.getTile() / 2.0f,
-                board.getBoardY() + ycoord * board.getTile() + board.getTile() / 2.0f,
-                board.getTile() / 2.0f);
+    @Override
+    public void draw(Game game) {
+        game.getBoard().getRend().setColor(Color.LIME);
+        game.getBoard().getRend().circle(
+                game.getBoard().getBoardX() + (xPos + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (yPos + .5f) * game.getBoard().getTile(),
+                game.getBoard().getTile() / 2.0f);
 
     }
 
@@ -70,14 +65,23 @@ public class Apple {
     /**
      * Checks whether a location is suitable for an apple to spawn.
      * @param game the game that contains all possible obstacles
-     * @param xcoord the x-coordinate to test
-     * @param ycoord the y-coordinate to test
+     * @param xPos the x-coordinate to test
+     * @param yPos the y-coordinate to test
      * @return returns true if the given location is suitable
      */
-    private static boolean isProperSpawnLocation(Game game, int xcoord, int ycoord) {
-        if (game.getSnake().collides(xcoord, ycoord)) {
+    private static boolean isProperSpawnLocation(Game game, int xPos, int yPos) {
+        if (game.getSnake().collides(xPos, yPos)) {
             return false;
         }
         return true;
     }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
 }

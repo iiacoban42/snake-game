@@ -1,13 +1,11 @@
 package com.snake.game.game;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.snake.game.powerup.PowerUp;
-import com.snake.game.powerup.PowerUpFactory;
-import com.snake.game.powerup.PowerUps;
+import com.snake.game.game.powerup.PowerUp;
+import com.snake.game.game.powerup.PowerUpFactory;
+import com.snake.game.game.powerup.PowerUpName;
 import com.snake.game.screens.ScreenController;
 import com.snake.game.states.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +15,8 @@ import java.util.HashMap;
  */
 public class Game {
 
+    private ScreenController sc;
+
     private boolean PORTAL_WALLS = false;
     private boolean stopGrowFlag;
 
@@ -24,8 +24,6 @@ public class Game {
     private ArrayList<Apple> apples;
     private PowerUp powerUp;
     private PowerUpFactory powerUpFactory;
-
-    private ScreenController sc;
 
     private Board board;
     private GameState state;
@@ -88,48 +86,35 @@ public class Game {
         state.enter();
     }
 
-
-
     /**
      * Game update.
      */
     @SuppressWarnings("PMD")
     //there must be at least one apple in the list we must not remove (line 229)
     public void run() {
-
-        updatePowerUp(
-                (float) Math.random(),
-                PowerUps.values()[(int) (Math.random() * PowerUps.values().length)]
-        );
-
         if (snake.move()) {
             snake.killSnake();
             enterState(Game.StateName.finished);
             return;
         }
 
-        if (snake.collides(apples.get(0).getXcoord(), apples.get(0).getYcoord())) {
-            if (!stopGrowFlag) {
-                snake.addLength(3);
-            }
-            apples.set(0, Apple.spawnApplePersistent(this));
-            score.increment(10);
-        }
-
-        if (apples.size() > 1) {
-            for (int i = 0; i < apples.size(); i++) {
-                if (snake.collides(apples.get(i).getXcoord(), apples.get(i).getYcoord())) {
-                    if (!stopGrowFlag) {
-                        snake.addLength(3);
-                    }
-                    score.increment(10);
-                    apples.remove(apples.get(i));
-                }
+        for (int i = 0; i < apples.size(); i++) {
+            if (snake.collides(apples.get(i).getxPos(), apples.get(i).getyPos())) {
+                apples.get(i).consume(this, snake);
+                apples.remove(apples.get(i));
             }
         }
+        if(apples.size() == 0){
+            apples.add(Apple.spawnApplePersistent(this));
+        }
 
-        if (powerUp != null && snake.collides(powerUp.getXcoord(), powerUp.getYcoord())) {
-            powerUp.handle();
+        if(powerUp == null){
+            double chance = Math.random();
+            int powerUpIndex = (int) (Math.random() * PowerUpName.values().length);
+            updatePowerUp(chance, PowerUpName.values()[powerUpIndex]);
+        }
+        if (powerUp != null && snake.collides(powerUp.getxPos(), powerUp.getyPos())) {
+            powerUp.consume(this, snake);
             powerUp = null;
         }
     }
@@ -137,10 +122,9 @@ public class Game {
     /**
      * Method to update current powerUp. Chooses what powerUp to use (if any).
      */
-    public void updatePowerUp(float random, PowerUps powerUp) {
-
-        if (random <= 0.01 && this.powerUp == null) {
-            this.powerUp = powerUpFactory.getPowerUp(powerUp);
+    public void updatePowerUp(double chance, PowerUpName powerUpName) {
+        if (chance <= 0.01) {
+            this.powerUp = powerUpFactory.getPowerUp(powerUpName);
         }
     }
 
@@ -153,7 +137,6 @@ public class Game {
         for (int i = 0; i < number; i++) {
             apples.add(Apple.spawnApplePersistent(this));
         }
-
     }
 
 

@@ -1,7 +1,6 @@
-package com.snake.game.powerup;
+package com.snake.game.game.powerup;
 
 import com.badlogic.gdx.graphics.Color;
-import com.snake.game.game.Board;
 import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
 import com.snake.game.game.Timer;
@@ -13,19 +12,25 @@ import java.util.TimerTask;
  */
 public class SpeedUp extends PowerUp {
 
-    public SpeedUp(Game game, int xcoord, int ycoord) {
-        super(game, xcoord, ycoord);
+    /**
+     * Constructor.
+     *
+     * @param xPos x-coordinate of position
+     * @param yPos y-coordinate of position
+     */
+    public SpeedUp(int xPos, int yPos) {
+        super(xPos, yPos);
     }
 
     /**
      * Draws speedUp on the board.
      */
     @Override
-    public void draw() {
+    public void draw(Game game) {
         game.getBoard().getRend().setColor(Color.RED);
         game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (xcoord+.5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (ycoord+.5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardX() + (xPos + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (yPos + .5f) * game.getBoard().getTile(),
                 game.getBoard().getTile());
     }
 
@@ -33,7 +38,7 @@ public class SpeedUp extends PowerUp {
      * Increase speed for 30 seconds, give bonus points.
      */
     @Override
-    public void handle() {
+    public void consume(Game game, Snake snake) {
         Timer<Runnable> gameUpdateTimer = new Timer<>(game::run, 60);
         game.setGameUpdateTimer(gameUpdateTimer);
         gameUpdateTimer.setActive(true);

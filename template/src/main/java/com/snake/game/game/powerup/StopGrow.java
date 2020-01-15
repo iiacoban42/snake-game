@@ -1,9 +1,9 @@
-package com.snake.game.powerup;
+package com.snake.game.game.powerup;
 
 import com.badlogic.gdx.graphics.Color;
-import com.snake.game.game.Board;
 import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
+import javafx.scene.paint.Stop;
 
 import java.util.TimerTask;
 
@@ -14,16 +14,22 @@ public class StopGrow extends PowerUp {
 
     private static final int SCORE = 20;
 
-    public StopGrow(Game game, int xcoord, int ycoord) {
-        super(game, xcoord, ycoord);
+    /**
+     * Constructor.
+     *
+     * @param xPos x-coordinate of position
+     * @param yPos y-coordinate of position
+     */
+    public StopGrow(int xPos, int yPos) {
+        super(xPos, yPos);
     }
 
     @Override
-    public void draw() {
+    public void draw(Game game) {
         game.getBoard().getRend().setColor(Color.ORANGE);
         game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (xcoord+.5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (ycoord+.5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardX() + (xPos + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (yPos + .5f) * game.getBoard().getTile(),
                 game.getBoard().getTile());
     }
 
@@ -31,7 +37,7 @@ public class StopGrow extends PowerUp {
      * Stop growing for 30 seconds.
      */
     @Override
-    public void handle() {
+    public void consume(Game game, Snake snake) {
         game.getScore().increment(SCORE);
         game.setStopGrowFlag(true);
         TimerTask task = new TimerTask() {

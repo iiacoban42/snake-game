@@ -1,11 +1,6 @@
 package com.snake.game.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.snake.game.powerup.PowerUp;
-import com.snake.game.powerup.PowerUpFactory;
-import com.snake.game.powerup.PowerUps;
-
-import java.util.ArrayList;
 
 /**
  * The board is the field on which the game takes place. The snake and consumables take place
@@ -55,12 +50,12 @@ public class Board {
             game.getSnake().draw(this);
         }
         if (game.getPowerUp() != null) {
-            game.getPowerUp().draw();
+            game.getPowerUp().draw(game);
         }
         if(game.getApples() != null){
             if (game.getApples().size() > 0) {
                 for (Apple extraApple : game.getApples()) {
-                    extraApple.draw(this);
+                    extraApple.draw(game);
                 }
             }
         }

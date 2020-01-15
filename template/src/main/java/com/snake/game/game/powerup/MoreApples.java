@@ -1,7 +1,6 @@
-package com.snake.game.powerup;
+ package com.snake.game.game.powerup;
 
 import com.badlogic.gdx.graphics.Color;
-import com.snake.game.game.Board;
 import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
 
@@ -14,16 +13,27 @@ public class MoreApples extends PowerUp {
     private static final int SCORE = 10;
     private static final int APPLES_TO_ADD = 3;
 
-    public MoreApples(Game game, int xcoord, int ycoord) {
-        super(game, xcoord, ycoord);
+    /**
+     * Constructor.
+     *
+     * @param xPos x-coordinate of position
+     * @param yPos y-coordinate of position
+     */
+    public MoreApples(int xPos, int yPos) {
+        super(xPos, yPos);
     }
 
+    /**
+     * Draws the MoreApples power-up to the board of the game.
+     *
+     * @param game game
+     */
     @Override
-    public void draw() {
+    public void draw(Game game) {
         game.getBoard().getRend().setColor(Color.BLUE);
         game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (xcoord+.5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (ycoord+.5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardX() + (xPos + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (yPos + .5f) * game.getBoard().getTile(),
                 game.getBoard().getTile());
     }
 
@@ -31,9 +41,8 @@ public class MoreApples extends PowerUp {
      * Adds 3 apples to the board.
      */
     @Override
-    public void handle() {
+    public void consume(Game game, Snake snake) {
         game.addApples(APPLES_TO_ADD);
         game.getScore().increment(SCORE);
     }
-
 }
