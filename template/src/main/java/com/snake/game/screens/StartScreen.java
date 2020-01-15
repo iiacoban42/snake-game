@@ -24,7 +24,7 @@ public class StartScreen extends Screen {
 
     private final transient TextButton playButton;
     private final transient TextButton quitButton;
-    private final transient TextButton settingsButton;
+    private final transient TextButton scoresButton;
 
     private final transient Image logo;
 
@@ -54,15 +54,15 @@ public class StartScreen extends Screen {
 
         playButton = new TextButton("Start", skin);
         playButton.setSize(80, 35);
-        settingsButton = new TextButton("Settings", skin);
-        settingsButton.setSize(80, 35);
-        quitButton = new TextButton("Quit", skin);
+        scoresButton = new TextButton("Scores", skin);
+        scoresButton.setSize(80, 35);
+        quitButton = new TextButton("Exit", skin);
         quitButton.setSize(80, 35);
 
         group = new Group();
         group.addActor(logo);
         group.addActor(playButton);
-        group.addActor(settingsButton);
+        group.addActor(scoresButton);
         group.addActor(quitButton);
         stage.addActor(group);
 
@@ -77,7 +77,7 @@ public class StartScreen extends Screen {
 
         logo.setPosition(pivotX - 325, pivotY - 180);
         playButton.setPosition(pivotX + 50, pivotY - 10);
-        settingsButton.setPosition(pivotX + 50, pivotY - 60);
+        scoresButton.setPosition(pivotX + 50, pivotY - 60);
         quitButton.setPosition(pivotX + 50, pivotY - 110);
     }
 
@@ -86,6 +86,14 @@ public class StartScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
+
+            }
+        });
+
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.loginScreen);
 
             }
         });
