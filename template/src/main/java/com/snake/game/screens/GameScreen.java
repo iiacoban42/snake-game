@@ -179,6 +179,7 @@ public class GameScreen extends Screen {
         // Handlers that rely on per-frame firing
         game.updateBoardTimer();
         game.getState().keyPress();
+        overlayGroup.setVisible(game.getState() instanceof PauseGameState);
 
         // Clear the screen
         Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
@@ -189,7 +190,7 @@ public class GameScreen extends Screen {
 
         // Draw background design props
         renderer.setColor(.42f, .82f, .32f, 1);
-        renderer.rect(0, 380, 640, 200);
+        renderer.rect(0, 380, stage.getWidth(), stage.getHeight() - 380);
 
         // Draw the board
         game.getBoard().draw(renderer);
@@ -199,7 +200,6 @@ public class GameScreen extends Screen {
 
         // Draw overlaying Actors of stage
         stage.draw();
-        overlayGroup.setVisible(game.getState() instanceof PauseGameState);
     }
 
 
@@ -225,7 +225,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height);
     }
 
     @Override

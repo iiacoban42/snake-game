@@ -2,10 +2,13 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -87,13 +90,25 @@ public class LoginScreen extends Screen {
         group.addActor(loginButton);
         group.addActor(registerButton);
         group.addActor(playButton);
+
         stage.addActor(group);
 
         stage.setKeyboardFocus(usernameTextField);
 
-        super.position(usernameTextField, passwordTextField, registerButton, loginButton, logo);
+        position(usernameTextField, passwordTextField, registerButton, loginButton, logo);
         updatePosition();
         addListeners();
+    }
+    void position(TextField user, TextField password, TextButton left,
+                  TextButton right, Image logo) {
+
+        int pivotX = 400;
+        int pivotY = 280;
+        user.setPosition(pivotX, pivotY);
+        password.setPosition(pivotX, pivotY - 45);
+        logo.setPosition(pivotX - 325, pivotY - 180);
+        right.setPosition(pivotX, pivotY - 90);
+        left.setPosition(pivotX + 90, pivotY - 90);
     }
 
     void updatePosition() {
@@ -158,8 +173,25 @@ public class LoginScreen extends Screen {
 
     @Override
     public void resize(int width, int height) {
-        group.setScale(standardWidth / width, standardHeight / height);
+        stage.getViewport().update(width, height);
+//        group.setScale(standardWidth / width, standardHeight / height);
         updatePosition();
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
 
@@ -171,12 +203,36 @@ public class LoginScreen extends Screen {
 
     @Override
     public void create() {
-        // font.setColor(Color.RED);
+
     }
 
     @Override
     public void render() {
 
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(.85f, .85f, .85f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(.42f, .82f, .32f, 1);
+        shapeRenderer.rect(0, 0,
+                stage.getViewport().getScreenWidth(),
+                stage.getViewport().getScreenHeight() / standardHeight * 50.0f);
+        shapeRenderer.rect(0, stage.getViewport().getScreenHeight() / standardHeight * 380,
+                stage.getViewport().getScreenWidth(),
+                stage.getViewport().getScreenHeight() / standardHeight * 100.0f);
+        shapeRenderer.end();
+
+        stage.draw();
     }
 
 }
