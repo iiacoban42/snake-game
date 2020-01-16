@@ -101,7 +101,7 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
-                game.enterState(GameStateName.empty);
+                game.enterState(GameStateName.newGame);
             }
         });
 
@@ -109,7 +109,7 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
-                game.enterState(GameStateName.empty);
+                game.enterState(GameStateName.active);
             }
         });
 
@@ -117,7 +117,7 @@ public class PauseMenu extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.loginScreen);
-                game.enterState(GameStateName.empty);
+                game.enterState(GameStateName.newGame);
             }
         });
 

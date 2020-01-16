@@ -5,13 +5,12 @@ import com.snake.game.screens.ScreenController;
 
 public class PauseGameState extends GameState {
 
-    public PauseGameState(ScreenController sc, Game game) {
-        super(sc, game);
+    public PauseGameState(Game game) {
+        super(game);
     }
 
     @Override
     public void enter() {
-        sc.openScreen(ScreenController.ScreenName.pauseMenu);
         game.getGameUpdateTimer().setActive(false);
     }
 }

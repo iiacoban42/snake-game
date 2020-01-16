@@ -5,13 +5,12 @@ import com.snake.game.screens.ScreenController;
 
 public class FinishedGameState extends GameState {
 
-    public FinishedGameState(ScreenController sc, Game game) {
-        super(sc, game);
+    public FinishedGameState(Game game) {
+        super(game);
     }
 
     @Override
     public void enter() {
-        sc.openScreen(ScreenController.ScreenName.gameOverScreen);
         game.gameUpdateTimer.setActive(false);
     }
 }

@@ -88,7 +88,7 @@ public class GameOverScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.gameScreen);
-                game.enterState(GameStateName.empty);
+                game.enterState(GameStateName.newGame);
             }
         });
 
@@ -96,7 +96,7 @@ public class GameOverScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
-                game.enterState(GameStateName.empty);
+                game.enterState(GameStateName.newGame);
             }
         });
 
@@ -104,7 +104,7 @@ public class GameOverScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.loginScreen);
-                game.enterState(GameStateName.empty);
+                game.enterState(GameStateName.newGame);
             }
         });
     }
@@ -134,10 +134,8 @@ public class GameOverScreen extends Screen {
         renderer.setColor(.42f, .82f, .32f, 1);
         renderer.rect(0, 380, 640, 200);
 
-
         // Finalize renderer
         renderer.end();
-
 
         // Draw overlaying Actors of stage
         stage.draw();

@@ -5,13 +5,14 @@ import com.snake.game.screens.ScreenController;
 
 public class EmptyGameState extends GameState {
 
-    public EmptyGameState(ScreenController sc, Game game) {
-        super(sc, game);
+    public EmptyGameState(Game game) {
+        super(game);
     }
 
     @Override
     public void enter() {
         game.getGameUpdateTimer().setActive(false);
         game.spawnSprites();
+        System.out.println("new");
     }
 }

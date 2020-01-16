@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.snake.game.game.*;
 import com.snake.game.states.EmptyGameState;
 import com.snake.game.states.GameStateName;
@@ -17,54 +18,53 @@ import com.snake.game.states.GameStateName;
  */
 public class GameScreen extends Screen {
 
-
-
     // GUI elements
     private final ShapeRenderer renderer;
     private final Game game;
 
-    private final transient ScoreLabel scoreLabel;
+    private final transient Label scoreLabel;
     private final transient Label usernameLabel;
     private final transient Label pauseLabel;
     private final transient String usernameLabelFormat = "Welcome %s";
-
-
 
     /**
      * Create Game screen.
      *
      * @param sc Screen Controller
      */
-    public GameScreen(ScreenController sc, Game game) {
+    public GameScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();
-
-
+        game = new Game();
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
-        this.game = game;
-        scoreLabel = new ScoreLabel(game.getScore(), stage);
 
+        LabelStyle labelStyle = new LabelStyle();
+        labelStyle.font = new BitmapFont();
+        labelStyle.fontColor = Color.DARK_GRAY;
 
-        Label.LabelStyle usernameLabelStyle = new Label.LabelStyle();
-        usernameLabelStyle.font = new BitmapFont();
-        usernameLabelStyle.fontColor = Color.DARK_GRAY;
+        scoreLabel = new Label("blabla", labelStyle);
+        scoreLabel.setPosition(400, 300);
+        scoreLabel.setFontScale(1.3f);
 
-        usernameLabel = new Label("", usernameLabelStyle);
+        usernameLabel = new Label("", labelStyle);
         usernameLabel.setPosition(400, 330);
         usernameLabel.setFontScale(1.3f);
 
-        pauseLabel = new Label("Press Esc pause", usernameLabelStyle);
+        pauseLabel = new Label("Press Esc pause", labelStyle);
         pauseLabel.setPosition(400, 200);
+
 
         stage.addActor(pauseLabel);
         stage.addActor(usernameLabel);
+        stage.addActor(scoreLabel);
     }
 
     @Override
     public void open() {
         super.open();
-
+        usernameLabel.setText(String.format(usernameLabelFormat, User.getInstance().getUsername()));
+        game.enterState(GameStateName.newGame);
     }
 
     @Override
@@ -82,6 +82,7 @@ public class GameScreen extends Screen {
     public void render(float delta) {
 
         // Handlers that rely on per-frame firing
+        game.updateBoardTimer();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)
                 || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
@@ -101,7 +102,6 @@ public class GameScreen extends Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-
             if (game.getState() instanceof EmptyGameState) {
                 game.enterState(GameStateName.active);
             } else {
@@ -112,8 +112,6 @@ public class GameScreen extends Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             game.enterState(GameStateName.paused);
         }
-
-        game.updateBoardTimer();
 
         // Clear the screen
         Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
@@ -132,11 +130,9 @@ public class GameScreen extends Screen {
         // Finalize renderer
         renderer.end();
 
-        scoreLabel.draw();
-        usernameLabel.setText(String.format(usernameLabelFormat, User.getInstance().getUsername()));
-
         // Draw overlaying Actors of stage
         stage.draw();
+//        scoreLabel.draw();
     }
 
 

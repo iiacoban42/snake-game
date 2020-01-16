@@ -3,7 +3,6 @@ package com.snake.game.game;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
 import com.snake.game.game.powerup.PowerUpName;
-import com.snake.game.screens.ScreenController;
 import com.snake.game.states.*;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.HashMap;
  */
 public class Game {
 
-    private ScreenController sc;
+//    private ScreenController sc;
 
     private boolean portalWalls = false;
     private boolean stopGrowFlag = false;
@@ -39,16 +38,13 @@ public class Game {
 
     /**
      * Constructor.
-     *
-     * @param sc screen controller
      */
-    public Game(ScreenController sc) {
-        this.sc = sc;
+    public Game() {
 
-        states.put(GameStateName.empty, new EmptyGameState(sc, this));
-        states.put(GameStateName.active, new ActiveGameState(sc, this));
-        states.put(GameStateName.paused, new PauseGameState(sc, this));
-        states.put(GameStateName.finished, new FinishedGameState(sc, this));
+        states.put(GameStateName.newGame, new EmptyGameState(this));
+        states.put(GameStateName.active, new ActiveGameState(this));
+        states.put(GameStateName.paused, new PauseGameState(this));
+        states.put(GameStateName.gameOver, new FinishedGameState(this));
 
         board = new Board(this);
         gameUpdateTimer = new Timer<>(this::run);
@@ -97,7 +93,7 @@ public class Game {
     public void run() {
         if (snake.move()) {
             snake.killSnake();
-            enterState(GameStateName.finished);
+            enterState(GameStateName.gameOver);
             return;
         }
 
@@ -162,14 +158,6 @@ public class Game {
         if (direction == Snake.Direction.RIGHT) {
             snake.getDirection().enqueue(Snake.Direction.RIGHT);
         }
-    }
-
-    public ScreenController getSc() {
-        return sc;
-    }
-
-    public void setSc(ScreenController sc) {
-        this.sc = sc;
     }
 
     public boolean isPortalWalls() {

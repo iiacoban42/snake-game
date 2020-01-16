@@ -5,19 +5,13 @@ import com.snake.game.screens.ScreenController;
 
 public abstract class GameState {
 
-    protected final ScreenController sc;
     protected final Game game;
 
-    GameState(ScreenController sc, Game game) {
-        this.sc = sc;
+    GameState(Game game) {
         this.game = game;
     }
 
     public abstract void enter();
-
-    public ScreenController getSc() {
-        return sc;
-    }
 
     public Game getGame() {
         return game;

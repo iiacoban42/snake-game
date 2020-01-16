@@ -42,15 +42,11 @@ public class ScreenController extends com.badlogic.gdx.Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        Game game = new Game(this);
-        game.enterState(GameStateName.empty);
 
         screens.put(ScreenName.loginScreen, new LoginScreen(this));
         screens.put(ScreenName.registerScreen, new RegisterScreen(this));
-        screens.put(ScreenName.gameScreen, new GameScreen(this, game));
-        screens.put(ScreenName.gameOverScreen, new GameOverScreen(this, game));
+        screens.put(ScreenName.gameScreen, new GameScreen(this));
         screens.put(ScreenName.startScreen, new StartScreen(this));
-        screens.put(ScreenName.pauseMenu, new PauseMenu(this, game));
 
         openScreen(ScreenName.loginScreen);
     }
