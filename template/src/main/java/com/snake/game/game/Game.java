@@ -1,13 +1,14 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
 import com.snake.game.game.powerup.PowerUpName;
 import com.snake.game.states.ActiveGameState;
-import com.snake.game.states.EmptyGameState;
 import com.snake.game.states.FinishedGameState;
 import com.snake.game.states.GameState;
 import com.snake.game.states.GameStateName;
+import com.snake.game.states.NewGameState;
 import com.snake.game.states.PauseGameState;
 
 import java.util.ArrayList;
@@ -42,14 +43,14 @@ public class Game {
     /**
      * Constructor.
      */
-    public Game() {
+    public Game(ShapeRenderer rend) {
 
-        states.put(GameStateName.newGame, new EmptyGameState(this));
+        states.put(GameStateName.newGame, new NewGameState(this));
         states.put(GameStateName.active, new ActiveGameState(this));
         states.put(GameStateName.paused, new PauseGameState(this));
         states.put(GameStateName.gameOver, new FinishedGameState(this));
 
-        board = new Board(this);
+        board = new Board(this, rend);
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
 

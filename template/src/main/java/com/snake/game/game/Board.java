@@ -17,9 +17,7 @@ public class Board {
     private final int boardWidth = gridWidth * tile;
     private final int boardHeight = gridHeight * tile;
 
-
-
-    private ShapeRenderer rend;
+    private final ShapeRenderer rend;
     private final Game game;
 
 
@@ -28,10 +26,10 @@ public class Board {
      *
      * @param game game
      */
-    public Board(Game game) {
+    public Board(Game game, ShapeRenderer rend) {
         this.game = game;
+        this.rend = rend;
     }
-
 
     /**
      * Draws the board using a ShapeRenderer.
@@ -42,7 +40,6 @@ public class Board {
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
     //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     public void draw(ShapeRenderer rend) {
-        this.rend = rend;
         final float backgroundGrayScale = .85f;
 
         rend.setColor(backgroundGrayScale, backgroundGrayScale, backgroundGrayScale, 1);
@@ -54,20 +51,17 @@ public class Board {
         rend.set(ShapeRenderer.ShapeType.Filled);
         rend.setColor(.0f, .0f, .0f, 1);
 
-        if (game.getSnake() != null) {
-            game.getSnake().draw(this);
-        }
+
+        game.getSnake().draw(this);
+
         if (game.getPowerUp() != null) {
             game.getPowerUp().draw(game);
         }
-        if (game.getApples() != null) {
-            if (game.getApples().size() > 0) {
-                for (Apple extraApple : game.getApples()) {
-                    extraApple.draw(game);
-                }
+        if (game.getApples().size() > 0) {
+            for (Apple extraApple : game.getApples()) {
+                extraApple.draw(game);
             }
         }
-
     }
 
     public int getTile() {
@@ -104,9 +98,5 @@ public class Board {
 
     public Game getGame() {
         return game;
-    }
-
-    public void setRend(ShapeRenderer rend) {
-        this.rend = rend;
     }
 }

@@ -14,6 +14,7 @@ public class Snake {
     private LinkedList<BodyPart> snakeBody;
     private int length;
     private DirectionQueue direction;
+    private Color color = Color.PURPLE;
 
     public LinkedList<BodyPart> getSnakeBody() {
         return snakeBody;
@@ -76,12 +77,13 @@ public class Snake {
                 getHead().getPosX(),
                 getHead().getPosY(),
                 direction.getDirection());
+
+
         if (collides(newHead.getPosX(), newHead.getPosY())
                 || newHead.getPosX() < 0 || newHead.getPosX() >= board.getGridWidth()
                 || newHead.getPosY() < 0 || newHead.getPosY() >= board.getGridHeight()) {
             return true;
         }
-
         snakeBody.addLast(newHead);
         while (snakeBody.size() > length) {
             snakeBody.removeFirst();
@@ -128,6 +130,14 @@ public class Snake {
         length += increment;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public class BodyPart {
         private final int posX;
         private final int posY;
@@ -155,7 +165,7 @@ public class Snake {
          * @param board current board
          */
         public void draw(Board board) {
-            board.getRend().setColor(Color.PURPLE);
+            board.getRend().setColor(color);
             board.getRend().rect(
                     board.getBoardX() + posX * board.getTile(),
                     board.getBoardY() + posY * board.getTile(),

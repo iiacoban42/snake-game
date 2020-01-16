@@ -16,6 +16,8 @@ public abstract class GameState {
 
     public abstract void draw(ShapeRenderer renderer);
 
+    public abstract void keyPress();
+
     public Game getGame() {
         return game;
     }

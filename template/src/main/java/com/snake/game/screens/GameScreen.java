@@ -1,7 +1,6 @@
 package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,11 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.Game;
-import com.snake.game.game.Snake;
 import com.snake.game.game.User;
-import com.snake.game.states.ActiveGameState;
-import com.snake.game.states.EmptyGameState;
-import com.snake.game.states.FinishedGameState;
 import com.snake.game.states.GameStateName;
 import com.snake.game.states.PauseGameState;
 
@@ -61,8 +56,8 @@ public class GameScreen extends Screen {
     public GameScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();
-        game = new Game();
         renderer = new ShapeRenderer();
+        game = new Game(renderer);
         renderer.setAutoShapeType(true);
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
@@ -106,7 +101,6 @@ public class GameScreen extends Screen {
         restartButton.setBounds(0,60,200,40);
         menuButton = new TextButton("Menu", skin);
         menuButton.setBounds(0,0,200,40);
-
 
         statGroup = new Group();
         statGroup.addActor(usernameLabel);
@@ -184,40 +178,7 @@ public class GameScreen extends Screen {
 
         // Handlers that rely on per-frame firing
         game.updateBoardTimer();
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)
-                || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            game.updateDirection(Snake.Direction.UP);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)
-                || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            game.updateDirection(Snake.Direction.DOWN);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)
-                || Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            game.updateDirection(Snake.Direction.LEFT);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)
-                || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-            game.updateDirection(Snake.Direction.RIGHT);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
-                || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-
-            if (game.getState() instanceof ActiveGameState) {
-                game.enterState(GameStateName.paused);
-                overlayGroup.setVisible(true);
-            } else if (game.getState() instanceof EmptyGameState
-                    || game.getState() instanceof PauseGameState) {
-                game.enterState(GameStateName.active);
-                overlayGroup.setVisible(false);
-            } else if (game.getState() instanceof FinishedGameState) {
-                game.enterState(GameStateName.newGame);
-                overlayGroup.setVisible(false);
-            }
-
-        }
+        game.getState().keyPress();
 
         // Clear the screen
         Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
@@ -238,6 +199,7 @@ public class GameScreen extends Screen {
 
         // Draw overlaying Actors of stage
         stage.draw();
+        overlayGroup.setVisible(game.getState() instanceof PauseGameState);
     }
 
 
@@ -277,5 +239,9 @@ public class GameScreen extends Screen {
 
     public Game getGame() {
         return game;
+    }
+
+    public Skin getSkin() {
+        return skin;
     }
 }
