@@ -13,6 +13,7 @@ public class FinishedGameState extends GameState {
     @Override
     public void enter() {
         game.gameUpdateTimer.setActive(false);
+        game.getScore().reset();
     }
 
     @Override
