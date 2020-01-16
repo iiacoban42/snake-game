@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.requests.Leaderboard;
-import com.snake.game.requests.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,11 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Class representing leaderboard screen.
+ */
 public class LeaderboardScreen extends Screen {
 
-    private Table leaderboardTable;
-    private Label.LabelStyle leaderboardStyle;
+    private transient Table leaderboardTable;
+    private transient Label.LabelStyle leaderboardStyle;
 
+    /**
+     * Constructor.
+     * @param sc screen controller
+     */
     LeaderboardScreen(ScreenController sc) {
         super(sc);
 

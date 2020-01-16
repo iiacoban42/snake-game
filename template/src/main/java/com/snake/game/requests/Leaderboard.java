@@ -13,7 +13,6 @@ public class Leaderboard extends ApiRequest<JsonNode> {
     @Override
     public void execute() {
         try {
-
             HttpResponse<JsonNode> response = this.get("/user/topscores")
                     .asJson();
 

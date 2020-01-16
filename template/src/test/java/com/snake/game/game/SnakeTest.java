@@ -20,7 +20,6 @@ public class SnakeTest {
         assertEquals(snakeLength, 2);
         assertEquals(snakeX, 1);
         assertEquals(snakeY, 2);
-
     }
 
     @Test
@@ -151,12 +150,5 @@ public class SnakeTest {
                 false);
 
     }
-
-
-
-
-
-
-
 
 }
