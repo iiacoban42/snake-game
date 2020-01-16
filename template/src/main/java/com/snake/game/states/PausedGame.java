@@ -29,6 +29,6 @@ public class PausedGame implements State {
      */
     @Override
     public void enterState() {
-
+        game.changeState(this);
     }
 }

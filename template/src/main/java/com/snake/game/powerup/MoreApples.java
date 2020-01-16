@@ -4,14 +4,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
 
-import java.util.TimerTask;
 
 /**
  * A power-up which spawns in a bunch of apples.
  */
 public class MoreApples extends PowerUp {
-    public MoreApples(Board board, Snake snake, float random, float randomy) {
-        super(board, snake, random, randomy);
+
+    private static final int SCORE = 10;
+    private static final int APPLES_TO_ADD = 3;
+
+    public MoreApples(Board board, Snake snake, int xcoord, int ycoord) {
+        super(board, snake, xcoord, ycoord);
     }
 
     @Override
@@ -28,9 +31,8 @@ public class MoreApples extends PowerUp {
      */
     @Override
     public void handle() {
-        this.snake.addScore(20);
-        board.addApples(3);
-        board.getScore().increment(10);
+        board.addApples(APPLES_TO_ADD);
+        board.getScore().increment(SCORE);
     }
 
 }

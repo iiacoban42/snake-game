@@ -16,7 +16,7 @@ public class AppleTest {
     }
 
     @Test
-    void test() {
+    void testAppleDoesntCollide() {
         Snake snake = new Snake(1,2,2);
         Board board = new Board(null);
         board.setSnake(snake);

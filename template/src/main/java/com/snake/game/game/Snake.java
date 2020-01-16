@@ -1,5 +1,8 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 
 import java.util.LinkedList;
@@ -14,7 +17,8 @@ public class Snake {
     private LinkedList<BodyPart> snakeBody;
     private int length;
     private DirectionQueue direction;
-    private int score;
+    private transient Sound soundTrack;
+    private transient boolean isPlaying;
 
     public LinkedList<BodyPart> getSnakeBody() {
         return snakeBody;
@@ -36,14 +40,6 @@ public class Snake {
         this.direction = direction;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
     /**
      * Constructor of snake.
      * @param x x
@@ -51,8 +47,8 @@ public class Snake {
      * @param length default length
      */
     public Snake(int x, int y, int length) {
+        isPlaying = false;
         snakeBody = new LinkedList<>();
-        score = 0;
         init(x, y, length);
     }
 
@@ -81,6 +77,12 @@ public class Snake {
      * @return true in case of collision
      */
     public boolean move() {
+
+        if (!isPlaying) {
+            isPlaying = true;
+            soundTrack = Gdx.audio.newSound(new FileHandle("src/main/resources/soundtrack.mp3"));
+            soundTrack.loop(0.5f);
+        }
         direction.dequeue();
         BodyPart newHead = new BodyPart(
                 getHead().getXcoord(),
@@ -121,8 +123,10 @@ public class Snake {
      */
     public void killSnake() {
         snakeBody = new LinkedList<>();
+        Sound deathSound = Gdx.audio.newSound(new FileHandle("src/main/resources/deathSound.mp3"));
+        deathSound.play(1.0f);
+        soundTrack.stop();
         length = 0;
-
     }
 
     /**
@@ -143,10 +147,6 @@ public class Snake {
 
     public void addLength(int increment) {
         length += increment;
-    }
-
-    public void addScore(int inc) {
-        this.score += inc;
     }
 
     public class BodyPart {

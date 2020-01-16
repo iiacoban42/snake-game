@@ -23,7 +23,8 @@ public class ActiveGame implements State {
     public void observe() {
         game.getBoard().draw();
         if (game.getBoard().getSnake().getLength() == 0) {
-            game.changeState(new FinishedGame(game));
+            State state =  new FinishedGame(game);
+            state.enterState();
         }
     }
 
@@ -32,6 +33,6 @@ public class ActiveGame implements State {
      */
     @Override
     public void enterState() {
-
+        game.changeState(this);
     }
 }
