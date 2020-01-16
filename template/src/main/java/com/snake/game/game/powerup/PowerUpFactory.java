@@ -24,7 +24,8 @@ public class PowerUpFactory {
      * @return specific powerUp.
      */
     public PowerUp getPowerUp(PowerUpName powerUp) {
-        int posX, posY;
+        int posX;
+        int posY;
         do {
             posX = (int) (game.getBoard().getGridWidth() * Math.random());
             posY = (int) (game.getBoard().getGridHeight() * Math.random());

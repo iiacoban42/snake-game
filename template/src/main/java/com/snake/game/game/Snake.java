@@ -41,9 +41,9 @@ public class Snake {
      * @param y y
      * @param length default length
      */
-    public Snake(int x, int y, int length) {
+    public Snake(Board board, int x, int y, int length) {
         snakeBody = new LinkedList<>();
-        init(x, y, length);
+        init(board, x, y, length);
     }
 
     public BodyPart getHead() {
@@ -56,13 +56,13 @@ public class Snake {
      * @param y y position
      * @param length length of a snake
      */
-    public void init(int x, int y, int length) {
+    public void init(Board board, int x, int y, int length) {
         snakeBody = new LinkedList<>();
         snakeBody.addLast(new BodyPart(x, y));
         direction = new DirectionQueue(Direction.RIGHT);
         this.length = length;
         for (int i = 1; i < length; i++) {
-            move();
+            move(board);
         }
     }
 
@@ -70,13 +70,15 @@ public class Snake {
      * Method to move a snake around.
      * @return true in case of collision
      */
-    public boolean move() {
+    public boolean move(Board board) {
         direction.dequeue();
         BodyPart newHead = new BodyPart(
                 getHead().getPosX(),
                 getHead().getPosY(),
                 direction.getDirection());
-        if (collides(newHead.getPosX(), newHead.getPosY())) {
+        if (collides(newHead.getPosX(), newHead.getPosY())
+                || newHead.getPosX() < 0 || newHead.getPosX() >= board.getGridWidth()
+                || newHead.getPosY() < 0 || newHead.getPosY() >= board.getGridHeight()) {
             return true;
         }
 
@@ -104,15 +106,6 @@ public class Snake {
             }
         }
         return false;
-    }
-
-    /**
-     * Method handles snake death.
-     */
-    public void killSnake() {
-        snakeBody = new LinkedList<>();
-        length = 0;
-
     }
 
     /**

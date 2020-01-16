@@ -7,11 +7,6 @@ public interface Consumable {
      */
     void consume(Game game, Snake snake);
 
-//    /**
-//     * This method is called to spawn a Consumable.
-//     */
-//    void spawn();
-
     /**
      * Defines how Consumable will be appeared on the screen.
      */

@@ -69,6 +69,7 @@ public class Board {
         }
 
     }
+
     public int getTile() {
         return tile;
     }

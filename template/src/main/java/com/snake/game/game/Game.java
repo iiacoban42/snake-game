@@ -3,7 +3,12 @@ package com.snake.game.game;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
 import com.snake.game.game.powerup.PowerUpName;
-import com.snake.game.states.*;
+import com.snake.game.states.ActiveGameState;
+import com.snake.game.states.EmptyGameState;
+import com.snake.game.states.FinishedGameState;
+import com.snake.game.states.GameState;
+import com.snake.game.states.GameStateName;
+import com.snake.game.states.PauseGameState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,8 +18,6 @@ import java.util.HashMap;
  * Houses the board, and each state class contains the logic of what to execute for the game
  */
 public class Game {
-
-//    private ScreenController sc;
 
     private boolean portalWalls = false;
     private boolean stopGrowFlag = false;
@@ -57,7 +60,7 @@ public class Game {
      * Spawns in all sprites.
      */
     public void spawnSprites() {
-        snake = new Snake(0, 0, 5);
+        snake = new Snake(board,0, 0, 5);
 
         Apple apple = Apple.spawnApplePersistent(this);
         apples = new ArrayList<>();
@@ -91,8 +94,7 @@ public class Game {
     @SuppressWarnings("PMD")
     //there must be at least one apple in the list we must not remove (line 229)
     public void run() {
-        if (snake.move()) {
-            snake.killSnake();
+        if (snake.move(board)) {
             enterState(GameStateName.gameOver);
             return;
         }
