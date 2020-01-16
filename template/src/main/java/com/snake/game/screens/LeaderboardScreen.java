@@ -13,7 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.snake.game.requests.Leaderboard;
 import com.snake.game.requests.User;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +24,11 @@ import java.util.ListIterator;
 
 public class LeaderboardScreen extends Screen {
 
-    List<User> topFive;
+    private Table leaderboardTable;
+    private Label.LabelStyle leaderboardStyle;
 
     LeaderboardScreen(ScreenController sc) {
         super(sc);
-
 
         FreeTypeFontGenerator generator =
                 new FreeTypeFontGenerator(Gdx.files.local("/src/main/resources/gamer.ttf"));
@@ -35,51 +38,15 @@ public class LeaderboardScreen extends Screen {
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font;
+        leaderboardStyle = new Label.LabelStyle();
+        leaderboardStyle.font = font;
 
 
-        //TODO - REPLACE WITH API CALL
         stage = new Stage();
-        User test = new User("test", 1);
-        User test1 = new User("test2", 15);
-        User one = new User("sadsd", 20);
-        User two = new User("asdds", 50);
-        User lol = new User("pussypower", 90);
-        topFive = new ArrayList<>();
-        topFive.add(test1);
-        topFive.add(test);
-        topFive.add(one);
-        topFive.add(two);
-        topFive.add(lol);
-        //TODO - END TODO
 
-
-        List<Label> labels = new ArrayList<>();
-        for (User u : topFive) {
-            Label toAdd = new Label(u.getUsername(), labelStyle);
-            labels.add(toAdd);
-            toAdd = new Label(u.getMaxScore() + "", labelStyle);
-            labels.add(toAdd);
-        }
-
-        Table leaderboardTable = new Table();
-
+        leaderboardTable = new Table();
         leaderboardTable.defaults().padLeft(300);
-
-        ListIterator<Label> labelListIterator = labels.listIterator();
-
-        while (labelListIterator.hasNext()) {
-            leaderboardTable.add(labelListIterator.next());
-            if (labelListIterator.hasNext()) {
-                leaderboardTable.add(labelListIterator.next());
-            }
-            leaderboardTable.row();
-        }
-
         leaderboardTable.setPosition(150, 300);
-
-
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         Skin skin = new Skin(fileHandle);
@@ -117,5 +84,40 @@ public class LeaderboardScreen extends Screen {
     @Override
     public void dispose() {
 
+    }
+
+    @Override
+    public void show() {
+        Leaderboard lbRequest = new Leaderboard();
+        lbRequest.execute();
+        List<Label> labels = new ArrayList<>();
+
+        if (!lbRequest.hasErrors()) {
+
+            JSONArray topFive = lbRequest.getResult().getBody().getArray();
+
+            for (int i = 0; i < topFive.length(); i++) {
+                JSONObject user = topFive.getJSONObject(i);
+                String username = user.getString("username");
+                int score = user.getInt("maxScore");
+
+                Label toAdd = new Label(username, leaderboardStyle);
+                labels.add(toAdd);
+                toAdd = new Label(score + "", leaderboardStyle);
+                labels.add(toAdd);
+            }
+        }
+
+        ListIterator<Label> labelListIterator = labels.listIterator();
+
+        leaderboardTable.clearChildren();
+
+        while (labelListIterator.hasNext()) {
+            leaderboardTable.add(labelListIterator.next());
+            if (labelListIterator.hasNext()) {
+                leaderboardTable.add(labelListIterator.next());
+            }
+            leaderboardTable.row();
+        }
     }
 }
