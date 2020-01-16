@@ -16,6 +16,8 @@ import com.snake.game.states.GameStateName;
 
 public class PauseMenu extends Screen {
 
+    private static final String LABEL_PATTERN = "Score: %d";
+
     private final transient SpriteBatch batch;
     private final transient BitmapFont font;
     private final transient Label scoreLabel;
@@ -50,7 +52,7 @@ public class PauseMenu extends Screen {
         scoreLabel = new Label("", scoreLabelStyle);
         scoreLabel.setPosition(300, 330);
         scoreLabel.setFontScale(1.3f);
-        scoreLabel.setText("Score: ");
+        scoreLabel.setText("");
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         Skin skin = new Skin(fileHandle);
@@ -145,6 +147,11 @@ public class PauseMenu extends Screen {
     @Override
     public void render() {
 
+    }
+
+    @Override
+    public void show() {
+        this.scoreLabel.setText(String.format(LABEL_PATTERN, this.game.getScore().get()));
     }
 
     public Game getGame() {

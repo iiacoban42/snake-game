@@ -13,5 +13,6 @@ public class FinishedGameState extends GameState {
     public void enter() {
         sc.openScreen(ScreenController.ScreenName.gameOverScreen);
         game.gameUpdateTimer.setActive(false);
+        game.getScore().reset();
     }
 }

@@ -20,6 +20,8 @@ import com.snake.game.states.GameStateName;
  */
 public class GameOverScreen extends Screen {
 
+    private static final String LABEL_PATTERN = "Game Over \nScore: %d";
+
     private final transient Label endgameLabel;
     private final transient TextButton quitButton;
     private final transient TextButton restartButton;
@@ -51,7 +53,7 @@ public class GameOverScreen extends Screen {
         endgameLabelStyle.font = new BitmapFont();
         endgameLabelStyle.fontColor = Color.RED;
 
-        endgameLabel = new Label("Game Over \n Score: ", endgameLabelStyle);
+        endgameLabel = new Label("", endgameLabelStyle);
         endgameLabel.setPosition(300, 330);
         endgameLabel.setFontScale(1.3f);
 
@@ -112,7 +114,7 @@ public class GameOverScreen extends Screen {
 
     @Override
     public void show() {
-
+        this.endgameLabel.setText(String.format(LABEL_PATTERN, this.game.getScore().get()));
     }
 
     @Override

@@ -47,6 +47,7 @@ public class LoginScreen extends Screen {
     public LoginScreen(ScreenController sc) {
         super(sc);
         batch = new SpriteBatch();
+        batch.begin();
         font = new BitmapFont();
         stage = new Stage();
 
@@ -148,6 +149,7 @@ public class LoginScreen extends Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                User.getInstance().logout();
                 sc.openScreen(ScreenController.ScreenName.startScreen);
 
             }
