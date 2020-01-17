@@ -2,8 +2,6 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -195,10 +193,8 @@ public class GameScreen extends Screen {
         renderer.setColor(.42f, .82f, .32f, 1);
         renderer.rect(0, 380, 640, 200);
 
-        // Draw the board
-         game.getBoard().draw();
+        game.getBoard().draw();
 
-        // Finalize renderer
         renderer.end();
 
         //scoreLabel.draw();
