@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -36,40 +35,6 @@ public class LeaderboardScreen extends Screen {
     LeaderboardScreen(ScreenController sc) {
         super(sc);
 
-        FreeTypeFontGenerator generator =
-                new FreeTypeFontGenerator(Gdx.files.local("/src/main/resources/gamer.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 50;
-        parameter.color = Color.CYAN;
-        BitmapFont font = generator.generateFont(parameter);
-        generator.dispose();
-
-        leaderboardStyle = new Label.LabelStyle();
-        leaderboardStyle.font = font;
-
-
-        stage = new Stage();
-
-        leaderboardTable = new Table();
-        leaderboardTable.defaults().padLeft(300);
-        leaderboardTable.setPosition(150, 300);
-
-        FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
-        Skin skin = new Skin(fileHandle);
-
-        TextButton backButton = new TextButton("Back", skin);
-        backButton.setSize(80, 35);
-        backButton.setPosition(320 - 40, 100);
-
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.loginScreen);
-            }
-        });
-
-        stage.addActor(backButton);
-        stage.addActor(leaderboardTable);
     }
 
     @Override
@@ -84,6 +49,26 @@ public class LeaderboardScreen extends Screen {
 
     @Override
     public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void resume() {
 
     }
 

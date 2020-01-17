@@ -196,12 +196,12 @@ public class GameScreen extends Screen {
         renderer.rect(0, 380, 640, 200);
 
         // Draw the board
-        game.observe();
+         game.getBoard().draw();
 
         // Finalize renderer
         renderer.end();
 
-        scoreLabel.draw();
+        //scoreLabel.draw();
         usernameLabel.setText(String.format(usernameLabelFormat, User.getInstance().getUsername()));
 
         // Draw overlaying Actors of stage
