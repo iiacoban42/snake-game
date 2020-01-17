@@ -17,8 +17,7 @@ public class Snake {
     private LinkedList<BodyPart> snakeBody;
     private int length;
     private DirectionQueue direction;
-    private transient Sound soundTrack;
-    private transient boolean isPlaying;
+    private transient Sound deathSound;
 
     public LinkedList<BodyPart> getSnakeBody() {
         return snakeBody;
@@ -47,7 +46,13 @@ public class Snake {
      * @param length default length
      */
     public Snake(int x, int y, int length) {
-        isPlaying = false;
+        deathSound = Gdx.audio.newSound(new FileHandle("src/main/resources/deathSound.mp3"));
+        snakeBody = new LinkedList<>();
+        init(x, y, length);
+    }
+
+    public Snake(int x, int y, int length, Sound deathSound) {
+        this.deathSound = deathSound;
         snakeBody = new LinkedList<>();
         init(x, y, length);
     }
@@ -77,12 +82,6 @@ public class Snake {
      * @return true in case of collision
      */
     public boolean move() {
-
-        if (!isPlaying) {
-            isPlaying = true;
-            soundTrack = Gdx.audio.newSound(new FileHandle("src/main/resources/soundtrack.mp3"));
-            soundTrack.loop(0.5f);
-        }
         direction.dequeue();
         BodyPart newHead = new BodyPart(
                 getHead().getXcoord(),
@@ -123,9 +122,7 @@ public class Snake {
      */
     public void killSnake() {
         snakeBody = new LinkedList<>();
-        Sound deathSound = Gdx.audio.newSound(new FileHandle("src/main/resources/deathSound.mp3"));
         deathSound.play(1.0f);
-        soundTrack.stop();
         length = 0;
     }
 
