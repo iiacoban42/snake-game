@@ -69,8 +69,7 @@ public class MenuScreen extends Screen {
         stage = new Stage();
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
-        Skin skin = new Skin();
-        skin.load(fileHandle);
+        Skin skin = new Skin(fileHandle);
 
         LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();

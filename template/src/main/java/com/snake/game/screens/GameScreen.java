@@ -62,8 +62,7 @@ public class GameScreen extends Screen {
         renderer.setAutoShapeType(true);
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
-        skin = new Skin();
-        skin.load(fileHandle);
+        skin = new Skin(fileHandle);
 
         LabelStyle labelStyle = new LabelStyle();
         labelStyle.font = new BitmapFont();
