@@ -69,12 +69,12 @@ public class MenuScreen extends Screen {
         stage = new Stage();
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
-        Skin skin = new Skin(fileHandle);
 
         LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         labelStyle.fontColor = Color.DARK_GRAY;
 
+        Skin skin = new Skin(fileHandle);
         // Logo
         Texture logoIcon = new Texture(Gdx.files.internal("logo.png"));
         TextureRegion textureRegion = new TextureRegion(logoIcon, 256, 256);

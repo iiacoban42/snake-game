@@ -47,7 +47,6 @@ public class Snake {
      * @param length default length
      */
     public Snake(Board board, int x, int y, int length) {
-       // deathSound = Gdx.audio.newSound(new FileHandle("src/main/resources/deathSound.mp3"));
         snakeBody = new LinkedList<>();
         init(board, x, y, length);
     }

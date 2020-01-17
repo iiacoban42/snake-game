@@ -1,24 +1,15 @@
 package com.snake.game.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.requests.Leaderboard;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 /**
  * Class representing leaderboard screen.
@@ -42,10 +33,6 @@ public class LeaderboardScreen extends Screen {
 
     }
 
-    @Override
-    public void render() {
-        stage.draw();
-    }
 
     @Override
     public void resize(int width, int height) {
@@ -53,12 +40,17 @@ public class LeaderboardScreen extends Screen {
     }
 
     @Override
-    public void pause() {
+    public void render() {
 
     }
 
     @Override
     public void render(float delta) {
+
+    }
+
+    @Override
+    public void pause() {
 
     }
 
@@ -111,4 +103,5 @@ public class LeaderboardScreen extends Screen {
             leaderboardTable.row();
         }
     }
+
 }

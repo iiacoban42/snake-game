@@ -61,8 +61,6 @@ public class Game {
         board = new Board(this, rend);
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
-       // eatingSound = Gdx.audio.newSound(new FileHandle("src/main/resources/eatingSound.mp3"));
-       // powerUpSound = Gdx.audio.newSound(new FileHandle("src/main/resources/powerupSound.mp3"));
 
         score = new Score();
     }
@@ -112,7 +110,6 @@ public class Game {
 
         for (int i = 0; i < apples.size(); i++) {
             if (snake.collides(apples.get(i).getPosX(), apples.get(i).getPosY())) {
-               // eatingSound.play();
                 apples.get(i).consume(this, snake);
                 apples.remove(apples.get(i));
             }
@@ -150,9 +147,9 @@ public class Game {
      */
     public void addApples(int number) {
 
-        if(number > maxApples){
+        if (number > maxApples) {
             return;
-        }else{
+        } else {
 
             for (int i = 0; i < number; i++) {
                 apples.add(Apple.spawnApplePersistent(this));
