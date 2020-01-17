@@ -1,5 +1,6 @@
 package com.snake.server.requests;
 
+import javax.security.auth.login.LoginContext;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -22,6 +23,11 @@ public class LogInRequest {
         this.username = username;
         this.password = password;
     }
+
+    /**
+     * Empty constructor.
+     */
+    public LogInRequest() {}
 
     /**
      * Getter for username.
