@@ -48,6 +48,7 @@ public class Timer<T extends Runnable> {
 
     public void setActive(boolean active) {
         this.active = active;
+        nextActionTimer = (long) (System.currentTimeMillis() + duration);
     }
 
     public void setDuration(double duration) {

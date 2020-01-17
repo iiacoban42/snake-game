@@ -2,165 +2,173 @@ package com.snake.game.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.LinkedList;
-
-import com.badlogic.gdx.audio.Sound;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 
 public class SnakeTest {
 
-    private transient Sound sound;
-
-    @BeforeEach
-    void setUp() {
-        sound = Mockito.mock(Sound.class);
-        Mockito.when(sound.play(1.0f)).thenReturn(0L);
-    }
-
+    /**
+     * Test Snake will correctly collides with input coordinates.
+     * Good Weather
+     */
     @Test
-    void testCreateSnake() {
+    void testSnakeCollides() {
 
-        Snake snake = new Snake(1,2,2, sound);
+        Game game = new Game(Mockito.mock(ShapeRenderer.class));
+        game.spawnSprites();
 
-        int snakeLength = snake.getLength();
-        int snakeX = snake.getSnakeBody().getFirst().getXcoord();
-        int snakeY = snake.getSnakeBody().getFirst().getYcoord();
 
-        assertEquals(snakeLength, 2);
-        assertEquals(snakeX, 1);
-        assertEquals(snakeY, 2);
+        assertEquals(game.getSnake().collides(0,0), true);
+        assertEquals(game.getSnake().collides(1,1), false);
+
+
     }
 
+    /**
+     * Test Snake will correctly collides with incorrect input coordinates.
+     * Bad Weather
+     */
     @Test
-    void testGetSnake() {
+    void testSnakeCollidesFalseCoordinates() {
 
-        Snake snake = new Snake(1,2,2, sound);
-        LinkedList<Snake.BodyPart> snakeBody = snake.getSnakeBody();
+        Game game = new Game(Mockito.mock(ShapeRenderer.class));
+        game.spawnSprites();
 
-        int snakeX = snakeBody.getFirst().getXcoord();
-        int snakeY = snakeBody.getFirst().getYcoord();
 
-        assertEquals(snakeX, 1);
-        assertEquals(snakeY, 2);
+        assertEquals(game.getSnake().collides(-1,-1), false);
+        assertEquals(game.getSnake().collides(100,100), false);
+
 
     }
 
+    /**
+     * Test Snake will correctly collides with the vertical wall.
+     * Good Weather
+     */
     @Test
-    void testSetSnake() {
+    void testSnakeCollideEastVerticalWall() {
 
-        Snake snake = new Snake(1,2,2, sound);
-        LinkedList<Snake.BodyPart> snakeBody = new LinkedList<>();
+        Game game = new Game(Mockito.mock(ShapeRenderer.class));
+        game.spawnSprites();
 
-        snake.setSnakeBody(snakeBody);
+        for (int i = 0; i < 15; i++) {
 
-        LinkedList<Snake.BodyPart> snakeBodyReturned = snake.getSnakeBody();
+            game.getSnake().move(game.getBoard());
+        }
 
-        assertEquals(snakeBodyReturned, snakeBody);
+        boolean finalMove = game.getSnake().move(game.getBoard());
+
+        assertEquals(finalMove, true);
 
 
     }
 
+    /**
+     * Test Snake will correctly collides with the west vertical wall.
+     * Good Weather
+     */
     @Test
-    void testKillSnake() {
+    void testSnakeCollideWesttVerticalWall() {
 
-        Snake snake = new Snake(1,2,2, sound);
-        snake.killSnake();
+        Game game = new Game(Mockito.mock(ShapeRenderer.class));
+        game.spawnSprites();
+        game.getSnake().getDirection().enqueue(Snake.Direction.UP);
+        game.getSnake().getDirection().enqueue(Snake.Direction.LEFT);
 
-        assertEquals(snake.getSnakeBody().size(), 0);
+        for (int i = 0; i < 5; i++) {
+
+            game.getSnake().move(game.getBoard());
+        }
+
+        boolean finalMove = game.getSnake().move(game.getBoard());
+
+        assertEquals(finalMove, true);
 
 
     }
 
+    /**
+     * Test Snake will correctly collides with the north horizontal wall.
+     * Good Weather
+     */
     @Test
-    void testSetLength() {
+    void testSnakeCollideNorthHorizontalWall() {
 
-        Snake snake = new Snake(1,2,2, sound);
-        assertEquals(snake.getLength(), 2);
+        Game game = new Game(Mockito.mock(ShapeRenderer.class));
+        game.spawnSprites();
+        game.getSnake().getDirection().enqueue(Snake.Direction.UP);
 
-        snake.setLength(3);
+        for (int i = 0; i < 19; i++) {
 
-        assertEquals(snake.getLength(), 3);
+            game.getSnake().move(game.getBoard());
+        }
 
+        boolean finalMove = game.getSnake().move(game.getBoard());
+
+        assertEquals(finalMove, true);
 
     }
 
+    /**
+     * Test Snake will correctly collides with the South horizontal wall.
+     * Good Weather
+     */
     @Test
-    void testIncrementLength() {
+    void testSnakeCollideSouthHorizontalWall() {
 
-        Snake snake = new Snake(1,2,2, sound);
-        assertEquals(snake.getLength(), 2);
+        Game game = new Game(Mockito.mock(ShapeRenderer.class));
+        game.spawnSprites();
+        game.getSnake().getDirection().enqueue(Snake.Direction.DOWN);
 
-        snake.addLength(3);
+        for (int i = 0; i < 19; i++) {
 
-        assertEquals(snake.getLength(), 5);
+            game.getSnake().move(game.getBoard());
+        }
 
+        boolean finalMove = game.getSnake().move(game.getBoard());
+
+        assertEquals(finalMove, true);
 
     }
 
-
-
+    /**
+     * Test Snake will correctly collides with itself.
+     * Good Weather
+     */
     @Test
-    void testSetDirection() {
+    void testSnakeCollidesWithItself() {
 
-        DirectionQueue directionQueue = new DirectionQueue(Snake.Direction.LEFT);
+        Game game = new Game(Mockito.mock(ShapeRenderer.class));
+        game.spawnSprites();
+        game.getSnake().getDirection().enqueue(Snake.Direction.UP);
+        game.getSnake().getDirection().enqueue(Snake.Direction.LEFT);
+        game.getSnake().getDirection().enqueue(Snake.Direction.DOWN);
 
-        Snake snake = new Snake(1,2,2, sound);
-        assertEquals(snake.getDirection().getDirection(), Snake.Direction.RIGHT);
-
-        snake.setDirection(directionQueue);
 
 
-        assertEquals(snake.getDirection().getDirection(), Snake.Direction.LEFT);
+        for (int i = 0; i < 3; i++) {
 
-    }
+            game.getSnake().move(game.getBoard());
+        }
 
-    @Test
-    void testCollidesTrue() {
+        boolean finalMove = game.getSnake().move(game.getBoard());
 
-        Snake snake = new Snake(1,2,2, sound);
-        assertEquals(snake.collides(1,2), true);
-
+        assertEquals(finalMove, true);
 
     }
 
-    @Test
-    void testCollidesFalse() {
 
-        Snake snake = new Snake(1,2,2, sound);
-        assertEquals(snake.collides(1,3), false);
 
-    }
 
-    @Test
-    void testMoveFalse() {
-        Snake snake = new Snake(1,2,0, sound);
-        assertEquals(snake.move(), false);
 
-    }
 
-    @Test
-    void testMoveTrue() {
-        Snake snake = new Snake(1,2,0, sound);
-        assertEquals(snake.move(), false);
 
-    }
 
-    @Test
-    void testOrthogonalDirect() {
-        Snake snake = new Snake(1,2,0, sound);
-        assertEquals(snake.getDirection().getDirection().isOrthogonalTo(Snake.Direction.UP), true);
 
-    }
 
-    @Test
-    void testNonOrthogonalDirect() {
-        Snake snake = new Snake(1,2,0, sound);
-        assertEquals(snake.getDirection().getDirection().isOrthogonalTo(Snake.Direction.LEFT),
-                false);
 
-    }
 
 }

@@ -2,10 +2,12 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -75,7 +77,7 @@ public class StartScreen extends Screen {
         int pivotX = 400;
         int pivotY = 280;
 
-        logo.setPosition(pivotX - 325, pivotY - 180);
+        logo.setPosition(pivotX - 350, pivotY - 180);
         playButton.setPosition(pivotX + 50, pivotY - 10);
         scoresButton.setPosition(pivotX + 50, pivotY - 60);
         quitButton.setPosition(pivotX + 50, pivotY - 110);
@@ -100,9 +102,29 @@ public class StartScreen extends Screen {
     }
 
     @Override
+    public void show() {
+
+    }
+
+    @Override
     public void resize(int width, int height) {
-        group.setScale(standardWidth / width, standardHeight / height);
+        stage.getViewport().update(width, height);
         updatePosition();
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
 
@@ -114,12 +136,31 @@ public class StartScreen extends Screen {
 
     @Override
     public void create() {
-        // font.setColor(Color.RED);
+
     }
 
     @Override
     public void render() {
 
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(.85f, .85f, .85f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(.42f, .82f, .32f, 1);
+        shapeRenderer.rect(0, 0,
+                stage.getViewport().getScreenWidth(),
+                stage.getViewport().getScreenHeight() / standardHeight * 50.0f);
+        shapeRenderer.rect(0, stage.getViewport().getScreenHeight() / standardHeight * 380,
+                stage.getViewport().getScreenWidth(),
+                stage.getViewport().getScreenHeight() / standardHeight * 100.0f);
+        shapeRenderer.end();
+
+        stage.draw();
     }
 
 }

@@ -1,6 +1,6 @@
-package com.snake.game.powerup;
+package com.snake.game.game.powerup;
 
-public enum PowerUps {
+public enum PowerUpName {
     LENGTH,
     MEGA_APPLE,
     MORE_APPLES,

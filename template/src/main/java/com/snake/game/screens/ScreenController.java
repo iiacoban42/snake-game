@@ -1,7 +1,5 @@
 package com.snake.game.screens;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.HashMap;
@@ -9,7 +7,7 @@ import java.util.HashMap;
 /**
  * The controller which handles screen switching and initialization process.
  */
-public class ScreenController extends Game {
+public class ScreenController extends com.badlogic.gdx.Game {
 
     private SpriteBatch batch;
 
@@ -36,24 +34,22 @@ public class ScreenController extends Game {
         Screen screen = screens.get(screenName);
         assert screen != null;
         setScreen(screen);
-        Gdx.input.setInputProcessor(screen.getStage());
+        screen.open();
     }
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        screens.put(ScreenName.loginScreen, new LoginScreen(this));
-        screens.put(ScreenName.registerScreen, new RegisterScreen(this));
+
+        screens.put(ScreenName.loginScreen, new MenuScreen(this));
         screens.put(ScreenName.gameScreen, new GameScreen(this));
-        screens.put(ScreenName.gameOverScreen, new GameOverScreen(this));
         screens.put(ScreenName.startScreen, new StartScreen(this));
         screens.put(ScreenName.leaderboardScreen, new LeaderboardScreen(this));
-        screens.put(ScreenName.pauseMenu, new PauseMenu(this));
 
         openScreen(ScreenName.loginScreen);
     }
 
     public enum ScreenName {
-        loginScreen, registerScreen, startScreen, gameScreen, gameOverScreen, leaderboardScreen, pauseMenu
+        loginScreen, startScreen, gameScreen, leaderboardScreen
     }
 }
