@@ -4,7 +4,8 @@ import com.snake.game.game.Board;
 import com.snake.game.game.Snake;
 
 /**
- * Abstract class to support any type of power up.
+ * Abstract class, powerups extend this class with
+ * implemented functionality.
  */
 public abstract class PowerUp {
 

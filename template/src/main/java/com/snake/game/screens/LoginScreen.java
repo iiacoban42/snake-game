@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.User;
 import com.snake.game.requests.Login;
 import com.snake.game.requests.UserInfo;
+import org.w3c.dom.Text;
 
 /**
  * The screen on which the user may login to their account using their username and password
@@ -32,6 +33,7 @@ public class LoginScreen extends Screen {
     private final transient TextButton loginButton;
     private final transient TextButton registerButton;
     private final transient TextButton playButton;
+    private final transient TextButton leaderboardButton;
     private final transient Image logo;
 
     private final transient Group group;
@@ -79,6 +81,10 @@ public class LoginScreen extends Screen {
         playButton.setSize(80, 35);
 
 
+        leaderboardButton = new TextButton("Leaderboard", skin);
+        leaderboardButton.setSize(95, 35);
+
+
         group = new Group();
         group.addActor(logo);
         group.addActor(usernameTextField);
@@ -86,6 +92,7 @@ public class LoginScreen extends Screen {
         group.addActor(loginButton);
         group.addActor(registerButton);
         group.addActor(playButton);
+        group.addActor(leaderboardButton);
         stage.addActor(group);
 
         stage.setKeyboardFocus(usernameTextField);
@@ -100,6 +107,7 @@ public class LoginScreen extends Screen {
         int pivotX = 400;
         int pivotY = 280;
         playButton.setPosition(pivotX + 45, pivotY - 150);
+        leaderboardButton.setPosition(pivotX + 37, pivotY - 200);
     }
 
     void addListeners() {
@@ -149,6 +157,14 @@ public class LoginScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
+
+            }
+        });
+
+        leaderboardButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.leaderboardScreen);
 
             }
         });
