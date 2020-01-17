@@ -1,5 +1,8 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 
 import java.util.LinkedList;
@@ -14,6 +17,7 @@ public class Snake {
     private LinkedList<BodyPart> snakeBody;
     private int length;
     private DirectionQueue direction;
+    private transient Sound deathSound;
 
     public LinkedList<BodyPart> getSnakeBody() {
         return snakeBody;
@@ -42,6 +46,13 @@ public class Snake {
      * @param length default length
      */
     public Snake(int x, int y, int length) {
+        deathSound = Gdx.audio.newSound(new FileHandle("src/main/resources/deathSound.mp3"));
+        snakeBody = new LinkedList<>();
+        init(x, y, length);
+    }
+
+    public Snake(int x, int y, int length, Sound deathSound) {
+        this.deathSound = deathSound;
         snakeBody = new LinkedList<>();
         init(x, y, length);
     }
@@ -111,8 +122,8 @@ public class Snake {
      */
     public void killSnake() {
         snakeBody = new LinkedList<>();
+        deathSound.play(1.0f);
         length = 0;
-
     }
 
     /**

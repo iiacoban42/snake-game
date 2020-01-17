@@ -3,7 +3,9 @@ package com.snake.game.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import com.badlogic.gdx.audio.Sound;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class AppleTest {
 
@@ -17,8 +19,14 @@ public class AppleTest {
 
     @Test
     void testAppleDoesntCollide() {
-        Snake snake = new Snake(1,2,2);
-        Board board = new Board(null);
+        Sound sound = Mockito.mock(Sound.class);
+        Mockito.when(sound.play(1.0f)).thenReturn(0L);
+        Snake snake = new Snake(1,2,2, sound);
+        Sound powerUpSound = Mockito.mock(Sound.class);
+        Mockito.when(powerUpSound.play(1.0f)).thenReturn(0L);
+        Sound eatingSound = Mockito.mock(Sound.class);
+        Mockito.when(eatingSound.play(1.0f)).thenReturn(0L);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
         board.setSnake(snake);
 
         for (int i = 0; i < 200; i++) {

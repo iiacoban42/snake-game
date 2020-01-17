@@ -2,7 +2,9 @@ package com.snake.game.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.badlogic.gdx.audio.Sound;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 
 public class TimerTest {
@@ -57,7 +59,14 @@ public class TimerTest {
     @Test
     void testTimerHandlerSKipped() {
 
-        Board board = new Board(null);
+        Sound sound = Mockito.mock(Sound.class);
+        Mockito.when(sound.play(1.0f)).thenReturn(0L);
+        Snake snake = new Snake(0, 0, 5, sound);
+        Sound powerUpSound = Mockito.mock(Sound.class);
+        Mockito.when(powerUpSound.play(1.0f)).thenReturn(0L);
+        Sound eatingSound = Mockito.mock(Sound.class);
+        Mockito.when(eatingSound.play(1.0f)).thenReturn(0L);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
 
         Timer timer = new Timer<>(board::run);
 

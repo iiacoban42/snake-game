@@ -56,6 +56,7 @@ public class PauseMenu extends Screen {
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         Skin skin = new Skin(fileHandle);
+
         resumeButton = new TextButton("Resume", skin);
         resumeButton.setSize(80, 35);
         restartButton = new TextButton("Restart", skin);

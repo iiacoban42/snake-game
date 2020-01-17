@@ -1,5 +1,8 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.snake.game.screens.ScreenController;
 import com.snake.game.states.ActiveGame;
 import com.snake.game.states.State;
@@ -54,6 +57,5 @@ public class Game {
     public void gameover() {
         sc.create();
         sc.openScreen(ScreenController.ScreenName.gameOverScreen);
-
     }
 }

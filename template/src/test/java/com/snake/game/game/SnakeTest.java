@@ -3,15 +3,27 @@ package com.snake.game.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedList;
+
+import com.badlogic.gdx.audio.Sound;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 
 public class SnakeTest {
 
+    private transient Sound sound;
+
+    @BeforeEach
+    void setUp() {
+        sound = Mockito.mock(Sound.class);
+        Mockito.when(sound.play(1.0f)).thenReturn(0L);
+    }
+
     @Test
     void testCreateSnake() {
 
-        Snake snake = new Snake(1,2,2);
+        Snake snake = new Snake(1,2,2, sound);
 
         int snakeLength = snake.getLength();
         int snakeX = snake.getSnakeBody().getFirst().getXcoord();
@@ -25,7 +37,7 @@ public class SnakeTest {
     @Test
     void testGetSnake() {
 
-        Snake snake = new Snake(1,2,2);
+        Snake snake = new Snake(1,2,2, sound);
         LinkedList<Snake.BodyPart> snakeBody = snake.getSnakeBody();
 
         int snakeX = snakeBody.getFirst().getXcoord();
@@ -39,7 +51,7 @@ public class SnakeTest {
     @Test
     void testSetSnake() {
 
-        Snake snake = new Snake(1,2,2);
+        Snake snake = new Snake(1,2,2, sound);
         LinkedList<Snake.BodyPart> snakeBody = new LinkedList<>();
 
         snake.setSnakeBody(snakeBody);
@@ -54,7 +66,7 @@ public class SnakeTest {
     @Test
     void testKillSnake() {
 
-        Snake snake = new Snake(1,2,2);
+        Snake snake = new Snake(1,2,2, sound);
         snake.killSnake();
 
         assertEquals(snake.getSnakeBody().size(), 0);
@@ -65,7 +77,7 @@ public class SnakeTest {
     @Test
     void testSetLength() {
 
-        Snake snake = new Snake(1,2,2);
+        Snake snake = new Snake(1,2,2, sound);
         assertEquals(snake.getLength(), 2);
 
         snake.setLength(3);
@@ -78,7 +90,7 @@ public class SnakeTest {
     @Test
     void testIncrementLength() {
 
-        Snake snake = new Snake(1,2,2);
+        Snake snake = new Snake(1,2,2, sound);
         assertEquals(snake.getLength(), 2);
 
         snake.addLength(3);
@@ -95,7 +107,7 @@ public class SnakeTest {
 
         DirectionQueue directionQueue = new DirectionQueue(Snake.Direction.LEFT);
 
-        Snake snake = new Snake(1,2,2);
+        Snake snake = new Snake(1,2,2, sound);
         assertEquals(snake.getDirection().getDirection(), Snake.Direction.RIGHT);
 
         snake.setDirection(directionQueue);
@@ -108,7 +120,7 @@ public class SnakeTest {
     @Test
     void testCollidesTrue() {
 
-        Snake snake = new Snake(1,2,2);
+        Snake snake = new Snake(1,2,2, sound);
         assertEquals(snake.collides(1,2), true);
 
 
@@ -117,35 +129,35 @@ public class SnakeTest {
     @Test
     void testCollidesFalse() {
 
-        Snake snake = new Snake(1,2,2);
+        Snake snake = new Snake(1,2,2, sound);
         assertEquals(snake.collides(1,3), false);
 
     }
 
     @Test
     void testMoveFalse() {
-        Snake snake = new Snake(1,2,0);
+        Snake snake = new Snake(1,2,0, sound);
         assertEquals(snake.move(), false);
 
     }
 
     @Test
     void testMoveTrue() {
-        Snake snake = new Snake(1,2,0);
+        Snake snake = new Snake(1,2,0, sound);
         assertEquals(snake.move(), false);
 
     }
 
     @Test
     void testOrthogonalDirect() {
-        Snake snake = new Snake(1,2,0);
+        Snake snake = new Snake(1,2,0, sound);
         assertEquals(snake.getDirection().getDirection().isOrthogonalTo(Snake.Direction.UP), true);
 
     }
 
     @Test
     void testNonOrthogonalDirect() {
-        Snake snake = new Snake(1,2,0);
+        Snake snake = new Snake(1,2,0, sound);
         assertEquals(snake.getDirection().getDirection().isOrthogonalTo(Snake.Direction.LEFT),
                 false);
 

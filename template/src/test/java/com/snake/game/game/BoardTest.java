@@ -2,20 +2,38 @@ package com.snake.game.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.powerup.PowerUps;
 import com.snake.game.powerup.SpeedUp;
 import java.util.ArrayList;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 
 public class BoardTest {
 
+    private transient Snake snake;
+    private transient Sound eatingSound;
+    private transient Sound powerUpSound;
+
+    @BeforeEach
+    void setUp() {
+        Sound sound = Mockito.mock(Sound.class);
+        eatingSound = Mockito.mock(Sound.class);
+        powerUpSound = Mockito.mock(Sound.class);
+        Mockito.when(eatingSound.play(1.0f)).thenReturn(0L);
+        Mockito.when(sound.play(1.0f)).thenReturn(0L);
+        Mockito.when(powerUpSound.play(1.0f)).thenReturn(0L);
+        snake = new Snake(0, 0, 5, sound);
+    }
+
     @Test
     void testBoardConstructor() {
 
-        Board board = new Board(null);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
 
         assertEquals(board.getGridHeight(), 20);
         assertEquals(board.getGridWidth(), 20);
@@ -31,7 +49,7 @@ public class BoardTest {
     @Test
     void testUpdateDirectionUp() {
 
-        Board board = new Board(null);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
 
         board.updateDirection(Snake.Direction.UP);
 
@@ -42,7 +60,7 @@ public class BoardTest {
     @Test
     void testUpdateDirectionDown() {
 
-        Board board = new Board(null);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
 
         board.updateDirection(Snake.Direction.DOWN);
 
@@ -53,7 +71,7 @@ public class BoardTest {
     @Test
     void testUpdateDirectionRight() {
 
-        Board board = new Board(null);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
 
         board.updateDirection(Snake.Direction.RIGHT);
 
@@ -65,7 +83,7 @@ public class BoardTest {
     @Test
     void testUpdateDirectionLeft() {
 
-        Board board = new Board(null);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
 
         board.updateDirection(Snake.Direction.LEFT);
 
@@ -77,7 +95,7 @@ public class BoardTest {
     @Test
     void testUpdateDirectionSpace() {
 
-        Board board = new Board(null);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
 
         board.updateDirection(Snake.Direction.SPACE);
 
@@ -86,7 +104,7 @@ public class BoardTest {
     }
 
     @Test
-    void testRunSnakeDed() {
+    void testRunSnakeDead() {
         //Can't figure out how to make snake collide with itself here
 
     }
@@ -95,7 +113,7 @@ public class BoardTest {
     @Test
     void updatePowerUpWrongRandomTest() {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
-        Board board = new Board(shapeRenderer);
+        Board board = new Board(shapeRenderer, snake, eatingSound, powerUpSound);
         board.updatePowerUp((float) 0.15, PowerUps.SPEED_UP);
         assertEquals(false, board.isIsUp());
     }
@@ -103,7 +121,7 @@ public class BoardTest {
     @Test
     void updatePowerUpWrongRandomTwoTest() {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
-        Board board = new Board(shapeRenderer);
+        Board board = new Board(shapeRenderer, snake, eatingSound, powerUpSound);
         board.updatePowerUp((float) -1, PowerUps.SPEED_UP);
         assertEquals(false, board.isIsUp());
     }
@@ -111,7 +129,7 @@ public class BoardTest {
     @Test
     void updatePowerUpCorrectTest() {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
-        Board board = new Board(shapeRenderer);
+        Board board = new Board(shapeRenderer, snake, eatingSound, powerUpSound);
         board.updatePowerUp((float) 0.01, PowerUps.SPEED_UP);
         assertEquals(true, board.isIsUp());
     }
@@ -119,7 +137,7 @@ public class BoardTest {
     @Test
     void updatePowerUpAlreadyThereTest() {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
-        Board board = new Board(shapeRenderer);
+        Board board = new Board(shapeRenderer, snake, eatingSound, powerUpSound);
         board.setIsUp(true);
         board.updatePowerUp((float) 0.01, PowerUps.SPEED_UP);
         assertEquals(true, board.isIsUp());
@@ -128,7 +146,7 @@ public class BoardTest {
     @Test
     void addApples() {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
-        Board board = new Board(shapeRenderer);
+        Board board = new Board(shapeRenderer, snake, eatingSound, powerUpSound);
         board.setIsUp(true);
         board.addApples(3);
         ArrayList<Apple> apples = new ArrayList<>(board.getApples());
@@ -138,7 +156,7 @@ public class BoardTest {
     @Test
     void addApplesNoExtra() {
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
-        Board board = new Board(shapeRenderer);
+        Board board = new Board(shapeRenderer, snake, eatingSound, powerUpSound);
         board.setIsUp(true);
         board.addApples(0);
         ArrayList<Apple> apples = new ArrayList<>(board.getApples());
@@ -151,7 +169,7 @@ public class BoardTest {
         SpeedUp speedUp = Mockito.mock(SpeedUp.class);
         ShapeRenderer shapeRenderer = Mockito.mock(ShapeRenderer.class);
         Snake snake = Mockito.mock(Snake.class);
-        Board board = new Board(shapeRenderer, snake);
+        Board board = new Board(shapeRenderer, snake, eatingSound, powerUpSound);
         board.setPowerUp(speedUp);
         board.setIsUp(true);
         Mockito.when(speedUp.getXcoord()).thenReturn(5);
@@ -164,7 +182,7 @@ public class BoardTest {
     @Test
     void snakeEatsExtraApple() {
 
-        Board board = new Board(null);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
 
         board.addApples(1);
         ArrayList<Apple> apples = new ArrayList<>(board.getApples());
@@ -180,7 +198,7 @@ public class BoardTest {
     @Test
     void snakeDoesntEatExtraApple() {
 
-        Board board = new Board(null);
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
 
         board.addApples(1);
         ArrayList<Apple> apples = new ArrayList<>(board.getApples());
@@ -196,8 +214,8 @@ public class BoardTest {
     @Test
     void snakeDoesntGrow() {
 
-        Board board = new Board(null);
 
+        Board board = new Board(null, snake, eatingSound, powerUpSound);
         board.addApples(1);
         ArrayList<Apple> apples = new ArrayList<>(board.getApples());
         board.setStopGrowFlag(true);

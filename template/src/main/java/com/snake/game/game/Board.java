@@ -1,5 +1,8 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.powerup.PowerUp;
 import com.snake.game.powerup.PowerUpFactory;
@@ -37,6 +40,9 @@ public class Board {
     private boolean isUp;
     private PowerUpFactory powerUpFactory;
 
+    private transient Sound eatingSound;
+    private transient Sound powerUpSound;
+
     /**
      * Constructor.
      *
@@ -45,6 +51,8 @@ public class Board {
     public Board(ShapeRenderer rend) {
         this.rend = rend;
 
+        eatingSound = Gdx.audio.newSound(new FileHandle("src/main/resources/eatingSound.mp3"));
+        powerUpSound = Gdx.audio.newSound(new FileHandle("src/main/resources/powerupSound.mp3"));
         snake = new Snake(0, 0, 5);
 
         Apple apple = Apple.spawnApplePersistent(this);
@@ -71,6 +79,32 @@ public class Board {
         this.rend = rend;
         this.snake = snake;
 
+        eatingSound = Gdx.audio.newSound(new FileHandle("src/main/resources/eatingSound.mp3"));
+        powerUpSound = Gdx.audio.newSound(new FileHandle("src/main/resources/powerupSound.mp3"));
+        Apple apple = Apple.spawnApplePersistent(this);
+        apples = new ArrayList<>();
+        apples.add(apple);
+        score = new Score();
+
+        gameUpdateTimer = new Timer<>(this::run);
+        gameUpdateTimer.setActive(true);
+
+        isUp = false;
+        powerUpFactory = new PowerUpFactory(this, this.snake);
+    }
+
+    /**
+     * Optional constructor but you can choose the eating sound.
+     * @param rend renderer
+     * @param snake snake
+     * @param eatingSound eating sound
+     */
+    public Board(ShapeRenderer rend, Snake snake, Sound eatingSound, Sound powerUpSound) {
+        this.rend = rend;
+        this.snake = snake;
+
+        this.eatingSound = eatingSound;
+        this.powerUpSound = powerUpSound;
         Apple apple = Apple.spawnApplePersistent(this);
         apples = new ArrayList<>();
         apples.add(apple);
@@ -217,6 +251,7 @@ public class Board {
         }
 
         if (snake.collides(apples.get(0).getXcoord(), apples.get(0).getYcoord())) {
+            eatingSound.play(1.0f);
             if (!stopGrowFlag) {
                 snake.addLength(3);
             }
@@ -238,6 +273,7 @@ public class Board {
 
         if (isUp && snake.collides(powerUp.getXcoord(), powerUp.getYcoord())) {
             isUp = false;
+            powerUpSound.play(1.0f);
             powerUp.handle();
         }
     }
