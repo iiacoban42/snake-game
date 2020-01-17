@@ -7,77 +7,93 @@ import com.badlogic.gdx.graphics.Color;
  * the player should attempt to eat by moving the snake head towards it. Eating one increases
  * the score and the snake length
  */
-public class Apple {
+public class Apple implements Consumable {
 
-    private int xcoord;
-    private int ycoord;
+    private final int posX;
+    private final int posY;
 
     /**
      * Construct apple.
-     * @param xcoord .
-     * @param ycoord .
+     *
+     * @param posX x-coordinate of position
+     * @param posY y-coordinate of position
      */
-    public Apple(int xcoord, int ycoord) {
-        this.xcoord = xcoord;
-        this.ycoord = ycoord;
+    public Apple(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
     }
 
-    public int getXcoord() {
-        return xcoord;
+
+    @Override
+    public void consume(Game game, Snake snake) {
+        if (!game.isStopGrowFlag()) {
+            snake.addLength(3);
+        }
+        game.getScore().increment(10);
     }
 
-    public int getYcoord() {
-        return ycoord;
-    }
-
-    public void setXcoord(int xcoord) {
-        this.xcoord = xcoord;
-    }
-
-    public void setYcoord(int ycoord) {
-        this.ycoord = ycoord;
-    }
 
     /**
-     * Render board.
-     * @param board to render.
+     * Render apple on board of given Game.
+     * @param game game.
      */
-    public void draw(Board board) {
-
-        board.getRend().setColor(Color.LIME);
-        board.getRend().circle(
-                board.getDx() + xcoord * board.getTile() + board.getTile() / 2.0f,
-                board.getDy() + ycoord * board.getTile() + board.getTile() / 2.0f,
-                board.getTile() / 2.0f);
+    @Override
+    public void draw(Game game) {
+        game.getBoard().getRend().setColor(Color.LIME);
+        game.getBoard().getRend().circle(
+                game.getBoard().getBoardX() + (posX + .5f) * game.getBoard().getTile(),
+                game.getBoard().getBoardY() + (posY + .5f) * game.getBoard().getTile(),
+                game.getBoard().getTile() / 2.0f);
 
     }
 
     /**
      * Creates an apple which is guaranteed to be in a proper spawn location.
-     * @param board the board on which the apple must spawn
+     * @param game the game on which the apple must spawn
      * @return a new randomized apple which applies to the isProperSpawnLocation rules
      */
-    public static Apple spawnApplePersistent(Board board) {
-        int randx;
-        int randy;
+    public static Apple spawnApplePersistent(Game game) {
+        int randX;
+        int randY;
         do {
-            randx = (int) (board.getGridWidth() * Math.random());
-            randy = (int) (board.getGridHeight() * Math.random());
-        } while (!isProperSpawnLocation(board, randx, randy));
-        return new Apple(randx, randy);
+            randX = (int) (game.getBoard().getGridWidth() * Math.random());
+            randY = (int) (game.getBoard().getGridHeight() * Math.random());
+        } while (!isProperSpawnLocation(game, randX, randY));
+        return new Apple(randX, randY);
     }
 
     /**
      * Checks whether a location is suitable for an apple to spawn.
-     * @param board the board that contains all possible obstacles
-     * @param xcoord the x-coordinate to test
-     * @param ycoord the y-coordinate to test
+     * @param game the game that contains all possible obstacles
+     * @param posX the x-coordinate to test
+     * @param posY the y-coordinate to test
      * @return returns true if the given location is suitable
      */
-    private static boolean isProperSpawnLocation(Board board, int xcoord, int ycoord) {
-        if (board.getSnake().collides(xcoord, ycoord)) {
+    @SuppressWarnings("PMD")
+    //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
+    //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
+    private static boolean isProperSpawnLocation(Game game, int posX, int posY) {
+        if (game.getSnake().collides(posX, posY)) {
             return false;
+        }
+        if (game.getApples() != null) {
+            for (Apple apple : game.getApples()) {
+                if (apple.getPosX() == posX && apple.posY == posY) {
+                    return false;
+                }
+            }
         }
         return true;
     }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+
+
 }

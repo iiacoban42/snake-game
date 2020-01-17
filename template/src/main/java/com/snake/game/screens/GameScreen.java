@@ -1,42 +1,56 @@
 package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.snake.game.game.Board;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.Game;
-import com.snake.game.game.ScoreLabel;
-import com.snake.game.game.Snake;
 import com.snake.game.game.User;
-import com.snake.game.states.FinishedGame;
-import com.snake.game.states.PausedGame;
-import com.snake.game.states.State;
+import com.snake.game.game.states.GameStateName;
+import com.snake.game.game.states.PauseGameState;
 
 /**
  * The screen on which the playing board predominately takes place.
  */
 public class GameScreen extends Screen {
 
-    final Board board;
-    final ShapeRenderer renderer;
-    final transient ScoreLabel scoreLabel;
-    final transient Label usernameLabel;
-    final transient Label pauseLabel;
-    final transient String usernameLabelFormat = "Welcome %s";
-    private transient Game game;
 
-    public Board getBoard() {
-        return board;
-    }
+    private final ShapeRenderer renderer;
+    private final Game game;
+    private final Skin skin;
 
-    public ShapeRenderer getRenderer() {
-        return renderer;
-    }
+    // GUI elements
+    private final transient Group statGroup;
+    private final transient Label usernameLabel;
+    private final transient Label scoreLabel;
+    private final transient Label pauseLabel;
+
+    private final transient Group overlayGroup;
+    private final transient Label gamePausedLabel;
+    private final transient Label gameOverLabel;
+    private final transient TextButton resumeButton;
+    private final transient TextButton scoresButton;
+    private final transient TextButton restartButton;
+    private final transient TextButton menuButton;
+
+    private final transient TextButton settingsButton;
+
+
+    private final transient String usernameLabelFormat = "Welcome %s";
 
     /**
      * Create Game screen.
@@ -46,30 +60,110 @@ public class GameScreen extends Screen {
     public GameScreen(ScreenController sc) {
         super(sc);
         stage = new Stage();
-
-        game = new Game(sc);
         renderer = new ShapeRenderer();
+        game = new Game(renderer);
         renderer.setAutoShapeType(true);
-        board = new Board(renderer);
-        scoreLabel = new ScoreLabel(board.getScore(), stage);
+
+        FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
+        skin = new Skin(fileHandle);
+
+        LabelStyle labelStyle = new LabelStyle();
+        labelStyle.font = new BitmapFont();
+        labelStyle.fontColor = Color.DARK_GRAY;
+
+        TextButtonStyle textButtonStyle = new TextButtonStyle();
+        textButtonStyle.font = new BitmapFont();
+        textButtonStyle.fontColor = Color.DARK_GRAY;
 
 
-        Label.LabelStyle usernameLabelStyle = new Label.LabelStyle();
-        usernameLabelStyle.font = new BitmapFont();
-        usernameLabelStyle.fontColor = Color.DARK_GRAY;
-
-        usernameLabel = new Label("", usernameLabelStyle);
-        usernameLabel.setPosition(400, 330);
+        // statGroup
+        usernameLabel = new Label("", labelStyle);
         usernameLabel.setFontScale(1.3f);
+        usernameLabel.setPosition(0, 250);
+        scoreLabel = new Label("blabla", labelStyle);
+        scoreLabel.setPosition(0, 200);
+        pauseLabel = new Label("Press Space to start/pause", labelStyle);
+        pauseLabel.setPosition(0, 50);
 
-        pauseLabel = new Label("Press Esc pause", usernameLabelStyle);
-        pauseLabel.setPosition(400, 200);
+        settingsButton = new TextButton("settings", skin);
+        settingsButton.setSize(100,40);
 
-        stage.addActor(pauseLabel);
-        stage.addActor(usernameLabel);
-        game.setBoard(board);
+
+        // overlayGroup
+        gamePausedLabel = new Label("Game paused", labelStyle);
+        gamePausedLabel.setFontScale(2f);
+        gamePausedLabel.setBounds(0, 200, 200, 40);
+        gameOverLabel = new Label("Game over", labelStyle);
+        gameOverLabel.setFontScale(2f);
+        gameOverLabel.setBounds(0, 200, 200, 40);
+
+        resumeButton = new TextButton("Resume", skin);
+        resumeButton.setBounds(0,120,200,40);
+        scoresButton = new TextButton("Scores", skin);
+        scoresButton.setBounds(0,120,200,40);
+        restartButton = new TextButton("Restart", skin);
+        restartButton.setBounds(0,60,200,40);
+        menuButton = new TextButton("Menu", skin);
+        menuButton.setBounds(0,0,200,40);
+
+
+        statGroup = new Group();
+        statGroup.addActor(usernameLabel);
+        statGroup.addActor(pauseLabel);
+        statGroup.addActor(scoreLabel);
+        statGroup.addActor(settingsButton);
+
+        overlayGroup = new Group();
+        overlayGroup.addActor(resumeButton);
+        overlayGroup.addActor(restartButton);
+        overlayGroup.addActor(menuButton);
+
+
+        stage.addActor(overlayGroup);
+        stage.addActor(statGroup);
+
+        overlayGroup.setVisible(false);
+        addListeners();
+        updatePositions();
     }
 
+    private void updatePositions() {
+        statGroup.setPosition(400,100);
+        overlayGroup.setPosition(
+                game.getBoard().getBoardX() + (game.getBoard().getBoardWidth() - 200) * .5f,
+                game.getBoard().getBoardY() + (game.getBoard().getBoardHeight() - 160) * .5f);
+    }
+
+    private void addListeners() {
+        resumeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.enterState(GameStateName.active);
+            }
+        });
+
+        restartButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.enterState(GameStateName.newGame);
+            }
+        });
+
+        menuButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.loginScreen);
+            }
+        });
+    }
+
+    @Override
+    public void open() {
+        super.open();
+        usernameLabel.setText(String.format(usernameLabelFormat, User.getInstance().getUsername()));
+        game.enterState(GameStateName.newGame);
+
+    }
 
     @Override
     public void show() {
@@ -86,40 +180,9 @@ public class GameScreen extends Screen {
     public void render(float delta) {
 
         // Handlers that rely on per-frame firing
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)
-                || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            board.updateDirection(Snake.Direction.UP);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)
-                || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            board.updateDirection(Snake.Direction.DOWN);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)
-                || Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            board.updateDirection(Snake.Direction.LEFT);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)
-                || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-            board.updateDirection(Snake.Direction.RIGHT);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            board.updateDirection(Snake.Direction.SPACE);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            sc.openScreen(ScreenController.ScreenName.pauseMenu);
-            State state = new PausedGame(game);
-            state.enterState();
-        }
-
-        if (game.getState() instanceof FinishedGame) {
-            sc.openScreen(ScreenController.ScreenName.gameOverScreen);
-        }
-
-
         game.updateBoardTimer();
+        game.getState().keyPress();
+        overlayGroup.setVisible(game.getState() instanceof PauseGameState);
 
         // Clear the screen
         Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
@@ -133,12 +196,12 @@ public class GameScreen extends Screen {
         renderer.rect(0, 380, 640, 200);
 
         // Draw the board
-        game.observe();
+         game.getBoard().draw();
 
         // Finalize renderer
         renderer.end();
 
-        scoreLabel.draw();
+        //scoreLabel.draw();
         usernameLabel.setText(String.format(usernameLabelFormat, User.getInstance().getUsername()));
 
         // Draw overlaying Actors of stage
@@ -168,7 +231,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height);
     }
 
     @Override
@@ -176,4 +239,15 @@ public class GameScreen extends Screen {
 
     }
 
+    public ShapeRenderer getRenderer() {
+        return renderer;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public Skin getSkin() {
+        return skin;
+    }
 }
