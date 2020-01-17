@@ -22,6 +22,7 @@ public class Game {
 
     private boolean portalWalls = false;
     private boolean stopGrowFlag = false;
+    private final transient int maxApples = 20;
 
     private Snake snake;
     private ArrayList<Apple> apples;
@@ -138,8 +139,8 @@ public class Game {
      */
     public void addApples(int number) {
 
-        if(number > 20){
-
+        if(number > maxApples){
+            return;
         }else{
 
             for (int i = 0; i < number; i++) {
