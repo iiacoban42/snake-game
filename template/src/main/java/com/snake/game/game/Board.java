@@ -3,6 +3,7 @@ package com.snake.game.game;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.powerup.PowerUp;
 import com.snake.game.powerup.PowerUpFactory;
+import com.snake.game.powerup.PowerUps;
 
 import java.util.ArrayList;
 
@@ -12,29 +13,27 @@ import java.util.ArrayList;
  */
 public class Board {
 
-    boolean portalWalls = false;
-    final int dx = 50;
-    final int dy = 100;
-    final int width = 320;
-    final int height = 320;
-    final int gridWidth = 20;
-    final int gridHeight = 20;
+    private static boolean PORTAL_WALLS = false;
+    private static final int DX = 50;
+    private static final int DY = 100;
+    private static final int WIDTH = 320;
+    private static final int HEIGHT = 320;
+    private static final int GRID_WIDTH = 20;
+    private static final int GRID_HEIGHT = 20;
 
-    final int tile = 16;
+    private static final int TILE = 16;
 
-    final int powerUpNumber = 4;
-    int extraApples = 0;
-
-    final ShapeRenderer rend;
+    private final ShapeRenderer rend;
     public Timer<Runnable> gameUpdateTimer;
 
 
-    Snake snake;
-    Apple apple;
-    ArrayList<Apple> moreApples;
-    Score score;
+    private Snake snake;
+    private ArrayList<Apple> apples;
+    private Score score;
 
-    PowerUp powerUp;
+    private boolean stopGrowFlag;
+
+    private PowerUp powerUp;
     private boolean isUp;
     private PowerUpFactory powerUpFactory;
 
@@ -47,8 +46,12 @@ public class Board {
         this.rend = rend;
 
         snake = new Snake(0, 0, 5);
-        apple = Apple.spawnApplePersistent(this);
-        moreApples = new ArrayList<>();
+
+        Apple apple = Apple.spawnApplePersistent(this);
+        apples = new ArrayList<>();
+        apples.add(apple);
+
+        stopGrowFlag = false;
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(true);
@@ -68,8 +71,9 @@ public class Board {
         this.rend = rend;
         this.snake = snake;
 
-        apple = Apple.spawnApplePersistent(this);
-        moreApples = new ArrayList<>();
+        Apple apple = Apple.spawnApplePersistent(this);
+        apples = new ArrayList<>();
+        apples.add(apple);
         score = new Score();
 
         gameUpdateTimer = new Timer<>(this::run);
@@ -79,20 +83,13 @@ public class Board {
         powerUpFactory = new PowerUpFactory(this, this.snake);
     }
 
-    public int getExtraApples() {
-        return extraApples;
+
+    public ArrayList<Apple> getApples() {
+        return apples;
     }
 
-    public void setExtraApples(int extraApples) {
-        this.extraApples = extraApples;
-    }
-
-    public ArrayList<Apple> getMoreApples() {
-        return moreApples;
-    }
-
-    public void setMoreApples(ArrayList<Apple> moreApples) {
-        this.moreApples = moreApples;
+    public void setApples(ArrayList<Apple> apples) {
+        this.apples = apples;
     }
 
     public boolean isUpp() {
@@ -103,13 +100,21 @@ public class Board {
         isUp = up;
     }
 
+    public boolean isStopGrowFlag() {
+        return stopGrowFlag;
+    }
+
+    public void setStopGrowFlag(boolean stopGrowFlag) {
+        this.stopGrowFlag = stopGrowFlag;
+    }
+
     /**
      * Returns the setting whether the snake can go through walls.
      *
      * @return boolean
      */
     public boolean isPortalWalls() {
-        return portalWalls;
+        return PORTAL_WALLS;
     }
 
     public Timer<Runnable> getGameUpdateTimer() {
@@ -124,13 +129,6 @@ public class Board {
         this.snake = snake;
     }
 
-    public Apple getApple() {
-        return apple;
-    }
-
-    public void setApple(Apple apple) {
-        this.apple = apple;
-    }
 
     public Score getScore() {
         return score;
@@ -141,31 +139,31 @@ public class Board {
     }
 
     public int getDx() {
-        return dx;
+        return DX;
     }
 
     public int getDy() {
-        return dy;
+        return DY;
     }
 
     public int getWidth() {
-        return width;
+        return WIDTH;
     }
 
     public int getHeight() {
-        return height;
+        return HEIGHT;
     }
 
     public int getGridWidth() {
-        return gridWidth;
+        return GRID_WIDTH;
     }
 
     public int getGridHeight() {
-        return gridHeight;
+        return GRID_HEIGHT;
     }
 
     public int getTile() {
-        return tile;
+        return TILE;
     }
 
     public ShapeRenderer getRend() {
@@ -173,11 +171,7 @@ public class Board {
     }
 
     public void setPortalWalls(boolean portalWalls) {
-        this.portalWalls = portalWalls;
-    }
-
-    public int getPowerUpNumber() {
-        return powerUpNumber;
+        this.PORTAL_WALLS = portalWalls;
     }
 
     public PowerUp getPowerUp() {
@@ -207,9 +201,14 @@ public class Board {
     /**
      * Game update.
      */
+    @SuppressWarnings("PMD")
+    //there must be at least one apple in the list we must not remove (line 229)
     public void run() {
 
-        updatePowerUp((float) Math.random(), (int) ((float) Math.random() * powerUpNumber + 1));
+        updatePowerUp(
+                (float) Math.random(),
+                PowerUps.values()[(int) ((float) Math.random() * PowerUps.values().length)]
+        );
 
         if (snake.move()) {
             snake.killSnake();
@@ -217,18 +216,22 @@ public class Board {
             return;
         }
 
-        if (snake.collides(apple.getXcoord(), apple.getYcoord())) {
-            snake.addLength(3);
-            apple = Apple.spawnApplePersistent(this);
+        if (snake.collides(apples.get(0).getXcoord(), apples.get(0).getYcoord())) {
+            if (!stopGrowFlag) {
+                snake.addLength(3);
+            }
+            apples.set(0, Apple.spawnApplePersistent(this));
             score.increment(10);
         }
 
-        if (!moreApples.isEmpty()) {
-            for (int i = 0; i < moreApples.size(); i++) {
-                if (snake.collides(moreApples.get(i).getXcoord(), moreApples.get(i).getYcoord())) {
-                    snake.addLength(3);
+        if (apples.size() > 1) {
+            for (int i = 0; i < apples.size(); i++) {
+                if (snake.collides(apples.get(i).getXcoord(), apples.get(i).getYcoord())) {
+                    if (!stopGrowFlag) {
+                        snake.addLength(3);
+                    }
                     score.increment(10);
-                    moreApples.remove(moreApples.get(i));
+                    apples.remove(apples.get(i));
                 }
             }
         }
@@ -242,11 +245,11 @@ public class Board {
     /**
      * Method to update current powerUp. Chooses what powerUp to use (if any).
      */
-    public void updatePowerUp(float random, int number) {
+    public void updatePowerUp(float random, PowerUps powerUp) {
 
         if (random > 0 && random <= 0.01 && !isUp) {
             isUp = true;
-            this.powerUp = powerUpFactory.getPowerUp(number);
+            this.powerUp = powerUpFactory.getPowerUp(powerUp);
         }
     }
 
@@ -268,21 +271,20 @@ public class Board {
         final float backgroundGrayScale = .85f;
         //final float snakeGrayScale = .85f;
         rend.setColor(backgroundGrayScale, backgroundGrayScale, backgroundGrayScale, 1);
-        rend.rect(dx, dy, width, height);
+        rend.rect(DX, DY, WIDTH, HEIGHT);
         rend.set(ShapeRenderer.ShapeType.Line);
         rend.setColor(.0f, .0f, .0f, 1);
-        rend.rect(dx, dy, width, height);
+        rend.rect(DX, DY, WIDTH, HEIGHT);
 
         rend.set(ShapeRenderer.ShapeType.Filled);
         rend.setColor(.0f, .0f, .0f, 1);
         snake.draw(this);
-        apple.draw(this);
         if (isUp) {
             powerUp.draw();
         }
 
-        if (extraApples > 0) {
-            for (Apple extraApple : moreApples) {
+        if (apples.size() > 0) {
+            for (Apple extraApple : apples) {
                 extraApple.draw(this);
             }
         }
@@ -295,9 +297,9 @@ public class Board {
      */
     public void addApples(int number) {
         for (int i = 0; i < number; i++) {
-            moreApples.add(Apple.spawnApplePersistent(this));
+            apples.add(Apple.spawnApplePersistent(this));
         }
-        extraApples = number;
+
     }
 
 
@@ -323,7 +325,7 @@ public class Board {
         if (direction == Snake.Direction.SPACE) {
             score.reset();
             snake.init(0, 0, 5);
-            apple = Apple.spawnApplePersistent(this);
+            apples.set(0, Apple.spawnApplePersistent(this));
             gameUpdateTimer.setActive(true);
         }
     }

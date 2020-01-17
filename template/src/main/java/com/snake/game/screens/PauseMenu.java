@@ -1,73 +1,63 @@
 package com.snake.game.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.snake.game.game.Board;
 import com.snake.game.game.Game;
 import com.snake.game.states.ActiveGame;
 import com.snake.game.states.FinishedGame;
 import com.snake.game.states.State;
 
-/**
- * The limbo screen when the player has lost the game.
- */
-public class GameOverScreen extends Screen {
+public class PauseMenu extends Screen {
 
-    private final Board board;
-    private final ShapeRenderer renderer;
-    private final transient Label endgameLabel;
-    private transient Game game;
+    private final transient SpriteBatch batch;
+    private final transient BitmapFont font;
+    private final transient Label scoreLabel;
+    private final transient TextButton resumeButton;
     private final transient TextButton quitButton;
     private final transient TextButton restartButton;
     private final transient TextButton exitButton;
+    private transient Game game;
+    private State state;
 
-    public Board getBoard() {
-        return board;
-    }
-
-    public ShapeRenderer getRenderer() {
-        return renderer;
-    }
+    private final transient Group group;
 
     /**
-     * Constructor for Game over screen.
+     * Constructor for pause menu.
      *
      * @param sc screen controller
      */
     @SuppressWarnings("PMD")
     //Understand why we can't call overridable method, but it can't be escaped here
     //Because of how libgdx structures classes.
-    public GameOverScreen(ScreenController sc) {
+    public PauseMenu(ScreenController sc) {
         super(sc);
+        batch = new SpriteBatch();
+        font = new BitmapFont();
         stage = new Stage();
         game = new Game(sc);
 
-        renderer = new ShapeRenderer();
-        renderer.setAutoShapeType(true);
-        board = new Board(renderer);
-        game.setBoard(board);
+        Label.LabelStyle scoreLabelStyle = new Label.LabelStyle();
+        scoreLabelStyle.font = new BitmapFont();
+        scoreLabelStyle.fontColor = Color.BLUE;
 
-        Label.LabelStyle endgameLabelStyle = new Label.LabelStyle();
-        endgameLabelStyle.font = new BitmapFont();
-        endgameLabelStyle.fontColor = Color.RED;
-
-        endgameLabel = new Label("Game Over \n Score: ", endgameLabelStyle);
-        endgameLabel.setPosition(300, 330);
-        endgameLabel.setFontScale(1.3f);
+        scoreLabel = new Label("", scoreLabelStyle);
+        scoreLabel.setPosition(300, 330);
+        scoreLabel.setFontScale(1.3f);
+        scoreLabel.setText("Score: ");
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         Skin skin = new Skin(fileHandle);
+        resumeButton = new TextButton("Resume", skin);
+        resumeButton.setSize(80, 35);
         restartButton = new TextButton("Restart", skin);
         restartButton.setSize(80, 35);
         quitButton = new TextButton("Quit", skin);
@@ -75,12 +65,24 @@ public class GameOverScreen extends Screen {
         exitButton = new TextButton("Exit", skin);
         exitButton.setSize(80, 35);
 
-        stage.addActor(endgameLabel);
-        stage.addActor(restartButton);
-        stage.addActor(quitButton);
-        stage.addActor(exitButton);
+        group = new Group();
+        group.addActor(scoreLabel);
+        group.addActor(resumeButton);
+        group.addActor(restartButton);
+        group.addActor(quitButton);
+        group.addActor(exitButton);
+        stage.addActor(group);
+
         updatePosition();
         addListeners();
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     void updatePosition() {
@@ -88,18 +90,30 @@ public class GameOverScreen extends Screen {
         int pivotX = 250;
         int pivotY = 280;
 
+        resumeButton.setPosition(pivotX + 50, pivotY - 10);
         restartButton.setPosition(pivotX + 50, pivotY - 60);
         quitButton.setPosition(pivotX + 50, pivotY - 110);
         exitButton.setPosition(pivotX + 50, pivotY - 160);
+
     }
 
     void addListeners() {
+
+        resumeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.gameScreen);
+                state = new ActiveGame(game);
+                state.enterState();
+            }
+        });
 
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
-
+                state = new FinishedGame(game);
+                state.enterState();
             }
         });
 
@@ -107,7 +121,8 @@ public class GameOverScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.loginScreen);
-
+                state = new FinishedGame(game);
+                state.enterState();
             }
         });
 
@@ -115,16 +130,31 @@ public class GameOverScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game = new Game(sc);
-                game.changeState(new ActiveGame(game));
-                sc.openScreen(ScreenController.ScreenName.gameScreen);
+                state = new FinishedGame(game);
+                state.enterState();
+                state = new ActiveGame(game);
+                state.enterState();
+
             }
         });
 
     }
 
+    @Override
+    public void resize(int width, int height) {
+        group.setScale(standardWidth / width, standardHeight / height);
+        updatePosition();
+    }
+
 
     @Override
-    public void show() {
+    public void dispose() {
+        batch.dispose();
+        font.dispose();
+    }
+
+    @Override
+    public void create() {
 
     }
 
@@ -133,58 +163,5 @@ public class GameOverScreen extends Screen {
 
     }
 
-    @Override
-    public void render(float delta) {
-
-        // Clear the screen
-        Gdx.gl.glClearColor(.9f, .9f, .9f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Start new Renderer
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        // Draw background design props
-        renderer.setColor(.42f, .82f, .32f, 1);
-        renderer.rect(0, 380, 640, 200);
-
-
-        // Finalize renderer
-        renderer.end();
-
-
-        // Draw overlaying Actors of stage
-        stage.draw();
-    }
-
-
-    @Override
-    public void create() {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
 
 }

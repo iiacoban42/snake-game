@@ -29,7 +29,6 @@ public class Game {
 
     public void changeState(State state) {
         this.state = state;
-        this.state.enterState();
     }
 
     public Board getBoard() {
@@ -53,6 +52,8 @@ public class Game {
     }
 
     public void gameover() {
+        sc.create();
         sc.openScreen(ScreenController.ScreenName.gameOverScreen);
+
     }
 }

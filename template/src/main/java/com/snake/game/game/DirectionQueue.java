@@ -6,7 +6,7 @@ import java.util.LinkedList;
  * Class is used to execute consecutive moves from input.
  */
 public class DirectionQueue {
-    LinkedList<Snake.Direction> keyQueue;
+    private LinkedList<Snake.Direction> keyQueue;
 
     public LinkedList<Snake.Direction> getKeyQueue() {
         return keyQueue;
