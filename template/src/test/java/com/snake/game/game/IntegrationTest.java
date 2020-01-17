@@ -134,8 +134,6 @@ public class IntegrationTest {
         // Run the snake into MegaApple Power Up
         for (int i = 0; i < 16; i++) {
             game.run();
-            System.out.println(game.getSnake().getSnakeBody().getFirst().getPosX());
-            System.out.println(game.getSnake().getSnakeBody().getFirst().getPosY());
         }
 
         assertEquals(game.getScore().get(), 30);

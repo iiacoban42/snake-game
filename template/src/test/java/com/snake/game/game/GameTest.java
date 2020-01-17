@@ -222,10 +222,18 @@ public class GameTest {
 
     }
 
+    /**
+     * Test that the game adds 10 apples.
+     * Bad Weather
+     */
     @Test
     void testAddTooManyApples() {
         Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
+
+        assertEquals(game.getApples().size(), 1);
+
+        game.addApples(1000);
 
         assertEquals(game.getApples().size(), 1);
 

@@ -137,9 +137,17 @@ public class Game {
      * @param number of apples to add.
      */
     public void addApples(int number) {
-        for (int i = 0; i < number; i++) {
-            apples.add(Apple.spawnApplePersistent(this));
+
+        if(number > 20){
+
+        }else{
+
+            for (int i = 0; i < number; i++) {
+                apples.add(Apple.spawnApplePersistent(this));
+            }
+
         }
+
     }
 
 
