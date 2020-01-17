@@ -66,51 +66,14 @@ public abstract class Screen implements com.badlogic.gdx.Screen, ApplicationList
                 && text.length() < maxLength;
     }
 
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(.85f, .85f, .85f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(.42f, .82f, .32f, 1);
-        shapeRenderer.rect(0, 0, 640, 50);
-        shapeRenderer.rect(0, 380, 640, 200);
-        shapeRenderer.end();
-
-        stage.draw();
+    /**
+     * Default subroutine for when the screen is opened.
+     */
+    public void open() {
+        Gdx.input.setInputProcessor(stage);
     }
 
-    @Override
-    public void show() {
 
-    }
 
-    @Override
-    public void pause() {
 
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    void position(TextField user, TextField password, TextButton left,
-                  TextButton right, Image logo) {
-
-        int pivotX = 400;
-        int pivotY = 280;
-        user.setPosition(pivotX, pivotY);
-        password.setPosition(pivotX, pivotY - 45);
-        logo.setPosition(pivotX - 325, pivotY - 180);
-        right.setPosition(pivotX, pivotY - 90);
-        left.setPosition(pivotX + 90, pivotY - 90);
-    }
 }
