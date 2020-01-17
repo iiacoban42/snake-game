@@ -1,5 +1,8 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -20,6 +23,9 @@ public class Board {
     private final ShapeRenderer rend;
     private final Game game;
 
+
+    private transient Sound eatingSound;
+    private transient Sound powerUpSound;
 
     /**
      * Constructor.

@@ -1,5 +1,8 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 
 import java.util.LinkedList;
@@ -15,6 +18,7 @@ public class Snake {
     private int length;
     private DirectionQueue direction;
     private Color color = Color.PURPLE;
+    private transient Sound deathSound;
 
     public LinkedList<BodyPart> getSnakeBody() {
         return snakeBody;
