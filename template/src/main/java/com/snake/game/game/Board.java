@@ -33,13 +33,11 @@ public class Board {
 
     /**
      * Draws the board using a ShapeRenderer.
-     *
-     * @param rend rend
      */
     @SuppressWarnings("PMD")
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
     //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
-    public void draw(ShapeRenderer rend) {
+    public void draw() {
         final float backgroundGrayScale = .85f;
 
         rend.setColor(backgroundGrayScale, backgroundGrayScale, backgroundGrayScale, 1);

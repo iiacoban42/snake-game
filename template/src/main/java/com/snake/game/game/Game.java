@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
 import com.snake.game.game.powerup.PowerUpName;
-import com.snake.game.states.ActiveGameState;
-import com.snake.game.states.FinishedGameState;
-import com.snake.game.states.GameState;
-import com.snake.game.states.GameStateName;
-import com.snake.game.states.NewGameState;
-import com.snake.game.states.PauseGameState;
+import com.snake.game.game.states.ActiveGameState;
+import com.snake.game.game.states.FinishedGameState;
+import com.snake.game.game.states.GameState;
+import com.snake.game.game.states.GameStateName;
+import com.snake.game.game.states.NewGameState;
+import com.snake.game.game.states.PauseGameState;
 
 import java.util.ArrayList;
 import java.util.HashMap;

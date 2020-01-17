@@ -1,4 +1,4 @@
-package com.snake.game.states;
+package com.snake.game.game.states;
 
 public enum GameStateName {
     newGame, active, paused, test, gameOver

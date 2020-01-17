@@ -1,8 +1,6 @@
 package com.snake.game.screens;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.snake.game.game.Game;
-import com.snake.game.states.GameStateName;
 
 import java.util.HashMap;
 
@@ -43,8 +41,7 @@ public class ScreenController extends com.badlogic.gdx.Game {
     public void create() {
         batch = new SpriteBatch();
 
-        screens.put(ScreenName.loginScreen, new LoginScreen(this));
-        screens.put(ScreenName.registerScreen, new RegisterScreen(this));
+        screens.put(ScreenName.loginScreen, new MenuScreen(this));
         screens.put(ScreenName.gameScreen, new GameScreen(this));
         screens.put(ScreenName.startScreen, new StartScreen(this));
 
@@ -52,6 +49,6 @@ public class ScreenController extends com.badlogic.gdx.Game {
     }
 
     public enum ScreenName {
-        loginScreen, registerScreen, startScreen, gameScreen, gameOverScreen, pauseMenu
+        loginScreen, startScreen, gameScreen
     }
 }

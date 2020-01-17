@@ -17,19 +17,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.Game;
 import com.snake.game.game.User;
-import com.snake.game.states.GameStateName;
-import com.snake.game.states.PauseGameState;
+import com.snake.game.game.states.GameStateName;
+import com.snake.game.game.states.PauseGameState;
 
 /**
  * The screen on which the playing board predominately takes place.
  */
 public class GameScreen extends Screen {
 
-    // GUI elements
+
     private final ShapeRenderer renderer;
     private final Game game;
     private final Skin skin;
 
+    // GUI elements
     private final transient Group statGroup;
     private final transient Label usernameLabel;
     private final transient Label scoreLabel;
@@ -61,7 +62,8 @@ public class GameScreen extends Screen {
         renderer.setAutoShapeType(true);
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
-        skin = new Skin(fileHandle);
+        skin = new Skin();
+        skin.load(fileHandle);
 
         LabelStyle labelStyle = new LabelStyle();
         labelStyle.font = new BitmapFont();
@@ -102,6 +104,7 @@ public class GameScreen extends Screen {
         menuButton = new TextButton("Menu", skin);
         menuButton.setBounds(0,0,200,40);
 
+
         statGroup = new Group();
         statGroup.addActor(usernameLabel);
         statGroup.addActor(pauseLabel);
@@ -112,6 +115,7 @@ public class GameScreen extends Screen {
         overlayGroup.addActor(resumeButton);
         overlayGroup.addActor(restartButton);
         overlayGroup.addActor(menuButton);
+
 
         stage.addActor(overlayGroup);
         stage.addActor(statGroup);
@@ -133,7 +137,6 @@ public class GameScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.enterState(GameStateName.active);
-                overlayGroup.setVisible(false);
             }
         });
 
@@ -141,7 +144,6 @@ public class GameScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.enterState(GameStateName.newGame);
-                overlayGroup.setVisible(false);
             }
         });
 
@@ -149,7 +151,6 @@ public class GameScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.loginScreen);
-                overlayGroup.setVisible(false);
             }
         });
     }
@@ -193,7 +194,7 @@ public class GameScreen extends Screen {
         renderer.rect(0, 380, stage.getWidth(), stage.getHeight() - 380);
 
         // Draw the board
-        game.getBoard().draw(renderer);
+        game.getBoard().draw();
 
         // Finalize renderer
         renderer.end();

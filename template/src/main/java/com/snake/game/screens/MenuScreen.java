@@ -2,42 +2,56 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.User;
 import com.snake.game.requests.Login;
+import com.snake.game.requests.Signup;
 import com.snake.game.requests.UserInfo;
 
 /**
  * The screen on which the user may login to their account using their username and password
  * and launch the game.
  */
-public class LoginScreen extends Screen {
+public class MenuScreen extends Screen {
 
     private final transient SpriteBatch batch;
     private final transient BitmapFont font;
 
+    private final transient Group textFieldsGroup;
     private final transient TextField usernameTextField;
     private final transient TextField passwordTextField;
+    private final transient Label statusLabel;
+
+    private final transient Group loginGroup;
     private final transient TextButton loginButton;
     private final transient TextButton registerButton;
+
+    private final transient Group registerGroup;
+    private final transient TextButton createButton;
+    private final transient TextButton backButton;
+
+    private final transient Group playGroup;
     private final transient TextButton playButton;
+
     private final transient Image logo;
 
-    private final transient Group group;
+
 
     /**
      * Constructor for login screen.
@@ -47,7 +61,7 @@ public class LoginScreen extends Screen {
     @SuppressWarnings("PMD")
     //Understand why we can't call overridable method, but it can't be escaped here
     //Because of how libgdx structures classes.
-    public LoginScreen(ScreenController sc) {
+    public MenuScreen(ScreenController sc) {
         super(sc);
         batch = new SpriteBatch();
         batch.begin();
@@ -55,67 +69,90 @@ public class LoginScreen extends Screen {
         stage = new Stage();
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
-        Skin skin = new Skin(fileHandle);
+        Skin skin = new Skin();
+        skin.load(fileHandle);
 
+        LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        labelStyle.fontColor = Color.DARK_GRAY;
+
+        // Logo
         Texture logoIcon = new Texture(Gdx.files.internal("logo.png"));
         TextureRegion textureRegion = new TextureRegion(logoIcon, 256, 256);
         logo = new Image(textureRegion);
 
+        // Text fields group
         usernameTextField = new TextField("", skin);
         usernameTextField.setMessageText("Username");
         usernameTextField.setMaxLength(32);
-        usernameTextField.setSize(170, 35);
+        usernameTextField.setBounds(0,135,170, 35);
 
         passwordTextField = new TextField("", skin);
         passwordTextField.setMessageText("Password");
         passwordTextField.setMaxLength(32);
         passwordTextField.setPasswordMode(true);
         passwordTextField.setPasswordCharacter('*');
-        passwordTextField.setSize(170, 35);
+        passwordTextField.setBounds(0,90,170, 35);
 
+        statusLabel = new Label("Currently offline", skin);
+        statusLabel.setColor(Color.RED);
+        statusLabel.setBounds(0,5,170,35);
+
+        // Login group
         loginButton = new TextButton("Login", skin);
-        loginButton.setSize(80, 35);
+        loginButton.setBounds(0,0,80, 35);
 
         registerButton = new TextButton("Register", skin);
-        registerButton.setSize(80, 35);
+        registerButton.setBounds(90,0,80, 35);
 
+        // Register group
+        createButton = new TextButton("Create", skin);
+        createButton.setBounds(0,0,80, 35);
+
+        backButton = new TextButton("Back", skin);
+        backButton.setBounds(90,0,80, 35);
+
+        // Play group
         playButton = new TextButton("Play", skin);
-        playButton.setSize(80, 35);
+        playButton.setBounds(0,45,170, 35);
 
 
-        group = new Group();
-        group.addActor(logo);
-        group.addActor(usernameTextField);
-        group.addActor(passwordTextField);
-        group.addActor(loginButton);
-        group.addActor(registerButton);
-        group.addActor(playButton);
+        textFieldsGroup = new Group();
+        textFieldsGroup.addActor(usernameTextField);
+        textFieldsGroup.addActor(passwordTextField);
+        textFieldsGroup.addActor(statusLabel);
 
-        stage.addActor(group);
+        loginGroup = new Group();
+        loginGroup.addActor(loginButton);
+        loginGroup.addActor(registerButton);
+
+        registerGroup = new Group();
+        registerGroup.addActor(createButton);
+        registerGroup.addActor(backButton);
+
+        playGroup = new Group();
+        playGroup.addActor(playButton);
+
+
+        stage.addActor(logo);
+        stage.addActor(textFieldsGroup);
+        stage.addActor(loginGroup);
+        stage.addActor(registerGroup);
+        stage.addActor(playGroup);
 
         stage.setKeyboardFocus(usernameTextField);
 
-        position(usernameTextField, passwordTextField, registerButton, loginButton, logo);
+        registerGroup.setVisible(false);
         updatePosition();
         addListeners();
     }
-    void position(TextField user, TextField password, TextButton left,
-                  TextButton right, Image logo) {
-
-        int pivotX = 400;
-        int pivotY = 280;
-        user.setPosition(pivotX, pivotY);
-        password.setPosition(pivotX, pivotY - 45);
-        logo.setPosition(pivotX - 325, pivotY - 180);
-        right.setPosition(pivotX, pivotY - 90);
-        left.setPosition(pivotX + 90, pivotY - 90);
-    }
 
     void updatePosition() {
-
-        int pivotX = 400;
-        int pivotY = 280;
-        playButton.setPosition(pivotX + 45, pivotY - 150);
+        logo.setPosition(50,100);
+        textFieldsGroup.setPosition(400, 180);
+        loginGroup.setPosition(400,220);
+        registerGroup.setPosition(400,220);
+        playGroup.setPosition(400,100);
     }
 
     void addListeners() {
@@ -156,8 +193,51 @@ public class LoginScreen extends Screen {
         registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.registerScreen);
+                registerGroup.setVisible(true);
+                loginGroup.setVisible(false);
+                playGroup.setVisible(false);
+                statusLabel.setText("Register new account");
+                statusLabel.setColor(Color.DARK_GRAY);
+            }
+        });
 
+        createButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String username = usernameTextField.getText();
+                String password = passwordTextField.getText();
+                System.out.println(username);
+                System.out.println(password);
+                if (validUser(username) && validPassword(password)) {
+                    Signup signup = new Signup(username, password);
+                    signup.execute();
+                    if (signup.hasErrors()) {
+                        statusLabel.setText("Invalid account");
+                        statusLabel.setColor(Color.RED);
+                    } else {
+                        registerGroup.setVisible(false);
+                        loginGroup.setVisible(true);
+                        playGroup.setVisible(true);
+
+                        statusLabel.setText("Registered successfully");
+                        statusLabel.setColor(Color.DARK_GRAY);
+                    }
+                }
+            }
+        });
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                registerGroup.setVisible(false);
+                loginGroup.setVisible(true);
+                playGroup.setVisible(true);
+                if (User.getInstance().isLoggedIn()) {
+                    statusLabel.setText("Play as: " + "");
+                    statusLabel.setColor(Color.DARK_GRAY);
+                } else {
+                    statusLabel.setText("Currently offline");
+                    statusLabel.setColor(Color.RED);
+                }
             }
         });
 
@@ -172,9 +252,13 @@ public class LoginScreen extends Screen {
     }
 
     @Override
+    public void create() {
+
+    }
+
+    @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height);
-//        group.setScale(standardWidth / width, standardHeight / height);
         updatePosition();
 
     }
@@ -194,25 +278,13 @@ public class LoginScreen extends Screen {
 
     }
 
-
     @Override
-    public void dispose() {
-        batch.dispose();
-        font.dispose();
-    }
-
-    @Override
-    public void create() {
+    public void show() {
 
     }
 
     @Override
     public void render() {
-
-    }
-
-    @Override
-    public void show() {
 
     }
 
@@ -235,4 +307,9 @@ public class LoginScreen extends Screen {
         stage.draw();
     }
 
+    @Override
+    public void dispose() {
+        batch.dispose();
+        font.dispose();
+    }
 }

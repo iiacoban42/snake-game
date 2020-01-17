@@ -7,10 +7,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.powerup.MegaApple;
 import com.snake.game.game.powerup.PowerUpName;
 import com.snake.game.game.powerup.SpeedUp;
-import com.snake.game.states.FinishedGameState;
-import com.snake.game.states.GameState;
-import com.snake.game.states.GameStateName;
-import com.snake.game.states.NewGameState;
+import com.snake.game.game.states.FinishedGameState;
+import com.snake.game.game.states.GameState;
+import com.snake.game.game.states.GameStateName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

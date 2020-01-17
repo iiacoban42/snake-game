@@ -1,4 +1,4 @@
-package com.snake.game.states;
+package com.snake.game.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,17 +6,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.Game;
 
-public class NewGameState extends GameState {
+public class PauseGameState extends GameState {
 
-    public NewGameState(Game game) {
+    public PauseGameState(Game game) {
         super(game);
     }
 
     @Override
     public void enter() {
         game.getGameUpdateTimer().setActive(false);
-        game.spawnSprites();
-        game.getSnake().setColor(Color.PURPLE);
+        game.getSnake().setColor(Color.GRAY);
     }
 
     @Override
@@ -31,4 +30,6 @@ public class NewGameState extends GameState {
             game.enterState(GameStateName.active);
         }
     }
+
+
 }

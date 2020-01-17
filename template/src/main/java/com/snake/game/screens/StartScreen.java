@@ -77,7 +77,7 @@ public class StartScreen extends Screen {
         int pivotX = 400;
         int pivotY = 280;
 
-        logo.setPosition(pivotX - 325, pivotY - 180);
+        logo.setPosition(pivotX - 350, pivotY - 180);
         playButton.setPosition(pivotX + 50, pivotY - 10);
         scoresButton.setPosition(pivotX + 50, pivotY - 60);
         quitButton.setPosition(pivotX + 50, pivotY - 110);
