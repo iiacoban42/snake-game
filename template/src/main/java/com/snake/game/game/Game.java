@@ -126,7 +126,7 @@ public class Game {
      */
     public void updatePowerUp(double chance, PowerUpName powerUpName) {
         final double threshold = 0.01;
-        if (chance <= threshold) {
+        if (chance <= threshold && chance > 0) {
             powerUp = powerUpFactory.getPowerUp(powerUpName);
         }
     }

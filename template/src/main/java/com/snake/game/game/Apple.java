@@ -94,4 +94,6 @@ public class Apple implements Consumable {
         return posY;
     }
 
+
+
 }

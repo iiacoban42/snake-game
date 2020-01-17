@@ -15,15 +15,6 @@ public class BoardTest {
     @Test
     void testBoardConstructor() {
 
-        Board board = new Board(null);
-
-        assertEquals(board.getGridHeight(), 20);
-        assertEquals(board.getGridWidth(), 20);
-        assertEquals(board.getBoardX(), 50);
-        assertEquals(board.getBoardY(), 100);
-        assertEquals(board.getBoardHeight(), 320);
-        assertEquals(board.getBoardWidth(), 320);
-        assertEquals(board.getTile(), 16);
     }
 
     //
