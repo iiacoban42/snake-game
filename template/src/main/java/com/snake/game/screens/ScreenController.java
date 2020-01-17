@@ -44,13 +44,12 @@ public class ScreenController extends com.badlogic.gdx.Game {
         screens.put(ScreenName.loginScreen, new MenuScreen(this));
         screens.put(ScreenName.gameScreen, new GameScreen(this));
         screens.put(ScreenName.startScreen, new StartScreen(this));
-
         screens.put(ScreenName.leaderboardScreen, new LeaderboardScreen(this));
 
         openScreen(ScreenName.loginScreen);
     }
 
     public enum ScreenName {
-        loginScreen, startScreen, gameScreen, registerScreen, gameOverScreen, leaderboardScreen, pauseMenu
+        loginScreen, startScreen, gameScreen, leaderboardScreen
     }
 }

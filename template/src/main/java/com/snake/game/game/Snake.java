@@ -47,6 +47,7 @@ public class Snake {
      * @param length default length
      */
     public Snake(Board board, int x, int y, int length) {
+        deathSound = Gdx.audio.newSound(new FileHandle("src/main/resources/deathSound.mp3"));
         snakeBody = new LinkedList<>();
         init(board, x, y, length);
     }
@@ -86,6 +87,7 @@ public class Snake {
         if (collides(newHead.getPosX(), newHead.getPosY())
                 || newHead.getPosX() < 0 || newHead.getPosX() >= board.getGridWidth()
                 || newHead.getPosY() < 0 || newHead.getPosY() >= board.getGridHeight()) {
+            deathSound.play();
             return true;
         }
         snakeBody.addLast(newHead);

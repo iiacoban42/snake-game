@@ -1,5 +1,8 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
@@ -33,6 +36,10 @@ public class Game {
     private GameState state;
     private final HashMap<GameStateName, GameState> states = new HashMap<>();
 
+    private transient Sound eatingSound;
+    private transient Sound powerUpSound;
+
+
     private Score score;
 
     public Timer<Runnable> gameUpdateTimer;
@@ -54,6 +61,8 @@ public class Game {
         board = new Board(this, rend);
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
+        eatingSound = Gdx.audio.newSound(new FileHandle("src/main/resources/eatingSound.mp3"));
+        powerUpSound = Gdx.audio.newSound(new FileHandle("src/main/resources/powerupSound.mp3"));
 
         score = new Score();
     }
@@ -103,6 +112,7 @@ public class Game {
 
         for (int i = 0; i < apples.size(); i++) {
             if (snake.collides(apples.get(i).getPosX(), apples.get(i).getPosY())) {
+                eatingSound.play();
                 apples.get(i).consume(this, snake);
                 apples.remove(apples.get(i));
             }
@@ -117,6 +127,7 @@ public class Game {
             updatePowerUp(chance, PowerUpName.values()[powerUpIndex]);
         }
         if (powerUp != null && snake.collides(powerUp.getPosX(), powerUp.getPosY())) {
+            powerUpSound.play();
             powerUp.consume(this, snake);
             powerUp = null;
         }
