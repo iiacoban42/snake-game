@@ -323,8 +323,13 @@ public class GameTest {
         game.spawnSprites();
 
         MegaApple megaApple = new MegaApple(7, 0);
-
         game.setPowerUp(megaApple);
+
+
+        game.getApples().clear();
+        Apple apple = new Apple(4,4);
+
+        game.getApples().add(apple);
 
         assertEquals(game.getScore().get(), 0);
 
@@ -333,17 +338,7 @@ public class GameTest {
             game.run();
         }
 
-        int flakyTest = game.getApples().get(0).getPosY();
-
-        if (flakyTest == 0) {
-
-            assertEquals(game.getScore().get(), 40);
-
-        } else {
-
-            assertEquals(game.getScore().get(), 30);
-
-        }
+        assertEquals(game.getScore().get(), 30);
 
 
     }
