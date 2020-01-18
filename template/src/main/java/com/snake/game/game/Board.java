@@ -1,8 +1,6 @@
 package com.snake.game.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -21,7 +19,6 @@ public class Board {
     private final int boardHeight = gridHeight * tile;
 
     private final ShapeRenderer rend;
-    private final Game game;
 
 
     private transient Sound eatingSound;
@@ -29,11 +26,8 @@ public class Board {
 
     /**
      * Constructor.
-     *
-     * @param game game
      */
-    public Board(Game game, ShapeRenderer rend) {
-        this.game = game;
+    public Board(ShapeRenderer rend) {
         this.rend = rend;
     }
 
@@ -43,7 +37,7 @@ public class Board {
     @SuppressWarnings("PMD")
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
     //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
-    public void draw() {
+    public void draw(Game game) {
         final float backgroundGrayScale = .85f;
 
         rend.setColor(backgroundGrayScale, backgroundGrayScale, backgroundGrayScale, 1);
@@ -98,9 +92,5 @@ public class Board {
 
     public ShapeRenderer getRend() {
         return rend;
-    }
-
-    public Game getGame() {
-        return game;
     }
 }

@@ -2,7 +2,6 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,8 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.snake.game.game.Game;
-import com.snake.game.game.User;
+import com.snake.game.game.*;
 import com.snake.game.game.states.GameStateName;
 import com.snake.game.game.states.PauseGameState;
 
@@ -59,7 +57,11 @@ public class GameScreen extends Screen {
         super(sc);
         stage = new Stage();
         renderer = new ShapeRenderer();
-        game = new Game(renderer);
+
+        Board board = new Board(renderer);
+        Score score = new Score();
+        SoundSystem soundSystem = new SoundSystem();
+        game = new Game(board, score, soundSystem);
         renderer.setAutoShapeType(true);
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
@@ -193,7 +195,7 @@ public class GameScreen extends Screen {
         renderer.setColor(.42f, .82f, .32f, 1);
         renderer.rect(0, 380, 640, 200);
 
-        game.getBoard().draw();
+        game.getBoard().draw(game);
 
         renderer.end();
 

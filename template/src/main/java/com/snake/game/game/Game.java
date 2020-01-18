@@ -1,18 +1,9 @@
 package com.snake.game.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
 import com.snake.game.game.powerup.PowerUpName;
-import com.snake.game.game.states.ActiveGameState;
-import com.snake.game.game.states.FinishedGameState;
-import com.snake.game.game.states.GameState;
-import com.snake.game.game.states.GameStateName;
-import com.snake.game.game.states.NewGameState;
-import com.snake.game.game.states.PauseGameState;
+import com.snake.game.game.states.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,14 +24,11 @@ public class Game {
     private PowerUpFactory powerUpFactory;
 
     private Board board;
+    private SoundSystem soundSystem;
+    private Score score;
+
     private GameState state;
     private final HashMap<GameStateName, GameState> states = new HashMap<>();
-
-    private transient Sound eatingSound;
-    private transient Sound powerUpSound;
-
-
-    private Score score;
 
     public Timer<Runnable> gameUpdateTimer;
 
@@ -51,18 +39,18 @@ public class Game {
     /**
      * Constructor.
      */
-    public Game(ShapeRenderer rend) {
+    public Game(Board board, Score score, SoundSystem soundSystem) {
+        this.board = board;
+        this.score = score;
+        this.soundSystem = soundSystem;
 
         states.put(GameStateName.newGame, new NewGameState(this));
         states.put(GameStateName.active, new ActiveGameState(this));
         states.put(GameStateName.paused, new PauseGameState(this));
         states.put(GameStateName.gameOver, new FinishedGameState(this));
 
-        board = new Board(this, rend);
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
-
-        score = new Score();
     }
 
     /**
@@ -104,12 +92,14 @@ public class Game {
     //there must be at least one apple in the list we must not remove (line 229)
     public void run() {
         if (snake.move(board)) {
+            soundSystem.getDeathSound().play();
             enterState(GameStateName.gameOver);
             return;
         }
 
         for (int i = 0; i < apples.size(); i++) {
             if (snake.collides(apples.get(i).getPosX(), apples.get(i).getPosY())) {
+                soundSystem.getEatingSound().play();
                 apples.get(i).consume(this, snake);
                 apples.remove(apples.get(i));
             }
@@ -124,7 +114,7 @@ public class Game {
             updatePowerUp(chance, PowerUpName.values()[powerUpIndex]);
         }
         if (powerUp != null && snake.collides(powerUp.getPosX(), powerUp.getPosY())) {
-            //powerUpSound.play();
+            soundSystem.getPowerUpSound().play();
             powerUp.consume(this, snake);
             powerUp = null;
         }
@@ -250,6 +240,14 @@ public class Game {
 
     public void setScore(Score score) {
         this.score = score;
+    }
+
+    public SoundSystem getSoundSystem() {
+        return soundSystem;
+    }
+
+    public void setSoundSystem(SoundSystem soundSystem) {
+        this.soundSystem = soundSystem;
     }
 
     public Timer<Runnable> getGameUpdateTimer() {
