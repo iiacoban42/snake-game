@@ -1,6 +1,5 @@
 package com.snake.game.game;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -19,10 +18,6 @@ public class Board {
     private final int boardHeight = gridHeight * tile;
 
     private final ShapeRenderer rend;
-
-
-    private transient Sound eatingSound;
-    private transient Sound powerUpSound;
 
     /**
      * Constructor.

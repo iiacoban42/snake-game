@@ -1,14 +1,10 @@
 package com.snake.game.game;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.snake.game.game.powerup.PowerUpName;
+import com.snake.game.game.powerup.InitializedGameTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-public class AppleTest {
+public class AppleTest extends InitializedGameTest {
 
     /**
      * Test game's score updates correctly when an apple is consumed.
@@ -18,19 +14,13 @@ public class AppleTest {
     @Test
     void testAppleGrowAndConsumed() {
 
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
-        game.spawnSprites();
-        Apple apple = new Apple(1,1);
+        Assertions.assertEquals(snake.getLength(), 5);
+        Assertions.assertEquals(score.get(), 0);
 
-        assertEquals(game.getSnake().getLength(), 5);
-        assertEquals(game.getScore().get(), 0);
+        apple.consume(game, snake);
 
-        apple.consume(game, game.getSnake());
-
-        assertEquals(game.getSnake().getLength(), 8);
-        assertEquals(game.getScore().get(), 10);
-
-
+        Assertions.assertEquals(snake.getLength(), 8);
+        Assertions.assertEquals(score.get(), 10);
     }
 
     /**
@@ -40,20 +30,15 @@ public class AppleTest {
      */
     @Test
     void testAppleNotGrowAndConsumed() {
-
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
-        game.spawnSprites();
         game.setStopGrowFlag(true);
-        Apple apple = new Apple(1,1);
 
-        assertEquals(game.getSnake().getLength(), 5);
-        assertEquals(game.getScore().get(), 0);
+        Assertions.assertEquals(5, snake.getLength());
+        Assertions.assertEquals(0,score.get());
 
-        apple.consume(game, game.getSnake());
+        apple.consume(game, snake);
 
-        assertEquals(game.getSnake().getLength(), 5);
-        assertEquals(game.getScore().get(), 10);
-
+        Assertions.assertEquals(5, snake.getLength());
+        Assertions.assertEquals(10, score.get());
     }
 
     /**
@@ -62,13 +47,11 @@ public class AppleTest {
      */
     @Test
     void testSpawnApple() {
+        Apple newApple = Apple.spawnApplePersistent(game);
 
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
-        game.spawnSprites();
-        Apple apple = Apple.spawnApplePersistent(game);
-
-        assertEquals(game.getSnake().collides(apple.getPosX(), apple.getPosY()), false);
-
+        Assertions.assertFalse(snake.collides(apple.getPosX(), apple.getPosY()));
+        Assertions.assertFalse(newApple.getPosX() == apple.getPosX()
+                && newApple.getPosY() == apple.getPosY());
     }
 
 }

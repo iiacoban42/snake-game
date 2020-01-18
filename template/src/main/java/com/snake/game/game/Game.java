@@ -3,7 +3,12 @@ package com.snake.game.game;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
 import com.snake.game.game.powerup.PowerUpName;
-import com.snake.game.game.states.*;
+import com.snake.game.game.states.ActiveGameState;
+import com.snake.game.game.states.FinishedGameState;
+import com.snake.game.game.states.GameState;
+import com.snake.game.game.states.GameStateName;
+import com.snake.game.game.states.NewGameState;
+import com.snake.game.game.states.PauseGameState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +56,8 @@ public class Game {
 
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
+
+        powerUpFactory = new PowerUpFactory(this);
     }
 
     /**
@@ -63,7 +70,6 @@ public class Game {
         apples = new ArrayList<>();
         apples.add(apple);
 
-        powerUpFactory = new PowerUpFactory(this);
     }
 
     /**
@@ -125,7 +131,7 @@ public class Game {
      */
     public void updatePowerUp(double chance, PowerUpName powerUpName) {
         final double threshold = 0.01;
-        if (chance <= threshold && chance > 0) {
+        if (chance <= threshold) {
             powerUp = powerUpFactory.getPowerUp(powerUpName);
         }
     }
@@ -136,17 +142,11 @@ public class Game {
      * @param number of apples to add.
      */
     public void addApples(int number) {
-
-        if (number > maxApples) {
-            return;
-        } else {
-
+        if (number < maxApples) {
             for (int i = 0; i < number; i++) {
                 apples.add(Apple.spawnApplePersistent(this));
             }
-
         }
-
     }
 
 
