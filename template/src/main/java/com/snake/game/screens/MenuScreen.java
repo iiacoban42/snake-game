@@ -88,8 +88,8 @@ public class MenuScreen extends Screen {
         passwordTextField.setPasswordMode(true);
         passwordTextField.setPasswordCharacter('*');
         passwordTextField.setBounds(0,90,170, 35);
-        
-        statusLabel = new Label("Currently offline", skin);
+
+        statusLabel = new Label("", skin);
         statusLabel.setWrap(true);
         statusLabel.setColor(Color.RED);
         statusLabel.setBounds(0,5,170,35);
