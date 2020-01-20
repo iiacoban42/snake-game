@@ -95,11 +95,13 @@ public class Game {
      * Game update.
      */
     @SuppressWarnings("PMD")
-    //there must be at least one apple in the list we must not remove (line 229)
+    //there must be at least one apple in the list we must not remove
     public void run() {
         if (snake.move(board)) {
             soundSystem.getDeathSound().play();
             enterState(GameStateName.gameOver);
+            powerUp = null;
+            apples.clear();
             return;
         }
 
