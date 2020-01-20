@@ -25,7 +25,6 @@ public class LeaderboardScreen extends Screen {
      */
     LeaderboardScreen(ScreenController sc) {
         super(sc);
-
     }
 
     @Override
