@@ -1,14 +1,11 @@
 package com.snake.game.game;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import java.util.LinkedList;
+import com.snake.game.game.powerup.InitializedGameTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 
-public class SnakeTest {
+public class SnakeTest extends InitializedGameTest {
 
     /**
      * Test Snake will correctly collides with input coordinates.
@@ -16,13 +13,11 @@ public class SnakeTest {
      */
     @Test
     void testSnakeCollides() {
-
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
 
 
-        assertEquals(game.getSnake().collides(0,0), true);
-        assertEquals(game.getSnake().collides(1,1), false);
+        Assertions.assertTrue(game.getSnake().collides(0,0));
+        Assertions.assertFalse(game.getSnake().collides(1,1));
 
 
     }
@@ -33,13 +28,11 @@ public class SnakeTest {
      */
     @Test
     void testSnakeCollidesFalseCoordinates() {
-
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
 
 
-        assertEquals(game.getSnake().collides(-1,-1), false);
-        assertEquals(game.getSnake().collides(100,100), false);
+        Assertions.assertFalse(game.getSnake().collides(-1,-1));
+        Assertions.assertFalse(game.getSnake().collides(100,100));
 
 
     }
@@ -50,8 +43,6 @@ public class SnakeTest {
      */
     @Test
     void testSnakeCollideEastVerticalWall() {
-
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
 
         for (int i = 0; i < 15; i++) {
@@ -61,7 +52,7 @@ public class SnakeTest {
 
         boolean finalMove = game.getSnake().move(game.getBoard());
 
-        assertEquals(finalMove, true);
+        Assertions.assertTrue(finalMove);
 
 
     }
@@ -72,8 +63,6 @@ public class SnakeTest {
      */
     @Test
     void testSnakeCollideWesttVerticalWall() {
-
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         game.getSnake().getDirection().enqueue(Snake.Direction.UP);
         game.getSnake().getDirection().enqueue(Snake.Direction.LEFT);
@@ -85,7 +74,7 @@ public class SnakeTest {
 
         boolean finalMove = game.getSnake().move(game.getBoard());
 
-        assertEquals(finalMove, true);
+        Assertions.assertTrue(finalMove);
 
 
     }
@@ -96,8 +85,6 @@ public class SnakeTest {
      */
     @Test
     void testSnakeCollideNorthHorizontalWall() {
-
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         game.getSnake().getDirection().enqueue(Snake.Direction.UP);
 
@@ -108,7 +95,7 @@ public class SnakeTest {
 
         boolean finalMove = game.getSnake().move(game.getBoard());
 
-        assertEquals(finalMove, true);
+        Assertions.assertTrue(finalMove);
 
     }
 
@@ -118,8 +105,6 @@ public class SnakeTest {
      */
     @Test
     void testSnakeCollideSouthHorizontalWall() {
-
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         game.getSnake().getDirection().enqueue(Snake.Direction.DOWN);
 
@@ -130,7 +115,7 @@ public class SnakeTest {
 
         boolean finalMove = game.getSnake().move(game.getBoard());
 
-        assertEquals(finalMove, true);
+        Assertions.assertTrue(finalMove);
 
     }
 
@@ -140,8 +125,6 @@ public class SnakeTest {
      */
     @Test
     void testSnakeCollidesWithItself() {
-
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         game.getSnake().getDirection().enqueue(Snake.Direction.UP);
         game.getSnake().getDirection().enqueue(Snake.Direction.LEFT);
@@ -156,19 +139,8 @@ public class SnakeTest {
 
         boolean finalMove = game.getSnake().move(game.getBoard());
 
-        assertEquals(finalMove, true);
+        Assertions.assertTrue(finalMove);
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -15,7 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.snake.game.game.*;
+import com.snake.game.game.Board;
+import com.snake.game.game.Game;
+import com.snake.game.game.Score;
+import com.snake.game.game.SoundSystem;
+import com.snake.game.game.User;
 import com.snake.game.game.states.GameStateName;
 import com.snake.game.game.states.PauseGameState;
 
