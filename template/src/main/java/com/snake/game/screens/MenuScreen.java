@@ -70,10 +70,6 @@ public class MenuScreen extends Screen {
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
 
-        LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        labelStyle.fontColor = Color.DARK_GRAY;
-
         Skin skin = new Skin(fileHandle);
         // Logo
         Texture logoIcon = new Texture(Gdx.files.internal("logo.png"));
@@ -92,8 +88,9 @@ public class MenuScreen extends Screen {
         passwordTextField.setPasswordMode(true);
         passwordTextField.setPasswordCharacter('*');
         passwordTextField.setBounds(0,90,170, 35);
-
+        
         statusLabel = new Label("Currently offline", skin);
+        statusLabel.setWrap(true);
         statusLabel.setColor(Color.RED);
         statusLabel.setBounds(0,5,170,35);
 
@@ -166,6 +163,7 @@ public class MenuScreen extends Screen {
                     Login login = new Login(username, password);
                     login.execute();
                     if (login.hasErrors()) {
+                        statusLabel.setText(login.getErrors().get(0));
                         font.draw(batch, login.getErrors().get(0), 200, 200);
                     } else {
                         font.draw(batch, login.getResult().getBody(), 200, 200);
@@ -211,7 +209,7 @@ public class MenuScreen extends Screen {
                     Signup signup = new Signup(username, password);
                     signup.execute();
                     if (signup.hasErrors()) {
-                        statusLabel.setText("Invalid account");
+                        statusLabel.setText(signup.getErrors().get(0));
                         statusLabel.setColor(Color.RED);
                     } else {
                         registerGroup.setVisible(false);
@@ -234,7 +232,7 @@ public class MenuScreen extends Screen {
                     statusLabel.setText("Play as: " + "");
                     statusLabel.setColor(Color.DARK_GRAY);
                 } else {
-                    statusLabel.setText("Currently offline");
+                    statusLabel.setText("");
                     statusLabel.setColor(Color.RED);
                 }
             }

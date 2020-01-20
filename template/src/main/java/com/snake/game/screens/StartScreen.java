@@ -98,6 +98,14 @@ public class StartScreen extends Screen {
 
             }
         });
+
+        scoresButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.leaderboardScreen);
+
+            }
+        });
     }
 
     @Override
