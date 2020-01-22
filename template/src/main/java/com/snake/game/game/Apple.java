@@ -78,7 +78,7 @@ public class Apple implements Consumable {
         }
         if (game.getApples() != null) {
             for (Apple apple : game.getApples()) {
-                if (apple.getPosX() == posX && apple.posY == posY) {
+                if (apple.posX == posX && apple.posY == posY) {
                     return false;
                 }
             }
@@ -93,7 +93,4 @@ public class Apple implements Consumable {
     public int getPosY() {
         return posY;
     }
-
-
-
 }

@@ -53,7 +53,6 @@ public class StartScreen extends Screen {
         TextureRegion textureRegion = new TextureRegion(logoIcon, 256, 256);
         logo = new Image(textureRegion);
 
-
         playButton = new TextButton("Start", skin);
         playButton.setSize(80, 35);
         scoresButton = new TextButton("Scores", skin);
@@ -96,6 +95,14 @@ public class StartScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.loginScreen);
+
+            }
+        });
+
+        scoresButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.leaderboardScreen);
 
             }
         });

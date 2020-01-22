@@ -1,9 +1,5 @@
 package com.snake.game.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
 import com.snake.game.game.powerup.PowerUpName;
@@ -33,14 +29,11 @@ public class Game {
     private PowerUpFactory powerUpFactory;
 
     private Board board;
+    private SoundSystem soundSystem;
+    private Score score;
+
     private GameState state;
     private final HashMap<GameStateName, GameState> states = new HashMap<>();
-
-    private transient Sound eatingSound;
-    private transient Sound powerUpSound;
-
-
-    private Score score;
 
     public Timer<Runnable> gameUpdateTimer;
 
@@ -51,18 +44,20 @@ public class Game {
     /**
      * Constructor.
      */
-    public Game(ShapeRenderer rend) {
+    public Game(Board board, Score score, SoundSystem soundSystem) {
+        this.board = board;
+        this.score = score;
+        this.soundSystem = soundSystem;
 
         states.put(GameStateName.newGame, new NewGameState(this));
         states.put(GameStateName.active, new ActiveGameState(this));
         states.put(GameStateName.paused, new PauseGameState(this));
         states.put(GameStateName.gameOver, new FinishedGameState(this));
 
-        board = new Board(this, rend);
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
 
-        score = new Score();
+        powerUpFactory = new PowerUpFactory(this);
     }
 
     /**
@@ -75,7 +70,6 @@ public class Game {
         apples = new ArrayList<>();
         apples.add(apple);
 
-        powerUpFactory = new PowerUpFactory(this);
     }
 
     /**
@@ -101,15 +95,19 @@ public class Game {
      * Game update.
      */
     @SuppressWarnings("PMD")
-    //there must be at least one apple in the list we must not remove (line 229)
+    //there must be at least one apple in the list we must not remove
     public void run() {
         if (snake.move(board)) {
+            soundSystem.getDeathSound().play();
             enterState(GameStateName.gameOver);
+            powerUp = null;
+            apples.clear();
             return;
         }
 
         for (int i = 0; i < apples.size(); i++) {
             if (snake.collides(apples.get(i).getPosX(), apples.get(i).getPosY())) {
+                soundSystem.getEatingSound().play();
                 apples.get(i).consume(this, snake);
                 apples.remove(apples.get(i));
             }
@@ -124,7 +122,7 @@ public class Game {
             updatePowerUp(chance, PowerUpName.values()[powerUpIndex]);
         }
         if (powerUp != null && snake.collides(powerUp.getPosX(), powerUp.getPosY())) {
-            //powerUpSound.play();
+            soundSystem.getPowerUpSound().play();
             powerUp.consume(this, snake);
             powerUp = null;
         }
@@ -135,7 +133,7 @@ public class Game {
      */
     public void updatePowerUp(double chance, PowerUpName powerUpName) {
         final double threshold = 0.01;
-        if (chance <= threshold && chance > 0) {
+        if (chance <= threshold) {
             powerUp = powerUpFactory.getPowerUp(powerUpName);
         }
     }
@@ -146,17 +144,11 @@ public class Game {
      * @param number of apples to add.
      */
     public void addApples(int number) {
-
-        if (number > maxApples) {
-            return;
-        } else {
-
+        if (number < maxApples) {
             for (int i = 0; i < number; i++) {
                 apples.add(Apple.spawnApplePersistent(this));
             }
-
         }
-
     }
 
 
@@ -250,6 +242,14 @@ public class Game {
 
     public void setScore(Score score) {
         this.score = score;
+    }
+
+    public SoundSystem getSoundSystem() {
+        return soundSystem;
+    }
+
+    public void setSoundSystem(SoundSystem soundSystem) {
+        this.soundSystem = soundSystem;
     }
 
     public Timer<Runnable> getGameUpdateTimer() {

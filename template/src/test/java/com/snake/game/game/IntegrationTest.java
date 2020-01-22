@@ -1,17 +1,13 @@
 package com.snake.game.game;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.snake.game.game.powerup.InitializedGameTest;
 import com.snake.game.game.powerup.MegaApple;
 import com.snake.game.game.states.FinishedGameState;
 import com.snake.game.game.states.GameStateName;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-public class IntegrationTest {
+public class IntegrationTest extends InitializedGameTest {
 
     /**
      * Test that the snake can maneuver and consume an apple for 10 points.
@@ -19,7 +15,6 @@ public class IntegrationTest {
      */
     @Test
     void testManeuveringSnakeIntoApple() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
 
         Apple apple = new Apple(4,4);
@@ -36,8 +31,8 @@ public class IntegrationTest {
             game.run();
         }
 
-        assertEquals(game.getScore().get(), 10);
-        assertEquals(game.getApples().size(), 1);
+        Assertions.assertEquals(game.getScore().get(), 10);
+        Assertions.assertEquals(game.getApples().size(), 1);
     }
 
     /**
@@ -47,7 +42,6 @@ public class IntegrationTest {
      */
     @Test
     void testManeuveringSnakeIntoAppleAndDying() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         game.enterState(GameStateName.newGame);
         game.enterState(GameStateName.active);
@@ -66,7 +60,7 @@ public class IntegrationTest {
             game.run();
         }
 
-        assertEquals(game.getScore().get(), 10);
+        Assertions.assertEquals(game.getScore().get(), 10);
 
         // Keep the snake going it in the same direction and running it into the wall
         // Thus ending the game
@@ -74,7 +68,7 @@ public class IntegrationTest {
             game.run();
         }
 
-        assertTrue(game.getState() instanceof FinishedGameState);
+        Assertions.assertTrue(game.getState() instanceof FinishedGameState);
 
     }
 
@@ -84,7 +78,6 @@ public class IntegrationTest {
      */
     @Test
     void testManeuveringSnakeIntoItself() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         game.enterState(GameStateName.newGame);
         game.enterState(GameStateName.active);
@@ -102,7 +95,7 @@ public class IntegrationTest {
             game.run();
         }
 
-        assertTrue(game.getState() instanceof FinishedGameState);
+        Assertions.assertTrue(game.getState() instanceof FinishedGameState);
 
     }
 
@@ -112,7 +105,6 @@ public class IntegrationTest {
      */
     @Test
     void testManeuveringSnakeIntoMegaApple() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         game.enterState(GameStateName.newGame);
         game.enterState(GameStateName.active);
@@ -136,7 +128,7 @@ public class IntegrationTest {
             game.run();
         }
 
-        assertEquals(game.getScore().get(), 30);
+        Assertions.assertEquals(game.getScore().get(), 30);
 
     }
 
