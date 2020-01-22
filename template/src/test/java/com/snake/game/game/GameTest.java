@@ -1,19 +1,18 @@
 package com.snake.game.game;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.snake.game.game.powerup.InitializedGameTest;
 import com.snake.game.game.powerup.MegaApple;
 import com.snake.game.game.powerup.PowerUpName;
 import com.snake.game.game.powerup.SpeedUp;
 import com.snake.game.game.states.FinishedGameState;
 import com.snake.game.game.states.GameState;
 import com.snake.game.game.states.GameStateName;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-public class GameTest {
+public class GameTest extends InitializedGameTest {
+
+
 
     /**
      * Test that the game enters the correct State.
@@ -21,7 +20,6 @@ public class GameTest {
      */
     @Test
     void testEnterState() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         GameState gameOver = new FinishedGameState(game);
         GameStateName gameStateName = GameStateName.gameOver;
 
@@ -29,7 +27,7 @@ public class GameTest {
         game.enterState(gameStateName);
 
 
-        assertEquals(game.getState().getClass(), gameOver.getClass());
+        Assertions.assertEquals(game.getState().getClass(), gameOver.getClass());
 
     }
 
@@ -39,7 +37,6 @@ public class GameTest {
      */
     @Test
     void testEnterNullState() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         GameState gameOver = new FinishedGameState(game);
         GameStateName gameStateName = GameStateName.gameOver;
 
@@ -47,16 +44,15 @@ public class GameTest {
         game.enterState(gameStateName);
 
 
-        assertEquals(game.getState().getClass(), gameOver.getClass());
+        Assertions.assertEquals(game.getState().getClass(), gameOver.getClass());
 
         try {
             game.enterState(GameStateName.test);
         } catch (Error e) {
-            assertEquals(true, true);
-            assertEquals(e.toString(), "java.lang.AssertionError");
+            Assertions.assertEquals(e.toString(), "java.lang.AssertionError");
         }
 
-        assertEquals(game.getState().getClass(), gameOver.getClass());
+        Assertions.assertEquals(game.getState().getClass(), gameOver.getClass());
     }
 
     /**
@@ -65,13 +61,9 @@ public class GameTest {
      */
     @Test
     void testUpdatePowerUp() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
-        game.spawnSprites();
-        PowerUpName powerUpName = PowerUpName.SPEED_UP;
+        game.updatePowerUp(0, PowerUpName.SPEED_UP);
 
-        game.updatePowerUp(0.001, powerUpName);
-
-        assertEquals(game.getPowerUp().getClass(), SpeedUp.class);
+        Assertions.assertEquals(game.getPowerUp().getClass(), SpeedUp.class);
 
     }
 
@@ -82,41 +74,18 @@ public class GameTest {
      */
     @Test
     void testUpdatePowerUpTwice() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         PowerUpName powerUpName = PowerUpName.SPEED_UP;
         PowerUpName powerUpName2 = PowerUpName.LENGTH;
 
         game.updatePowerUp(0.001, powerUpName);
 
-        assertEquals(game.getPowerUp().getClass(), SpeedUp.class);
+        Assertions.assertEquals(game.getPowerUp().getClass(), SpeedUp.class);
 
         game.updatePowerUp(0.1, powerUpName2);
 
-        assertEquals(game.getPowerUp().getClass(), SpeedUp.class);
+        Assertions.assertEquals(game.getPowerUp().getClass(), SpeedUp.class);
 
-
-    }
-
-    /**
-     * Test the game updates the powerUp to SpeedUp when the chance is lower than the threshold.
-     * But it does not respond to the incorrect chance input and doesn't change to Speed_Up
-     * Bad Weather
-     */
-    @Test
-    void testUpdatePowerUpBadInput() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
-        game.spawnSprites();
-        PowerUpName powerUpName = PowerUpName.SPEED_UP;
-        PowerUpName powerUpName2 = PowerUpName.LENGTH;
-
-        game.updatePowerUp(0.001, powerUpName);
-
-        assertEquals(game.getPowerUp().getClass(), SpeedUp.class);
-
-        game.updatePowerUp(-1, powerUpName2);
-
-        assertEquals(game.getPowerUp().getClass(), SpeedUp.class);
 
     }
 
@@ -126,13 +95,12 @@ public class GameTest {
      */
     @Test
     void testUpdateDirectionUp() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         Snake.Direction direction = Snake.Direction.UP;
 
         game.updateDirection(direction);
 
-        assertEquals(game.getSnake().getDirection().getKeyQueue().getLast(), direction);
+        Assertions.assertEquals(game.getSnake().getDirection().getKeyQueue().getLast(), direction);
 
     }
 
@@ -142,13 +110,12 @@ public class GameTest {
      */
     @Test
     void testUpdateDirectionDown() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         Snake.Direction direction = Snake.Direction.DOWN;
 
         game.updateDirection(direction);
 
-        assertEquals(game.getSnake().getDirection().getKeyQueue().getLast(), direction);
+        Assertions.assertEquals(game.getSnake().getDirection().getKeyQueue().getLast(), direction);
 
     }
 
@@ -158,13 +125,12 @@ public class GameTest {
      */
     @Test
     void testUpdateDirectionRight() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         Snake.Direction direction = Snake.Direction.RIGHT;
 
         game.updateDirection(direction);
 
-        assertEquals(game.getSnake().getDirection().getKeyQueue().getLast(), direction);
+        Assertions.assertEquals(game.getSnake().getDirection().getKeyQueue().getLast(), direction);
 
     }
 
@@ -174,7 +140,6 @@ public class GameTest {
      */
     @Test
     void testUpdateDirectionLeft() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         Snake.Direction direction = Snake.Direction.DOWN;
 
@@ -184,7 +149,7 @@ public class GameTest {
 
         game.updateDirection(direction2);
 
-        assertEquals(game.getSnake().getDirection().getKeyQueue().getLast(), direction2);
+        Assertions.assertEquals(game.getSnake().getDirection().getKeyQueue().getLast(), direction2);
 
     }
 
@@ -195,13 +160,13 @@ public class GameTest {
      */
     @Test
     void testUpdateNonOrthogonalDirectionLeft() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         Snake.Direction direction = Snake.Direction.LEFT;
 
         game.updateDirection(direction);
 
-        assertEquals(game.getSnake().getDirection().getKeyQueue().getLast(), Snake.Direction.RIGHT);
+        Assertions.assertEquals(
+                snake.getDirection().getKeyQueue().getLast(), Snake.Direction.RIGHT);
 
     }
 
@@ -211,14 +176,13 @@ public class GameTest {
      */
     @Test
     void testAddTenApples() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
 
-        assertEquals(game.getApples().size(), 1);
+        Assertions.assertEquals(game.getApples().size(), 1);
 
         game.addApples(10);
 
-        assertEquals(game.getApples().size(), 11);
+        Assertions.assertEquals(game.getApples().size(), 11);
 
     }
 
@@ -228,14 +192,13 @@ public class GameTest {
      */
     @Test
     void testAddTooManyApples() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
 
-        assertEquals(game.getApples().size(), 1);
+        Assertions.assertEquals(game.getApples().size(), 1);
 
         game.addApples(1000);
 
-        assertEquals(game.getApples().size(), 1);
+        Assertions.assertEquals(game.getApples().size(), 1);
 
     }
 
@@ -246,12 +209,10 @@ public class GameTest {
      */
     @Test
     void testSpawnPowerUps() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
+        game.updatePowerUp(0, PowerUpName.MEGA_APPLE);
 
-        game.run();
-
-
+        Assertions.assertNotNull(game.getPowerUp());
     }
 
     /**
@@ -260,17 +221,14 @@ public class GameTest {
      */
     @Test
     void testAddAppleEmptyBoard() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         game.getApples().clear();
 
-        assertEquals(game.getApples().size(), 0);
+        Assertions.assertEquals(game.getApples().size(), 0);
 
         game.run();
 
-        assertEquals(game.getApples().size(), 1);
-
-
+        Assertions.assertEquals(game.getApples().size(), 1);
     }
 
     /**
@@ -279,18 +237,14 @@ public class GameTest {
      */
     @Test
     void testRunSnakeIntoWall() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         MegaApple megaApple = new MegaApple(7, 5);
         game.setPowerUp(megaApple);
-
         for (int i = 0; i < 100; i++) {
             game.run();
         }
 
-        assertEquals(game.getState().getClass(), FinishedGameState.class);
-
-
+        Assertions.assertEquals(game.getState().getClass(), FinishedGameState.class);
     }
 
     /**
@@ -299,26 +253,16 @@ public class GameTest {
      */
     @Test
     void testRunSnakeIntoApple() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
-
         MegaApple megaApple = new MegaApple(7, 5);
-
         game.setPowerUp(megaApple);
-
         Apple apple = new Apple(7, 0);
-
         game.getApples().add(apple);
-
-        assertEquals(game.getScore().get(), 0);
-
-
+        Assertions.assertEquals(game.getScore().get(), 0);
         for (int i = 0; i < 10; i++) {
             game.run();
         }
-
-        assertEquals(game.getScore().get(), 10);
-
+        Assertions.assertEquals(game.getScore().get(), 10);
     }
 
     /**
@@ -327,31 +271,18 @@ public class GameTest {
      */
     @Test
     void testRunSnakeIntoPowerUp() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
-
         MegaApple megaApple = new MegaApple(7, 0);
         game.setPowerUp(megaApple);
-
-
         game.getApples().clear();
         Apple apple = new Apple(4,4);
-
         game.getApples().add(apple);
-
-        assertEquals(game.getScore().get(), 0);
-
-
+        System.out.println(game.getSoundSystem());
+        System.out.println(game.getSoundSystem().getPowerUpSound());
+        Assertions.assertEquals(game.getScore().get(), 0);
         for (int i = 0; i < 10; i++) {
             game.run();
         }
-
-        assertEquals(game.getScore().get(), 30);
-
-
+        Assertions.assertEquals(game.getScore().get(), 30);
     }
-
-
-
-
 }

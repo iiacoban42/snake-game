@@ -1,8 +1,16 @@
 package com.snake.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.requests.Leaderboard;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,21 +19,41 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-/**
- * Class representing leaderboard screen.
- */
+
 public class LeaderboardScreen extends Screen {
 
     private transient Table leaderboardTable;
     private transient Label.LabelStyle leaderboardStyle;
 
-    /**
-     * Constructor.
-     * @param sc screen controller
-     */
     LeaderboardScreen(ScreenController sc) {
         super(sc);
 
+        leaderboardStyle = new Label.LabelStyle();
+        leaderboardStyle.font = Font.get(24);
+
+
+        stage = new Stage();
+
+        leaderboardTable = new Table();
+        leaderboardTable.defaults().padLeft(300);
+        leaderboardTable.setPosition(150, 280);
+
+        FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
+        Skin skin = new Skin(fileHandle);
+
+        TextButton backButton = new TextButton("Back", skin);
+        backButton.setSize(80, 35);
+        backButton.setPosition(320 - 40, 100);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sc.openScreen(ScreenController.ScreenName.loginScreen);
+            }
+        });
+
+        stage.addActor(backButton);
+        stage.addActor(leaderboardTable);
     }
 
     @Override
@@ -33,19 +61,8 @@ public class LeaderboardScreen extends Screen {
 
     }
 
-
     @Override
     public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void render() {
-
-    }
-
-    @Override
-    public void render(float delta) {
 
     }
 
@@ -55,12 +72,12 @@ public class LeaderboardScreen extends Screen {
     }
 
     @Override
-    public void hide() {
+    public void resume() {
 
     }
 
     @Override
-    public void resume() {
+    public void hide() {
 
     }
 
@@ -104,4 +121,27 @@ public class LeaderboardScreen extends Screen {
         }
     }
 
+    @Override
+    public void render() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(.85f, .85f, .85f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(.42f, .82f, .32f, 1);
+        shapeRenderer.rect(0, 0,
+                stage.getViewport().getScreenWidth(),
+                stage.getViewport().getScreenHeight() / standardHeight * 50.0f);
+        shapeRenderer.rect(0, stage.getViewport().getScreenHeight() / standardHeight * 380,
+                stage.getViewport().getScreenWidth(),
+                stage.getViewport().getScreenHeight() / standardHeight * 100.0f);
+        shapeRenderer.end();
+
+        stage.draw();
+    }
 }

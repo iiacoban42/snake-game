@@ -16,6 +16,7 @@ public class NewGameState extends GameState {
     public void enter() {
         game.getGameUpdateTimer().setActive(false);
         game.spawnSprites();
+        game.getScore().reset();
         game.getSnake().setColor(Color.PURPLE);
     }
 

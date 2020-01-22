@@ -1,15 +1,10 @@
 package com.snake.game.game.powerup;
 
+
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.snake.game.game.Apple;
-import com.snake.game.game.Game;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-
-public class LengthPowerUpTest {
+public class LengthPowerUpTest extends  InitializedGameTest{
 
     /**
      * Test that the snake's score will increase by 10 when it runs into an power up.
@@ -18,7 +13,6 @@ public class LengthPowerUpTest {
      */
     @Test
     void testRunSnakeLengthPowerUp() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
 
         LengthPowerUp lengthPowerUp = new LengthPowerUp(1, 1);
@@ -40,7 +34,6 @@ public class LengthPowerUpTest {
      */
     @Test
     void testRunSnakeMinimumLength() {
-        Game game = new Game(Mockito.mock(ShapeRenderer.class));
         game.spawnSprites();
         game.getSnake().setLength(1);
 

@@ -2,10 +2,10 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,7 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.snake.game.game.Board;
 import com.snake.game.game.Game;
+import com.snake.game.game.Score;
+import com.snake.game.game.ScoreLabel;
+import com.snake.game.game.SoundSystem;
 import com.snake.game.game.User;
 import com.snake.game.game.states.GameStateName;
 import com.snake.game.game.states.PauseGameState;
@@ -34,7 +38,7 @@ public class GameScreen extends Screen {
     // GUI elements
     private final transient Group statGroup;
     private final transient Label usernameLabel;
-    private final transient Label scoreLabel;
+    private final transient ScoreLabel scoreLabel;
     private final transient Label pauseLabel;
 
     private final transient Group overlayGroup;
@@ -59,27 +63,29 @@ public class GameScreen extends Screen {
         super(sc);
         stage = new Stage();
         renderer = new ShapeRenderer();
-        game = new Game(renderer);
+
+        Board board = new Board(renderer);
+        Score score = new Score();
+        SoundSystem soundSystem = new SoundSystem();
+        game = new Game(board, score, soundSystem);
         renderer.setAutoShapeType(true);
 
         FileHandle fileHandle = new FileHandle("src/main/resources/uiskin.json");
         skin = new Skin(fileHandle);
 
+
         LabelStyle labelStyle = new LabelStyle();
-        labelStyle.font = new BitmapFont();
-        labelStyle.fontColor = Color.DARK_GRAY;
+        labelStyle.font = Font.get(14);
 
         TextButtonStyle textButtonStyle = new TextButtonStyle();
         textButtonStyle.font = new BitmapFont();
         textButtonStyle.fontColor = Color.DARK_GRAY;
 
+        scoreLabel = new ScoreLabel(score, stage);
 
         // statGroup
         usernameLabel = new Label("", labelStyle);
-        usernameLabel.setFontScale(1.3f);
         usernameLabel.setPosition(0, 250);
-        scoreLabel = new Label("blabla", labelStyle);
-        scoreLabel.setPosition(0, 200);
         pauseLabel = new Label("Press Space to start/pause", labelStyle);
         pauseLabel.setPosition(0, 50);
 
@@ -108,7 +114,6 @@ public class GameScreen extends Screen {
         statGroup = new Group();
         statGroup.addActor(usernameLabel);
         statGroup.addActor(pauseLabel);
-        statGroup.addActor(scoreLabel);
         statGroup.addActor(settingsButton);
 
         overlayGroup = new Group();
@@ -150,7 +155,7 @@ public class GameScreen extends Screen {
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.loginScreen);
+                sc.openScreen(ScreenController.ScreenName.startScreen);
             }
         });
     }
@@ -171,7 +176,6 @@ public class GameScreen extends Screen {
 
     @Override
     public void render() {
-
     }
 
     @Override
@@ -193,7 +197,7 @@ public class GameScreen extends Screen {
         renderer.setColor(.42f, .82f, .32f, 1);
         renderer.rect(0, 380, 640, 200);
 
-        game.getBoard().draw();
+        game.getBoard().draw(game);
 
         renderer.end();
 
@@ -202,6 +206,7 @@ public class GameScreen extends Screen {
 
         // Draw overlaying Actors of stage
         stage.draw();
+        scoreLabel.draw();
     }
 
 
