@@ -14,8 +14,10 @@ public class SoundSystem {
      */
     public SoundSystem() {
         eatingSound = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/eatingSound.mp3"));
-        powerUpSound = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/powerupSound.mp3"));
         deathSound = Gdx.audio.newSound(Gdx.files.internal("src/main/resources/deathSound.mp3"));
+        powerUpSound = Gdx.audio.newSound(Gdx.files
+                .internal("src/main/resources/powerupSound.mp3"));
+
     }
 
     public Sound getEatingSound() {

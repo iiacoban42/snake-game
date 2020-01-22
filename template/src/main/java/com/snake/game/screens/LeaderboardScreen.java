@@ -2,32 +2,28 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.requests.Leaderboard;
-import com.snake.game.requests.User;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
 
 public class LeaderboardScreen extends Screen {
 
-    private Table leaderboardTable;
-    private Label.LabelStyle leaderboardStyle;
+    private transient Table leaderboardTable;
+    private transient Label.LabelStyle leaderboardStyle;
 
     LeaderboardScreen(ScreenController sc) {
         super(sc);

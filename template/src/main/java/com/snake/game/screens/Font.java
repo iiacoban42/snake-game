@@ -6,12 +6,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Font {
-
+    /**
+     * Generate BitmapFont.
+     *
+     * @param size of the font.
+     * @param color for the font.
+     * @return font
+     */
     public static BitmapFont get(int size, Color color) {
 
-        FreeTypeFontGenerator generator =
-                new FreeTypeFontGenerator(Gdx.files.local("/src/main/resources/OpenSans-Regular.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+                Gdx.files.local("/src/main/resources/OpenSans-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         parameter.color = color;
         BitmapFont font = generator.generateFont(parameter);
