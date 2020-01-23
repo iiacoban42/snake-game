@@ -18,9 +18,12 @@ public class IntegrationTest extends InitializedGameTest {
         game.spawnSprites();
 
         Apple apple = new Apple(4,4);
+        Apple apple2 = new Apple(9,9);
 
         // Add apple at custom position
+        game.getApples().clear();
         game.getApples().add(apple);
+        game.getApples().add(apple2);
 
 
         // Change Direction
@@ -47,9 +50,12 @@ public class IntegrationTest extends InitializedGameTest {
         game.enterState(GameStateName.active);
 
         Apple apple = new Apple(4,4);
+        Apple apple2 = new Apple(9,9);
 
         // Add apple at custom position
+        game.getApples().clear();
         game.getApples().add(apple);
+        game.getApples().add(apple2);
 
 
         // Change Direction
