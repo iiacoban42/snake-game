@@ -1,10 +1,10 @@
 package com.snake.game.game.powerup;
 
-
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LengthPowerUpTest extends  InitializedGameTest{
+import org.junit.jupiter.api.Test;
+
+public class LengthPowerUpTest extends  InitializedGameTest {
 
     /**
      * Test that the snake's score will increase by 10 when it runs into an power up.

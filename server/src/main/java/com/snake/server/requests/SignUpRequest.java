@@ -26,7 +26,9 @@ public class SignUpRequest {
     /**
      * Empty constructor.
      */
-    public SignUpRequest() {}
+    public SignUpRequest() {
+
+    }
 
     /**
      * Getter username.

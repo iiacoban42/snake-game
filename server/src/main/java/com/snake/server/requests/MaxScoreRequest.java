@@ -27,7 +27,9 @@ public class MaxScoreRequest {
     /**
      * Empty constructor.
      */
-    public MaxScoreRequest() {}
+    public MaxScoreRequest() {
+
+    }
 
     /**
      * Getter for username.
