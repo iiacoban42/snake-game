@@ -4,7 +4,7 @@
 All our original must-have requirements are implemented in our final application. Some of them are slightly changed however. Choices we made are explained in this section.
 
 ### The game must include a login screen for the player to log in
-We first built a separate class for this: `LoginScreen`. Later on we decided that this was cumbersome, since the registration class had the exact same fields available. Therefor we combined those classes in the `MenuScreen` class.
+We first built a separate class for this: `LoginScreen`. Later on we decided that this was cumbersome, since the registration class had the exact same fields available. Therefore we combined those classes in the `MenuScreen` class.
 
 ### The game must include a registration screen for a new player to sign up
 As stated above, we also included this inside the `MenuScreen` class.
@@ -43,7 +43,7 @@ The snake does indeed always start with a predefined size. However we choose to 
 Every clock tick the snake is moved forward. Unless the user hit a button in the mean time, the snake keeps moving in the same direction.
 
 ### The player’s snake shall be able to change direction using the arrows keys to change the snake’s direction
-If the user presses a button, either one of the arrows or WASD, the snake's direction will change to that direction. We chose to also include WASD, so that the player can choose the buttons that he/she is most comfortable with. There is no functional differecen between the arrows or WASD.
+If the user presses a button, either one of the arrows or WASD, the snake's direction will change to that direction. We chose to also include WASD, so that the player can choose the buttons that he/she is most comfortable with. There is no functional difference between the arrows or WASD.
 
 ### The game must start with a snack already spawned in a predefined location 
 Before the game is actually started, the snake is already visible in its starting position.
@@ -71,7 +71,7 @@ The `move` and `collide` methods in the `Snake` class check whether the snake co
 After the game is over, the score will stay visible as long as the user doesn't start a new game.
 
 ### The game will keep a leaderboard of the top 5 scores that have ever been recorded and show it to the player at the end of the game
-We decided to not show this at the end of every game, since it will be enoying if a user wants to keep playing again and again. Therefor we prefered a separate screen for the leaderboard. It can be found in the `LeaderboardScreen` screen. Every time that the screen is opened the data from the server is refreshed, so that you can instantly see whether you're on top after your last game.
+We decided to not show this at the end of every game, since it will be annoying if a user wants to keep playing again and again. Therefore we preferred a separate screen for the leaderboard. It can be found in the `LeaderboardScreen` screen. Every time that the screen is opened the data from the server is refreshed, so that you can instantly see whether you're on top after your last game.
 
 ### The game will show the player their score at the end of the game
 After the game is over, the score will stay visible as long as the user doesn't start a new game.
