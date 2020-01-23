@@ -20,24 +20,24 @@ public class SoundSystem {
 
     }
 
-    public Sound getEatingSound() {
-        return eatingSound;
+    public SoundWrapper getEatingSound() {
+        return new SoundWrapper(eatingSound);
     }
 
     public void setEatingSound(Sound eatingSound) {
         this.eatingSound = eatingSound;
     }
 
-    public Sound getPowerUpSound() {
-        return powerUpSound;
+    public SoundWrapper getPowerUpSound() {
+        return new SoundWrapper(powerUpSound);
     }
 
     public void setPowerUpSound(Sound powerUpSound) {
         this.powerUpSound = powerUpSound;
     }
 
-    public Sound getDeathSound() {
-        return deathSound;
+    public SoundWrapper getDeathSound() {
+        return new SoundWrapper(deathSound);
     }
 
     public void setDeathSound(Sound deathSound) {
