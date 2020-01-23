@@ -42,7 +42,11 @@ public class Game {
     }
 
     /**
-     * Constructor.
+     * Construct a new Game.
+     *
+     * @param board board to play on
+     * @param score system that holds the score
+     * @param soundSystem system that can play necessary sounds
      */
     public Game(Board board, Score score, SoundSystem soundSystem) {
         this.board = board;
@@ -130,6 +134,9 @@ public class Game {
 
     /**
      * Method to update current powerUp. Chooses what powerUp to use (if any).
+     *
+     * @param chance random seed
+     * @param powerUpName the new powerup
      */
     public void updatePowerUp(double chance, PowerUpName powerUpName) {
         final double threshold = 0.01;

@@ -38,12 +38,13 @@ public class Snake {
 
     /**
      * Constructor of snake.
+     *
+     * @param board the board this snake is part of
      * @param x x
      * @param y y
      * @param length default length
      */
     public Snake(Board board, int x, int y, int length) {
-        snakeBody = new LinkedList<>();
         init(board, x, y, length);
     }
 
@@ -53,6 +54,8 @@ public class Snake {
 
     /**
      * Initialize snake game.
+     *
+     * @param board the board this snake is part of
      * @param x x position
      * @param y y position
      * @param length length of a snake
@@ -69,6 +72,8 @@ public class Snake {
 
     /**
      * Method to move a snake around.
+     *
+     * @param board the board to move on
      * @return true in case of collision
      */
     public boolean move(Board board) {

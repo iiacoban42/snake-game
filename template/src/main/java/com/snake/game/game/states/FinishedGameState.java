@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.Game;
 
+/**
+ * The game has ended. Either because the snake died or the user exited. *
+ */
 public class FinishedGameState extends GameState {
 
     public FinishedGameState(Game game) {

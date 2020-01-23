@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.Game;
 
+/**
+ * The state before a user starts the game.
+ */
 public class NewGameState extends GameState {
 
     public NewGameState(Game game) {
