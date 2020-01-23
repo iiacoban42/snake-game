@@ -15,7 +15,7 @@ public class FinishedGameState extends GameState {
     @Override
     public void enter() {
         game.gameUpdateTimer.setActive(false);
-        game.getScore().reset();
+        game.getScore().save();
         game.getSnake().setColor(Color.RED);
     }
 
