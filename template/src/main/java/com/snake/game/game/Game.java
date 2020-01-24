@@ -265,55 +265,63 @@ public class Game {
 
     /**
      * Method to draw LengthPowerUp.
+     *
+     * @param posX x coord
+     * @param posY y coord
      */
     public void drawLengthPowerUp(int posX, int posY) {
-        this.getBoard().getRend().setColor(Color.PINK);
-        this.getBoard().getRend().circle(
-                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
-                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
-                this.getBoard().getTile());
+        this.drawPowerUp(Color.PINK, posX, posY);
     }
 
     /**
      * Method to draw MegaApple.
+     *
+     * @param posX x coord
+     * @param posY y coord
      */
     public void drawMegaApple(int posX, int posY) {
-        this.getBoard().getRend().setColor(Color.LIME);
-        this.getBoard().getRend().circle(
-                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
-                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
-                this.getBoard().getTile());
+        this.drawPowerUp(Color.LIME, posX, posY);
     }
 
     /**
      * Method to draw MoreApples.
+     *
+     * @param posX x coord
+     * @param posY y coord
      */
     public void drawMoreApples(int posX, int posY) {
-        this.getBoard().getRend().setColor(Color.BLUE);
-        this.getBoard().getRend().circle(
-                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
-                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
-                this.getBoard().getTile());
+        this.drawPowerUp(Color.BLUE, posX, posY);
     }
 
     /**
      * Method to draw SpeedUp.
+     *
+     * @param posX x coord
+     * @param posY y coord
      */
     public void drawSpeedUp(int posX, int posY) {
-
-        this.getBoard().getRend().setColor(Color.RED);
-        this.getBoard().getRend().circle(
-                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
-                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
-                this.getBoard().getTile());
-
+        this.drawPowerUp(Color.RED, posX, posY);
     }
 
     /**
      * Method to draw StopGrow.
+     *
+     * @param posX x coord
+     * @param posY y coord
      */
     public void drawStopGrow(int posX, int posY) {
-        this.getBoard().getRend().setColor(Color.ORANGE);
+        this.drawPowerUp(Color.ORANGE, posX, posY);
+    }
+
+    /**
+     * Method to draw a powerup.
+     *
+     * @param color the color
+     * @param posX x coord
+     * @param posY y coord
+     */
+    private void drawPowerUp(Color color, int posX, int posY) {
+        this.getBoard().getRend().setColor(color);
         this.getBoard().getRend().circle(
                 this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
                 this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),

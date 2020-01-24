@@ -87,6 +87,11 @@ public class Apple implements Consumable {
 
     /**
      * Checks whether a location is suitable for an apple to spawn without colliding with an apple.
+     *
+     * @param game the current game
+     * @param posX x coord
+     * @param posY y coord
+     * @return whether an apple can spawn here
      */
     @SuppressWarnings("PMD")
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
@@ -103,6 +108,11 @@ public class Apple implements Consumable {
 
     /**
      * Checks whether a location is suitable for an apple to spawn without colliding with a snake.
+     *
+     * @param game the current game
+     * @param posX x coord
+     * @param posY y coord
+     * @return whether an apple can spawn here
      */
     @SuppressWarnings("PMD")
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.

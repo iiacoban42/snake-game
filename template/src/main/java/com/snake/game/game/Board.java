@@ -68,10 +68,10 @@ public class Board {
      * @return whether it's out of the boundaries
      */
     public boolean isOutOfBorders(int x, int y) {
-        return x < 0 ||
-                x >= this.getGridWidth() ||
-                y < 0 ||
-                y >= this.getGridHeight();
+        return x < 0
+                || x >= this.getGridWidth()
+                || y < 0
+                || y >= this.getGridHeight();
     }
 
     public int getTile() {

@@ -30,7 +30,7 @@ public class LengthPowerUp extends PowerUp {
      */
     @Override
     public void draw(Game game) {
-        game.drawMegaApple(posX, posY);
+        game.drawLengthPowerUp(posX, posY);
     }
 
     /**

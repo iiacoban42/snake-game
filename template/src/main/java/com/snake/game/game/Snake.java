@@ -84,7 +84,8 @@ public class Snake {
                 direction.getDirection());
 
 
-        if (collides(newHead.getPosX(), newHead.getPosY()) || bodyPartOutOfBorders(newHead, board)) {
+        if (collides(newHead.getPosX(), newHead.getPosY())
+                || bodyPartOutOfBorders(newHead, board)) {
             return true;
         }
         snakeBody.addLast(newHead);
