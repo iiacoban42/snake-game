@@ -103,8 +103,6 @@ public class Game {
     /**
      * Game update.
      */
-    @SuppressWarnings("PMD")
-    //there must be at least one apple in the list we must not remove
     public void run() {
         if (hasDied()) return;
 
@@ -113,6 +111,8 @@ public class Game {
         eatPowerUpIfCollided();
     }
 
+    @SuppressWarnings("PMD")
+    // should be able to put powerUp back to null again.
     private boolean hasDied() {
         if (snake.move(board)) {
             soundSystem.getDeathSound().play();
@@ -145,6 +145,8 @@ public class Game {
         }
     }
 
+    @SuppressWarnings("PMD")
+    // should be able to put powerUp back to null again.
     private void eatPowerUpIfCollided() {
         if (powerUp != null && snake.collides(powerUp.getPosX(), powerUp.getPosY())) {
             soundSystem.getPowerUpSound().play();
