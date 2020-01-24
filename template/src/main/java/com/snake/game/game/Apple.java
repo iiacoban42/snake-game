@@ -85,6 +85,9 @@ public class Apple implements Consumable {
         return answer;
     }
 
+    @SuppressWarnings("PMD")
+    //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
+    //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     public static boolean checkApplesCollision(Game game, int posX, int posY){
 
         for (Apple apple : game.getApples()) {
@@ -95,6 +98,9 @@ public class Apple implements Consumable {
         return true;
     }
 
+    @SuppressWarnings("PMD")
+    //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
+    //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     public static boolean checkSnakeCollision(Game game, int posX, int posY){
 
         if (game.getSnake().collides(posX, posY)) {
