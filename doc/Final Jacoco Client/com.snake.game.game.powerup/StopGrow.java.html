@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StopGrow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.game.powerup</a> &gt; <span class="el_source">StopGrow.java</span></div><h1>StopGrow.java</h1><pre class="source lang-java linenums">package com.snake.game.game.powerup;
+
+import com.badlogic.gdx.graphics.Color;
+import com.snake.game.game.Game;
+import com.snake.game.game.Snake;
+
+import java.util.TimerTask;
+
+/**
+ * A power-up which will temporarily top the snake from increasing in length.
+ */
+public class StopGrow extends PowerUp {
+
+    private static final int SCORE = 20;
+
+    /**
+     * Constructor.
+     *
+     * @param posX x-coordinate of position
+     * @param posY y-coordinate of position
+     */
+    public StopGrow(int posX, int posY) {
+<span class="fc" id="L23">        super(posX, posY);</span>
+<span class="fc" id="L24">    }</span>
+
+    @Override
+    public void draw(Game game) {
+<span class="nc" id="L28">        game.drawStopGrow(posX, posY);</span>
+<span class="nc" id="L29">    }</span>
+
+    /**
+     * Stop growing for 30 seconds.
+     */
+    @Override
+    public void consume(Game game, Snake snake) {
+<span class="nc" id="L36">        game.getScore().increment(SCORE);</span>
+<span class="nc" id="L37">        game.setStopGrowFlag(true);</span>
+<span class="nc" id="L38">        TimerTask task = new TimerTask() {</span>
+            @Override
+            public void run() {
+<span class="nc" id="L41">                game.setStopGrowFlag(false);</span>
+<span class="nc" id="L42">            }</span>
+        };
+
+<span class="nc" id="L45">        java.util.Timer timer = new java.util.Timer(&quot;Timer&quot;);</span>
+<span class="nc" id="L46">        timer.schedule(task, 30000);</span>
+
+<span class="nc" id="L48">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

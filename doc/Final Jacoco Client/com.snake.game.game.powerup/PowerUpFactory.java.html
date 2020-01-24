@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PowerUpFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.game.powerup</a> &gt; <span class="el_source">PowerUpFactory.java</span></div><h1>PowerUpFactory.java</h1><pre class="source lang-java linenums">package com.snake.game.game.powerup;
+
+import com.snake.game.game.Game;
+
+/**
+ * Creates new (randomized) power-ups.
+ */
+<span class="pc bpc" id="L8" title="1 of 2 branches missed.">public class PowerUpFactory {</span>
+
+    private Game game;
+    private PowerUp returned;
+
+    /**
+     * Constructor.
+     * @param game game
+     */
+<span class="fc" id="L17">    public PowerUpFactory(Game game) {</span>
+<span class="fc" id="L18">        this.game = game;</span>
+<span class="fc" id="L19">    }</span>
+
+    /**
+     * Method to get powerUp based on a number.
+     * @param powerUp the power up.
+     * @return specific powerUp.
+     */
+    public PowerUp getPowerUp(PowerUpName powerUp) {
+        int posX;
+        int posY;
+        do {
+<span class="fc" id="L30">            posX = (int) (game.getBoard().getGridWidth() * Math.random());</span>
+<span class="fc" id="L31">            posY = (int) (game.getBoard().getGridHeight() * Math.random());</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        } while (game.getSnake().collides(posX, posY));</span>
+
+<span class="fc bfc" id="L34" title="All 6 branches covered.">        switch (powerUp) {</span>
+            case SPEED_UP:
+<span class="fc" id="L36">                returned = new SpeedUp(posX, posY);</span>
+<span class="fc" id="L37">                break;</span>
+            case MEGA_APPLE:
+<span class="fc" id="L39">                returned = new MegaApple(posX, posY);</span>
+<span class="fc" id="L40">                break;</span>
+            case LENGTH:
+<span class="fc" id="L42">                returned = new LengthPowerUp(posX, posY);</span>
+<span class="fc" id="L43">                break;</span>
+            case MORE_APPLES:
+<span class="fc" id="L45">                returned = new MoreApples(posX, posY);</span>
+<span class="fc" id="L46">                break;</span>
+            case STOP_GROW:
+<span class="fc" id="L48">                returned = new StopGrow(posX, posY);</span>
+<span class="fc" id="L49">                break;</span>
+            default:
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">                assert false;</span>
+                break;
+        }
+<span class="fc" id="L54">        return returned;</span>
+    }
+
+    public Game getGame() {
+<span class="nc" id="L58">        return game;</span>
+    }
+
+    public void setGame(Game game) {
+<span class="nc" id="L62">        this.game = game;</span>
+<span class="nc" id="L63">    }</span>
+
+    public PowerUp getReturned() {
+<span class="nc" id="L66">        return returned;</span>
+    }
+
+    public void setReturned(PowerUp returned) {
+<span class="nc" id="L70">        this.returned = returned;</span>
+<span class="nc" id="L71">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

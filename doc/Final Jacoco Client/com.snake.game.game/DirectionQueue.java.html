@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DirectionQueue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.game</a> &gt; <span class="el_source">DirectionQueue.java</span></div><h1>DirectionQueue.java</h1><pre class="source lang-java linenums">package com.snake.game.game;
+
+import java.util.LinkedList;
+
+/**
+ * Class is used to execute consecutive moves from input.
+ */
+public class DirectionQueue {
+    private LinkedList&lt;Snake.Direction&gt; keyQueue;
+
+    public LinkedList&lt;Snake.Direction&gt; getKeyQueue() {
+<span class="fc" id="L12">        return keyQueue;</span>
+    }
+
+    public void setKeyQueue(LinkedList&lt;Snake.Direction&gt; keyQueue) {
+<span class="nc" id="L16">        this.keyQueue = keyQueue;</span>
+<span class="nc" id="L17">    }</span>
+
+<span class="fc" id="L19">    public DirectionQueue(Snake.Direction startDirection) {</span>
+<span class="fc" id="L20">        keyQueue = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L21">        keyQueue.addLast(startDirection);</span>
+<span class="fc" id="L22">    }</span>
+
+    /**
+     * Method to enqueue a direction.
+     * @param direction snake direction
+     */
+    public void enqueue(Snake.Direction direction) {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (keyQueue.getLast().isOrthogonalTo(direction)) {</span>
+<span class="fc" id="L30">            keyQueue.addLast(direction);</span>
+        }
+<span class="fc" id="L32">    }</span>
+
+    /**
+     * Method to dequeue snake direction.
+     */
+    public void dequeue() {
+<span class="fc" id="L38">        int minSize = 1;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (keyQueue.size() &gt; minSize) {</span>
+<span class="fc" id="L40">            keyQueue.removeFirst();</span>
+        }
+
+<span class="fc" id="L43">    }</span>
+
+    public Snake.Direction getDirection() {
+<span class="fc" id="L46">        return keyQueue.getFirst();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

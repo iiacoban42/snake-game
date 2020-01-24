@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StartScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.screens</a> &gt; <span class="el_source">StartScreen.java</span></div><h1>StartScreen.java</h1><pre class="source lang-java linenums">package com.snake.game.screens;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+/**
+ * The screen contains the start menu.
+ */
+public class StartScreen extends Screen {
+
+    private final transient SpriteBatch batch;
+    private final transient BitmapFont font;
+
+    private final transient TextButton playButton;
+    private final transient TextButton quitButton;
+    private final transient TextButton scoresButton;
+
+    private final transient Image logo;
+
+    private final transient Group group;
+
+    /**
+     * Constructor for start screen.
+     *
+     * @param sc screen controller
+     */
+    @SuppressWarnings(&quot;PMD&quot;)
+    //Understand why we can't call overridable method, but it can't be escaped here
+    //Because of how libgdx structures classes.
+    public StartScreen(ScreenController sc) {
+<span class="nc" id="L44">        super(sc);</span>
+<span class="nc" id="L45">        batch = new SpriteBatch();</span>
+<span class="nc" id="L46">        font = new BitmapFont();</span>
+<span class="nc" id="L47">        stage = new Stage();</span>
+
+<span class="nc" id="L49">        FileHandle fileHandle = new FileHandle(&quot;src/main/resources/uiskin.json&quot;);</span>
+<span class="nc" id="L50">        Skin skin = new Skin(fileHandle);</span>
+
+<span class="nc" id="L52">        Texture logoIcon = new Texture(Gdx.files.internal(&quot;logo.png&quot;));</span>
+<span class="nc" id="L53">        TextureRegion textureRegion = new TextureRegion(logoIcon, 256, 256);</span>
+<span class="nc" id="L54">        logo = new Image(textureRegion);</span>
+
+<span class="nc" id="L56">        playButton = new TextButton(&quot;Start&quot;, skin);</span>
+<span class="nc" id="L57">        playButton.setSize(80, 35);</span>
+<span class="nc" id="L58">        scoresButton = new TextButton(&quot;Scores&quot;, skin);</span>
+<span class="nc" id="L59">        scoresButton.setSize(80, 35);</span>
+<span class="nc" id="L60">        quitButton = new TextButton(&quot;Exit&quot;, skin);</span>
+<span class="nc" id="L61">        quitButton.setSize(80, 35);</span>
+
+<span class="nc" id="L63">        group = new Group();</span>
+<span class="nc" id="L64">        group.addActor(logo);</span>
+<span class="nc" id="L65">        group.addActor(playButton);</span>
+<span class="nc" id="L66">        group.addActor(scoresButton);</span>
+<span class="nc" id="L67">        group.addActor(quitButton);</span>
+<span class="nc" id="L68">        stage.addActor(group);</span>
+
+<span class="nc" id="L70">        updatePosition();</span>
+<span class="nc" id="L71">        addListeners();</span>
+<span class="nc" id="L72">    }</span>
+
+    void updatePosition() {
+
+<span class="nc" id="L76">        int pivotX = 400;</span>
+<span class="nc" id="L77">        int pivotY = 280;</span>
+
+<span class="nc" id="L79">        logo.setPosition(pivotX - 350, pivotY - 180);</span>
+<span class="nc" id="L80">        playButton.setPosition(pivotX + 50, pivotY - 10);</span>
+<span class="nc" id="L81">        scoresButton.setPosition(pivotX + 50, pivotY - 60);</span>
+<span class="nc" id="L82">        quitButton.setPosition(pivotX + 50, pivotY - 110);</span>
+<span class="nc" id="L83">    }</span>
+
+    void addListeners() {
+<span class="nc" id="L86">        playButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+<span class="nc" id="L89">                sc.openScreen(ScreenController.ScreenName.gameScreen);</span>
+
+<span class="nc" id="L91">            }</span>
+        });
+
+<span class="nc" id="L94">        quitButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+<span class="nc" id="L97">                sc.openScreen(ScreenController.ScreenName.loginScreen);</span>
+
+<span class="nc" id="L99">            }</span>
+        });
+
+<span class="nc" id="L102">        scoresButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+<span class="nc" id="L105">                sc.openScreen(ScreenController.ScreenName.leaderboardScreen);</span>
+
+<span class="nc" id="L107">            }</span>
+        });
+<span class="nc" id="L109">    }</span>
+
+    @Override
+    public void show() {
+
+<span class="nc" id="L114">    }</span>
+
+    @Override
+    public void resize(int width, int height) {
+<span class="nc" id="L118">        stage.getViewport().update(width, height);</span>
+<span class="nc" id="L119">        updatePosition();</span>
+<span class="nc" id="L120">    }</span>
+
+    @Override
+    public void pause() {
+
+<span class="nc" id="L125">    }</span>
+
+    @Override
+    public void resume() {
+
+<span class="nc" id="L130">    }</span>
+
+    @Override
+    public void hide() {
+
+<span class="nc" id="L135">    }</span>
+
+
+    @Override
+    public void dispose() {
+<span class="nc" id="L140">        batch.dispose();</span>
+<span class="nc" id="L141">        font.dispose();</span>
+<span class="nc" id="L142">    }</span>
+
+    @Override
+    public void create() {
+
+<span class="nc" id="L147">    }</span>
+
+    @Override
+    public void render() {
+
+<span class="nc" id="L152">    }</span>
+
+    @Override
+    public void render(float delta) {
+<span class="nc" id="L156">        Gdx.gl.glClearColor(.85f, .85f, .85f, 1);</span>
+<span class="nc" id="L157">        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);</span>
+
+<span class="nc" id="L159">        ShapeRenderer shapeRenderer = new ShapeRenderer();</span>
+<span class="nc" id="L160">        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);</span>
+<span class="nc" id="L161">        shapeRenderer.setColor(.42f, .82f, .32f, 1);</span>
+<span class="nc" id="L162">        shapeRenderer.rect(0, 0,</span>
+<span class="nc" id="L163">                stage.getViewport().getScreenWidth(),</span>
+<span class="nc" id="L164">                stage.getViewport().getScreenHeight() / standardHeight * 50.0f);</span>
+<span class="nc" id="L165">        shapeRenderer.rect(0, stage.getViewport().getScreenHeight() / standardHeight * 380,</span>
+<span class="nc" id="L166">                stage.getViewport().getScreenWidth(),</span>
+<span class="nc" id="L167">                stage.getViewport().getScreenHeight() / standardHeight * 100.0f);</span>
+<span class="nc" id="L168">        shapeRenderer.end();</span>
+
+<span class="nc" id="L170">        stage.draw();</span>
+<span class="nc" id="L171">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpeedUp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.game.powerup</a> &gt; <span class="el_source">SpeedUp.java</span></div><h1>SpeedUp.java</h1><pre class="source lang-java linenums">package com.snake.game.game.powerup;
+
+import com.badlogic.gdx.graphics.Color;
+import com.snake.game.game.Game;
+import com.snake.game.game.Snake;
+import com.snake.game.game.Timer;
+
+import java.util.TimerTask;
+
+/**
+ * Method to increase speed of a snake, as well as adding some points.
+ */
+public class SpeedUp extends PowerUp {
+
+    /**
+     * Constructor.
+     *
+     * @param posX x-coordinate of position
+     * @param posY y-coordinate of position
+     */
+    public SpeedUp(int posX, int posY) {
+<span class="fc" id="L22">        super(posX, posY);</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * Draws speedUp on the board.
+     */
+    @Override
+    public void draw(Game game) {
+<span class="nc" id="L30">        game.drawSpeedUp(posX, posY);</span>
+<span class="nc" id="L31">    }</span>
+
+    /**
+     * Increase speed for 30 seconds, give bonus points.
+     */
+    @Override
+    public void consume(Game game, Snake snake) {
+<span class="nc" id="L38">        Timer&lt;Runnable&gt; gameUpdateTimer = new Timer&lt;&gt;(game::run, 60);</span>
+<span class="nc" id="L39">        game.setGameUpdateTimer(gameUpdateTimer);</span>
+<span class="nc" id="L40">        gameUpdateTimer.setActive(true);</span>
+<span class="nc" id="L41">        game.getScore().increment(50);</span>
+
+<span class="nc" id="L43">        TimerTask task = new TimerTask() {</span>
+            @Override
+            public void run() {
+<span class="nc" id="L46">                Timer&lt;Runnable&gt; gameUpdateTimer = new Timer&lt;&gt;(game::run);</span>
+<span class="nc" id="L47">                game.setGameUpdateTimer(gameUpdateTimer);</span>
+<span class="nc" id="L48">                gameUpdateTimer.setActive(true);</span>
+<span class="nc" id="L49">            }</span>
+        };
+
+<span class="nc" id="L52">        java.util.Timer timer = new java.util.Timer(&quot;Timer&quot;);</span>
+<span class="nc" id="L53">        timer.schedule(task, 5000);</span>
+<span class="nc" id="L54">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

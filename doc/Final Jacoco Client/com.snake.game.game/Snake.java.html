@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Snake.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.game</a> &gt; <span class="el_source">Snake.java</span></div><h1>Snake.java</h1><pre class="source lang-java linenums">package com.snake.game.game;
+
+import com.badlogic.gdx.graphics.Color;
+
+import java.util.LinkedList;
+
+/**
+ * The snake is the player-controlled entity which can move around the board. The snake grows
+ * in length when it consumes an apple. This increases the score, and incrementally makes it
+ * more difficult for the player, as the player must try to avoid the snake colliding with itself.
+ */
+public class Snake {
+
+    private LinkedList&lt;BodyPart&gt; snakeBody;
+    private int length;
+    private DirectionQueue direction;
+<span class="fc" id="L17">    private Color color = Color.PURPLE;</span>
+
+    public LinkedList&lt;BodyPart&gt; getSnakeBody() {
+<span class="nc" id="L20">        return snakeBody;</span>
+    }
+
+    public void setSnakeBody(LinkedList&lt;BodyPart&gt; snake) {
+<span class="nc" id="L24">        this.snakeBody = snake;</span>
+<span class="nc" id="L25">    }</span>
+
+    public int getLength() {
+<span class="fc" id="L28">        return length;</span>
+    }
+
+    public void setLength(int length) {
+<span class="fc" id="L32">        this.length = length;</span>
+<span class="fc" id="L33">    }</span>
+
+    public void setDirection(DirectionQueue direction) {
+<span class="fc" id="L36">        this.direction = direction;</span>
+<span class="fc" id="L37">    }</span>
+
+    /**
+     * Constructor of snake.
+     *
+     * @param board the board this snake is part of
+     * @param x x
+     * @param y y
+     * @param length default length
+     */
+<span class="fc" id="L47">    public Snake(Board board, int x, int y, int length) {</span>
+<span class="fc" id="L48">        init(board, x, y, length);</span>
+<span class="fc" id="L49">    }</span>
+
+    public BodyPart getHead() {
+<span class="fc" id="L52">        return snakeBody.getLast();</span>
+    }
+
+    /**
+     * Initialize snake game.
+     *
+     * @param board the board this snake is part of
+     * @param x x position
+     * @param y y position
+     * @param length length of a snake
+     */
+    public void init(Board board, int x, int y, int length) {
+<span class="fc" id="L64">        snakeBody = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L65">        snakeBody.addLast(new BodyPart(x, y));</span>
+<span class="fc" id="L66">        direction = new DirectionQueue(Direction.RIGHT);</span>
+<span class="fc" id="L67">        this.length = length;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        for (int i = 1; i &lt; length; i++) {</span>
+<span class="fc" id="L69">            move(board);</span>
+        }
+<span class="fc" id="L71">    }</span>
+
+    /**
+     * Method to move a snake around.
+     *
+     * @param board the board to move on
+     * @return true in case of collision
+     */
+    public boolean move(Board board) {
+<span class="fc" id="L80">        direction.dequeue();</span>
+<span class="fc" id="L81">        BodyPart newHead = new BodyPart(</span>
+<span class="fc" id="L82">                getHead().getPosX(),</span>
+<span class="fc" id="L83">                getHead().getPosY(),</span>
+<span class="fc" id="L84">                direction.getDirection());</span>
+
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (collides(newHead.getPosX(), newHead.getPosY())</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">                || bodyPartOutOfBorders(newHead, board)) {</span>
+<span class="fc" id="L89">            return true;</span>
+        }
+<span class="fc" id="L91">        snakeBody.addLast(newHead);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        while (snakeBody.size() &gt; length) {</span>
+<span class="fc" id="L93">            snakeBody.removeFirst();</span>
+        }
+
+<span class="fc" id="L96">        return false;</span>
+    }
+
+    /**
+     * Check if a body part is out of the borders of the board.
+     * @param bp the body part
+     * @param board the board
+     * @return whether it's out of the boundaries
+     */
+    public boolean bodyPartOutOfBorders(BodyPart bp, Board board) {
+<span class="fc" id="L106">        return board.isOutOfBorders(bp.getPosX(), bp.getPosY());</span>
+    }
+
+    /**
+     * Check if a snake collides.
+     * @param x x coordinate of collision
+     * @param y y coordinate of collision
+     * @return true if collides
+     */
+    @SuppressWarnings(&quot;PMD&quot;)
+    //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
+    //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
+    public boolean collides(int x, int y) {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        for (BodyPart bodyPart : snakeBody) {</span>
+<span class="fc bfc" id="L120" title="All 4 branches covered.">            if (bodyPart.getPosX() == x &amp;&amp; bodyPart.getPosY() == y) {</span>
+<span class="fc" id="L121">                return true;</span>
+            }
+<span class="fc" id="L123">        }</span>
+<span class="fc" id="L124">        return false;</span>
+    }
+
+    /**
+     * Method to draw a board (and snake).
+     * @param board current board
+     */
+    @SuppressWarnings(&quot;PMD&quot;)
+    //UR anomaly. Same issue described above in method collides()
+    public void draw(Board board) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        for (BodyPart b : snakeBody) {</span>
+<span class="nc" id="L135">            b.draw(board);</span>
+<span class="nc" id="L136">        }</span>
+<span class="nc" id="L137">    }</span>
+
+    public DirectionQueue getDirection() {
+<span class="fc" id="L140">        return direction;</span>
+    }
+
+    public void addLength(int increment) {
+<span class="fc" id="L144">        length += increment;</span>
+<span class="fc" id="L145">    }</span>
+
+    public Color getColor() {
+<span class="nc" id="L148">        return color;</span>
+    }
+
+    public void setColor(Color color) {
+<span class="fc" id="L152">        this.color = color;</span>
+<span class="fc" id="L153">    }</span>
+
+    public class BodyPart {
+        private final int posX;
+        private final int posY;
+
+<span class="fc" id="L159">        BodyPart(int posX, int posY) {</span>
+<span class="fc" id="L160">            this.posX = posX;</span>
+<span class="fc" id="L161">            this.posY = posY;</span>
+<span class="fc" id="L162">        }</span>
+
+<span class="fc" id="L164">        BodyPart(int posX, int posY, Direction direction) {</span>
+<span class="fc" id="L165">            this.posX = posX + direction.getDx();</span>
+<span class="fc" id="L166">            this.posY = posY + direction.getDy();</span>
+<span class="fc" id="L167">        }</span>
+
+        public int getPosX() {
+<span class="fc" id="L170">            return posX;</span>
+        }
+
+        public int getPosY() {
+<span class="fc" id="L174">            return posY;</span>
+        }
+
+        /**
+         * Method to draw a board.
+         * @param board current board
+         */
+        public void draw(Board board) {
+<span class="nc" id="L182">            board.getRend().setColor(color);</span>
+<span class="nc" id="L183">            board.getRend().rect(</span>
+<span class="nc" id="L184">                    board.getBoardX() + posX * board.getTile(),</span>
+<span class="nc" id="L185">                    board.getBoardY() + posY * board.getTile(),</span>
+<span class="nc" id="L186">                    board.getTile(),</span>
+<span class="nc" id="L187">                    board.getTile());</span>
+<span class="nc" id="L188">        }</span>
+    }
+
+<span class="fc" id="L191">    public enum Direction {</span>
+<span class="fc" id="L192">        UP(0, 1),</span>
+<span class="fc" id="L193">        DOWN(0, -1),</span>
+<span class="fc" id="L194">        LEFT(-1, 0),</span>
+<span class="fc" id="L195">        RIGHT(1, 0),</span>
+<span class="fc" id="L196">        SPACE(0,0);</span>
+
+        private final int dx;
+        private final int dy;
+
+<span class="fc" id="L201">        Direction(int dx, int dy) {</span>
+<span class="fc" id="L202">            this.dx = dx;</span>
+<span class="fc" id="L203">            this.dy = dy;</span>
+<span class="fc" id="L204">        }</span>
+
+        public int getDx() {
+<span class="fc" id="L207">            return dx;</span>
+        }
+
+        public int getDy() {
+<span class="fc" id="L211">            return dy;</span>
+        }
+
+        public boolean isOrthogonalTo(Direction direction) {
+<span class="fc bfc" id="L215" title="All 2 branches covered.">            return (direction.getDx() * dx + direction.getDy() * dy) == 0;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

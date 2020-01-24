@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserApi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">server</a> &gt; <a href="index.source.html" class="el_package">com.snake.server.controllers</a> &gt; <span class="el_source">UserApi.java</span></div><h1>UserApi.java</h1><pre class="source lang-java linenums">package com.snake.server.controllers;
+
+import com.snake.server.domain.User;
+import com.snake.server.domain.UserInfo;
+import com.snake.server.repositories.UserRepository;
+import com.snake.server.requests.LogInRequest;
+import com.snake.server.requests.MaxScoreRequest;
+import com.snake.server.requests.SignUpRequest;
+import com.snake.server.responses.UserResponse;
+
+import java.util.Set;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * Class to make mappings.
+ */
+@Controller
+@RequestMapping(&quot;/api/user&quot;)
+public class UserApi {
+
+    @Autowired
+    transient UserRepository userRepository;
+
+<span class="fc" id="L33">    public UserApi(UserRepository userRepository) {</span>
+<span class="fc" id="L34">        this.userRepository = userRepository;</span>
+<span class="fc" id="L35">    }</span>
+
+    /**
+     * Mapping to login to the system.
+     * @param logInRequest request class with username and psswd.
+     * @return Response Entity that goes to the client.
+     */
+    @PostMapping(&quot;/login&quot;)
+    public ResponseEntity&lt;?&gt; authenticate(@Valid @RequestBody LogInRequest logInRequest) {
+<span class="fc" id="L44">        User user = userRepository.findByUsername(logInRequest.getUsername()).orElse(null);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (user != null) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            if (user.getPassword().compareTo(logInRequest.getPassword()) == 0) {</span>
+<span class="fc" id="L47">                return new ResponseEntity&lt;&gt;(&quot;Success!&quot;, HttpStatus.OK);</span>
+            } else {
+<span class="fc" id="L49">                return new ResponseEntity&lt;&gt;(&quot;Wrong password!&quot;,</span>
+                        HttpStatus.FORBIDDEN);
+            }
+        } else {
+<span class="fc" id="L53">            return new ResponseEntity&lt;&gt;(&quot;User not found!&quot;, HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+    /**
+     * Mapping to sign up to the system.
+     * @param signUpRequest Request with username and password.
+     * @return ResponseEntity that goes to the client.
+     */
+    @PostMapping(&quot;/signup&quot;)
+    public ResponseEntity&lt;?&gt; register(@Valid @RequestBody SignUpRequest signUpRequest) {
+<span class="fc" id="L64">        User found = userRepository.findByUsername(signUpRequest.getUsername()).orElse(null);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (found != null) {</span>
+<span class="fc" id="L66">            return new ResponseEntity&lt;&gt;(&quot;User with this username already exists!&quot;,</span>
+                    HttpStatus.CONFLICT);
+        }
+<span class="fc" id="L69">        User user = new User(signUpRequest.getUsername(), signUpRequest.getPassword());</span>
+<span class="fc" id="L70">        userRepository.save(user);</span>
+<span class="fc" id="L71">        return new ResponseEntity&lt;&gt;(&quot;User created successfully!&quot;, HttpStatus.OK);</span>
+    }
+
+    /**
+     * Mapping to get info on specific user.
+     * @param username username of a user.
+     * @return ResponseEntity that mainly contains max score.
+     */
+    @PostMapping(&quot;/userinfo&quot;)
+    public ResponseEntity&lt;?&gt; getInfo(@Valid @RequestBody String username) {
+<span class="fc" id="L81">        User user = userRepository.findByUsername(username).orElse(null);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (user == null) {</span>
+<span class="fc" id="L83">            return new ResponseEntity&lt;&gt;(&quot;User not found!&quot;, HttpStatus.NOT_FOUND);</span>
+        }
+<span class="fc" id="L85">        UserResponse response = new UserResponse(user.getUsername(), user.getMaxscore().intValue());</span>
+<span class="fc" id="L86">        return ResponseEntity.status(HttpStatus.OK).body(response);</span>
+    }
+
+    /**
+     * Get mapping to get highest scores.
+     * @return ResponseEntity containing top-5 scores
+     */
+    @GetMapping(&quot;/topscores&quot;)
+    @SuppressWarnings(&quot;PMD&quot;) //UR, DD DU anomalies which were not actually there.
+    public ResponseEntity&lt;?&gt; getTopScores() {
+<span class="nc" id="L96">        Set&lt;UserInfo&gt; userInfos = userRepository.getTopScores();</span>
+<span class="nc" id="L97">        UserResponse[] responses = new UserResponse[userInfos.size()];</span>
+<span class="nc" id="L98">        int i = 0;</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (UserInfo ui : userInfos) {</span>
+<span class="nc" id="L100">            responses[i] = new UserResponse(ui.getUsername(), ui.getScore());</span>
+<span class="nc" id="L101">            i++;</span>
+<span class="nc" id="L102">        }</span>
+<span class="nc" id="L103">        return ResponseEntity.status(HttpStatus.OK).body(responses);</span>
+    }
+
+    /**
+     * Update a user's maxScore.
+     * @param maxScoreRequest Request with username and maxScore
+     * @return whether or not the user was found and updated
+     */
+    @PostMapping(&quot;/maxscore&quot;)
+    public ResponseEntity&lt;?&gt; updateMaxScore(@Valid @RequestBody MaxScoreRequest maxScoreRequest) {
+<span class="fc" id="L113">        User user = userRepository.findByUsername(maxScoreRequest.getUsername()).orElse(null);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        if (user != null) {</span>
+<span class="fc" id="L115">            user.setMaxscore((long) maxScoreRequest.getMaxScore());</span>
+<span class="fc" id="L116">            userRepository.save(user);</span>
+<span class="fc" id="L117">            return ResponseEntity.status(HttpStatus.OK).body(&quot;Max score updated&quot;);</span>
+        }
+<span class="fc" id="L119">        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot;User not found&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
