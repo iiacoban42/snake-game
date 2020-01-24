@@ -106,14 +106,25 @@ public class Game {
     @SuppressWarnings("PMD")
     //there must be at least one apple in the list we must not remove
     public void run() {
+        if (hasDied()) return;
+
+        eatAppleIfCollided();
+        spawnPowerUpIfPossible();
+        eatPowerUpIfCollided();
+    }
+
+    private boolean hasDied() {
         if (snake.move(board)) {
             soundSystem.getDeathSound().play();
             enterState(GameStateName.gameOver);
             powerUp = null;
             apples.clear();
-            return;
+            return true;
         }
+        return false;
+    }
 
+    private void eatAppleIfCollided() {
         for (int i = 0; i < apples.size(); i++) {
             if (snake.collides(apples.get(i).getPosX(), apples.get(i).getPosY())) {
                 soundSystem.getEatingSound().play();
@@ -124,12 +135,17 @@ public class Game {
         if (apples.size() == 0) {
             apples.add(Apple.spawnApplePersistent(this));
         }
+    }
 
+    private void spawnPowerUpIfPossible() {
         if (powerUp == null) {
             double chance = Math.random();
             int powerUpIndex = (int) (Math.random() * PowerUpName.values().length);
             updatePowerUp(chance, PowerUpName.values()[powerUpIndex]);
         }
+    }
+
+    private void eatPowerUpIfCollided() {
         if (powerUp != null && snake.collides(powerUp.getPosX(), powerUp.getPosY())) {
             soundSystem.getPowerUpSound().play();
             powerUp.consume(this, snake);
