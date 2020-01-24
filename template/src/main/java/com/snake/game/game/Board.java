@@ -21,6 +21,8 @@ public class Board {
 
     /**
      * Constructor.
+     *
+     * @param rend the renderer to use
      */
     public Board(ShapeRenderer rend) {
         this.rend = rend;
@@ -28,6 +30,8 @@ public class Board {
 
     /**
      * Draws the board using a ShapeRenderer.
+     *
+     * @param game the game to draw on the board
      */
     @SuppressWarnings("PMD")
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.

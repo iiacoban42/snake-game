@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.Game;
 
+/**
+ * State when user paused the game.
+ */
 public class PauseGameState extends GameState {
 
     public PauseGameState(Game game) {

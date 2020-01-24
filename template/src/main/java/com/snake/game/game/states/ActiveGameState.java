@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.snake.game.game.Game;
 import com.snake.game.game.Snake;
 
+/**
+ * State of an active game. The user is currently playing.
+ */
 public class ActiveGameState extends GameState {
 
     public ActiveGameState(Game game) {

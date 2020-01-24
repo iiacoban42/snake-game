@@ -5,7 +5,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,6 +19,7 @@ import com.snake.game.game.Board;
 import com.snake.game.game.Game;
 import com.snake.game.game.Score;
 import com.snake.game.game.ScoreLabel;
+import com.snake.game.game.Settings;
 import com.snake.game.game.SoundSystem;
 import com.snake.game.game.User;
 import com.snake.game.game.states.GameStateName;
@@ -49,7 +49,7 @@ public class GameScreen extends Screen {
     private final transient TextButton restartButton;
     private final transient TextButton menuButton;
 
-    private final transient TextButton settingsButton;
+    private final transient TextButton muteButton;
 
 
     private final transient String usernameLabelFormat = "Welcome %s";
@@ -89,8 +89,11 @@ public class GameScreen extends Screen {
         pauseLabel = new Label("Press Space to start/pause", labelStyle);
         pauseLabel.setPosition(0, 50);
 
-        settingsButton = new TextButton("settings", skin);
-        settingsButton.setSize(100,40);
+        muteButton = new TextButton("Mute", skin);
+        if (Settings.getInstance().isMuted()) {
+            muteButton.setText("Unmute");
+        }
+        muteButton.setSize(100,40);
 
 
         // overlayGroup
@@ -114,7 +117,7 @@ public class GameScreen extends Screen {
         statGroup = new Group();
         statGroup.addActor(usernameLabel);
         statGroup.addActor(pauseLabel);
-        statGroup.addActor(settingsButton);
+        statGroup.addActor(muteButton);
 
         overlayGroup = new Group();
         overlayGroup.addActor(resumeButton);
@@ -156,6 +159,20 @@ public class GameScreen extends Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sc.openScreen(ScreenController.ScreenName.startScreen);
+            }
+        });
+
+        muteButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Settings s = Settings.getInstance();
+                if (s.isMuted()) {
+                    s.unmute();
+                    muteButton.setText("Mute");
+                } else {
+                    s.mute();
+                    muteButton.setText("Unmute");
+                }
             }
         });
     }

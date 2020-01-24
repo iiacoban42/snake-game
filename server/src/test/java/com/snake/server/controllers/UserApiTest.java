@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 
 public class UserApiTest {
 
-    private final transient String NO_USER = "noUser";
+    private static final transient String NO_USER = "noUser";
 
     transient User user;
 

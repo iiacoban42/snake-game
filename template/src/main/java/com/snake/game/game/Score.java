@@ -48,13 +48,20 @@ public class Score {
      * @return this
      */
     public Score reset() {
+        this.save();
+        this.points = 0;
+        return this;
+    }
+
+    /**
+     * Save the users score if it's higher than its max score.
+     */
+    public void save() {
         if (this.points > User.getInstance().getMaxScore()) {
             MaxScore req = new MaxScore(User.getInstance().getUsername(), this.points);
             req.execute();
             User.getInstance().setMaxScore(this.points);
         }
-        this.points = 0;
-        return this;
     }
 
 }

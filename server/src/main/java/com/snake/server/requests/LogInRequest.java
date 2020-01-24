@@ -27,7 +27,9 @@ public class LogInRequest {
     /**
      * Empty constructor.
      */
-    public LogInRequest() {}
+    public LogInRequest() {
+
+    }
 
     /**
      * Getter for username.
