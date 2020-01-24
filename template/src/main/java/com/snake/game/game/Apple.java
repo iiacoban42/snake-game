@@ -73,15 +73,32 @@ public class Apple implements Consumable {
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
     //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
     private static boolean isProperSpawnLocation(Game game, int posX, int posY) {
+
+        boolean answer = checkSnakeCollision(game, posX, posY);
+
+        if (game.getApples() != null) {
+            answer = checkApplesCollision(game, posX, posY);
+            return answer;
+        }
+
+        answer = true;
+        return answer;
+    }
+
+    public static boolean checkApplesCollision(Game game, int posX, int posY){
+
+        for (Apple apple : game.getApples()) {
+            if (apple.posX == posX && apple.posY == posY) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkSnakeCollision(Game game, int posX, int posY){
+
         if (game.getSnake().collides(posX, posY)) {
             return false;
-        }
-        if (game.getApples() != null) {
-            for (Apple apple : game.getApples()) {
-                if (apple.posX == posX && apple.posY == posY) {
-                    return false;
-                }
-            }
         }
         return true;
     }
