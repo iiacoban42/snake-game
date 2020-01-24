@@ -63,7 +63,7 @@ public class AppleTest extends InitializedGameTest {
         Apple newApple = new Apple(1,1);
         game.getApples().add(newApple);
 
-        Assertions.assertFalse(Apple.checkApplesCollision(game, 1,1));
+        Assertions.assertTrue(Apple.checkApplesCollision(game, 1,1));
 
     }
 
@@ -76,7 +76,7 @@ public class AppleTest extends InitializedGameTest {
         Apple newApple = new Apple(1,1);
         game.getApples().add(newApple);
 
-        Assertions.assertFalse(Apple.checkSnakeCollision(game, 0,0));
+        Assertions.assertTrue(Apple.checkSnakeCollision(game, 0,0));
 
     }
 

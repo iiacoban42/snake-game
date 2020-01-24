@@ -24,6 +24,7 @@ public class IntegrationTest extends InitializedGameTest {
         game.getApples().clear();
         game.getApples().add(apple);
         game.getApples().add(apple2);
+        game.setPowerUp(new MegaApple(9,8));
 
 
         // Change Direction
@@ -50,6 +51,7 @@ public class IntegrationTest extends InitializedGameTest {
 
         Apple apple = new Apple(4,4);
         Apple apple2 = new Apple(9,9);
+        game.setPowerUp(new MegaApple(9,8));
 
         // Add apple at custom position
         game.getApples().clear();
