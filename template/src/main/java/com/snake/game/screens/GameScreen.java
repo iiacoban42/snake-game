@@ -2,9 +2,7 @@ package com.snake.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.snake.game.game.Board;
 import com.snake.game.game.Game;
@@ -45,7 +42,6 @@ public class GameScreen extends Screen {
     private final transient Label gamePausedLabel;
     private final transient Label gameOverLabel;
     private final transient TextButton resumeButton;
-    private final transient TextButton scoresButton;
     private final transient TextButton restartButton;
     private final transient TextButton menuButton;
 
@@ -77,10 +73,6 @@ public class GameScreen extends Screen {
         LabelStyle labelStyle = new LabelStyle();
         labelStyle.font = Font.get(14);
 
-        TextButtonStyle textButtonStyle = new TextButtonStyle();
-        textButtonStyle.font = new BitmapFont();
-        textButtonStyle.fontColor = Color.DARK_GRAY;
-
         scoreLabel = new ScoreLabel(score, stage);
 
         // statGroup
@@ -104,14 +96,9 @@ public class GameScreen extends Screen {
         gameOverLabel.setFontScale(2f);
         gameOverLabel.setBounds(0, 200, 200, 40);
 
-        resumeButton = new TextButton("Resume", skin);
-        resumeButton.setBounds(0,120,200,40);
-        scoresButton = new TextButton("Scores", skin);
-        scoresButton.setBounds(0,120,200,40);
-        restartButton = new TextButton("Restart", skin);
-        restartButton.setBounds(0,60,200,40);
-        menuButton = new TextButton("Menu", skin);
-        menuButton.setBounds(0,0,200,40);
+        resumeButton = buildButton("Resume", 0, 120, 200, 40);
+        restartButton = buildButton("Restart", 0, 60, 200, 40);
+        menuButton = buildButton("Menu", 0, 0, 200, 40);
 
 
         statGroup = new Group();
@@ -133,6 +120,21 @@ public class GameScreen extends Screen {
         updatePositions();
     }
 
+    /**
+     * Quick button builder for this screen.
+     * @param text label text
+     * @param x x coord
+     * @param y y cood
+     * @param width width
+     * @param height height
+     * @return new TextButton
+     */
+    private TextButton buildButton(String text, int x, int y, int width, int height) {
+        TextButton btn = new TextButton(text, skin);
+        btn.setBounds(x,y,width,height);
+        return btn;
+    }
+
     private void updatePositions() {
         statGroup.setPosition(400,100);
         overlayGroup.setPosition(
@@ -140,41 +142,72 @@ public class GameScreen extends Screen {
                 game.getBoard().getBoardY() + (game.getBoard().getBoardHeight() - 160) * .5f);
     }
 
+    /**
+     * Add all clicklisteners to buttons.
+     */
     private void addListeners() {
         resumeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.enterState(GameStateName.active);
+                resumeButtonClicked();
             }
         });
 
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.enterState(GameStateName.newGame);
+                restartButtonClicked();
             }
         });
 
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sc.openScreen(ScreenController.ScreenName.startScreen);
+                menuButtonClicked();
             }
         });
 
         muteButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Settings s = Settings.getInstance();
-                if (s.isMuted()) {
-                    s.unmute();
-                    muteButton.setText("Mute");
-                } else {
-                    s.mute();
-                    muteButton.setText("Unmute");
-                }
+                muteButtonClicked();
             }
         });
+    }
+
+    /**
+     * Listener for resume button.
+     */
+    private void resumeButtonClicked() {
+        game.enterState(GameStateName.active);
+    }
+
+    /**
+     * Listener for restart button.
+     */
+    private void restartButtonClicked() {
+        game.enterState(GameStateName.newGame);
+    }
+
+    /**
+     * Listener for menu button.
+     */
+    private void menuButtonClicked() {
+        sc.openScreen(ScreenController.ScreenName.startScreen);
+    }
+
+    /**
+     * Listener for mute button.
+     */
+    private void muteButtonClicked() {
+        Settings s = Settings.getInstance();
+        if (s.isMuted()) {
+            s.unmute();
+            muteButton.setText("Mute");
+        } else {
+            s.mute();
+            muteButton.setText("Unmute");
+        }
     }
 
     @Override
