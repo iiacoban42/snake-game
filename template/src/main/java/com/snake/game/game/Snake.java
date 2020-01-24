@@ -84,9 +84,7 @@ public class Snake {
                 direction.getDirection());
 
 
-        if (collides(newHead.getPosX(), newHead.getPosY())
-                || newHead.getPosX() < 0 || newHead.getPosX() >= board.getGridWidth()
-                || newHead.getPosY() < 0 || newHead.getPosY() >= board.getGridHeight()) {
+        if (collides(newHead.getPosX(), newHead.getPosY()) || bodyPartOutOfBorders(newHead, board)) {
             return true;
         }
         snakeBody.addLast(newHead);
@@ -95,6 +93,16 @@ public class Snake {
         }
 
         return false;
+    }
+
+    /**
+     * Check if a body part is out of the borders of the board.
+     * @param bp the body part
+     * @param board the board
+     * @return whether it's out of the boundaries
+     */
+    public boolean bodyPartOutOfBorders(BodyPart bp, Board board) {
+        return board.isOutOfBorders(bp.getPosX(), bp.getPosY());
     }
 
     /**
