@@ -14,15 +14,35 @@ public class Login extends ApiRequest<String> {
         this.password = password;
     }
 
-    @Override
-    public void execute() {
+    /**
+     * A method to check if username satisfies requirements.
+     */
+    public void usernameCheck() {
         if (this.username == null || this.username.length() == 0) {
             this.addError("Please provide a username");
             return;
         }
+    }
+
+    /**
+     * A method to check if the password satisfies requirements.
+     */
+    public void check() {
+
+        usernameCheck();
 
         if (this.password == null) {
             this.addError("Please provide a password");
+            return;
+        }
+    }
+
+    @Override
+    public void execute() {
+
+        check();
+
+        if (this.hasErrors()) {
             return;
         }
 
