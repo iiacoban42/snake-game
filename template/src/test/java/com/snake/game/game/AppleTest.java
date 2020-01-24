@@ -55,7 +55,7 @@ public class AppleTest extends InitializedGameTest {
     }
 
     /**
-     * Test game will spawn the apple in a location that doesn't collide with an apple
+     * Test game will spawn the apple in a location that doesn't collide with an apple.
      * Good Weather Test
      */
     @Test
@@ -68,7 +68,7 @@ public class AppleTest extends InitializedGameTest {
     }
 
     /**
-     * Test game will spawn the apple in a location that doesn't collide with an snake
+     * Test game will spawn the apple in a location that doesn't collide with an snake.
      * Good Weather Test
      */
     @Test

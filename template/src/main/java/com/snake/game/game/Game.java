@@ -104,7 +104,9 @@ public class Game {
      * Game update.
      */
     public void run() {
-        if (hasDied()) return;
+        if (hasDied()) {
+            return;
+        }
 
         eatAppleIfCollided();
         spawnPowerUpIfPossible();
