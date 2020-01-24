@@ -1,4 +1,4 @@
-# Final Report - SEM Group 11
+﻿# Final Report - SEM Group 11
 
 ## must-haves explained
 All our original must-have requirements are implemented in our final application. Some of them are slightly changed however. Choices we made are explained in this section.
@@ -92,3 +92,7 @@ We decided that there's no point in knowing past highscores. The only thing that
 
 ### The player should be able to view their current position on the highscore ladder
 This is currently only partially possible. If the user is in the top 5, then he/she will be able to see his/her current position.
+
+## Testing 
+We ran into issues with testing some of the gui issues with our program so that is why some of the branches appear to have missing testing. For example within states the LibGdx library is called to get the user inputs. This is something we obviously can't easily simulate so we opted to not include that within our testing. 
+Besides having difficulties with the GUI, testing went fine as we included both good weather and bad weathers tests to check for the base functionality of our methods. We also under your advisement included some integration tests to check whether the components of the game function correctly together. 

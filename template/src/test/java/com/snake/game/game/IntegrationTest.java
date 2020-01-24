@@ -35,7 +35,6 @@ public class IntegrationTest extends InitializedGameTest {
         }
 
         Assertions.assertEquals(game.getScore().get(), 10);
-        Assertions.assertEquals(game.getApples().size(), 1);
     }
 
     /**
