@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MaxScoreRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">server</a> &gt; <a href="index.source.html" class="el_package">com.snake.server.requests</a> &gt; <span class="el_source">MaxScoreRequest.java</span></div><h1>MaxScoreRequest.java</h1><pre class="source lang-java linenums">package com.snake.server.requests;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+/**
+ * Class to represent login request.
+ */
+public class MaxScoreRequest {
+
+    @NotBlank
+    private String username;
+
+    @NotNull
+    private int maxScore;
+
+    /**
+     * Constructor.
+     * @param username username
+     * @param maxScore the new maxscore
+     */
+<span class="fc" id="L22">    public MaxScoreRequest(@NotBlank String username, @NotNull int maxScore) {</span>
+<span class="fc" id="L23">        this.username = username;</span>
+<span class="fc" id="L24">        this.maxScore = maxScore;</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * Empty constructor.
+     */
+<span class="nc" id="L30">    public MaxScoreRequest() {</span>
+
+<span class="nc" id="L32">    }</span>
+
+    /**
+     * Getter for username.
+     * @return username
+     */
+    public String getUsername() {
+<span class="fc" id="L39">        return this.username;</span>
+    }
+
+    /**
+     * Getter for maxScore.
+     * @return maxScore
+     */
+    public int getMaxScore() {
+<span class="fc" id="L47">        return this.maxScore;</span>
+    }
+
+    /**
+     * Setter for username.
+     * @param username username
+     */
+    public void setUsername(String username) {
+<span class="fc" id="L55">        this.username = username;</span>
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * Setter for maxScore.
+     * @param maxScore maxScore
+     */
+    public void setMaxScore(int maxScore) {
+<span class="fc" id="L63">        this.maxScore = maxScore;</span>
+<span class="fc" id="L64">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

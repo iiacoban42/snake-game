@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.screens</a> &gt; <span class="el_source">MenuScreen.java</span></div><h1>MenuScreen.java</h1><pre class="source lang-java linenums">package com.snake.game.screens;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.snake.game.game.User;
+import com.snake.game.requests.Login;
+import com.snake.game.requests.Signup;
+import com.snake.game.requests.UserInfo;
+
+/**
+ * The screen on which the user may login to their account using their username and password
+ * and launch the game.
+ */
+public class MenuScreen extends Screen {
+
+    private final transient SpriteBatch batch;
+    private final transient BitmapFont font;
+
+    private final transient Group textFieldsGroup;
+    private final transient TextField usernameTextField;
+    private final transient TextField passwordTextField;
+    private final transient Label statusLabel;
+
+    private final transient Group loginGroup;
+    private final transient TextButton loginButton;
+    private final transient TextButton registerButton;
+
+    private final transient Group registerGroup;
+    private final transient TextButton createButton;
+    private final transient TextButton backButton;
+
+    private final transient Group playGroup;
+    private final transient TextButton playButton;
+
+    private final transient Image logo;
+
+
+
+    /**
+     * Constructor for login screen.
+     *
+     * @param sc screen controller
+     */
+    @SuppressWarnings(&quot;PMD&quot;)
+    //Understand why we can't call overridable method, but it can't be escaped here
+    //Because of how libgdx structures classes.
+    public MenuScreen(ScreenController sc) {
+<span class="nc" id="L65">        super(sc);</span>
+<span class="nc" id="L66">        batch = new SpriteBatch();</span>
+<span class="nc" id="L67">        batch.begin();</span>
+<span class="nc" id="L68">        font = new BitmapFont();</span>
+<span class="nc" id="L69">        stage = new Stage();</span>
+
+<span class="nc" id="L71">        FileHandle fileHandle = new FileHandle(&quot;src/main/resources/uiskin.json&quot;);</span>
+
+<span class="nc" id="L73">        Skin skin = new Skin(fileHandle);</span>
+        // Logo
+<span class="nc" id="L75">        Texture logoIcon = new Texture(Gdx.files.internal(&quot;logo.png&quot;));</span>
+<span class="nc" id="L76">        TextureRegion textureRegion = new TextureRegion(logoIcon, 256, 256);</span>
+<span class="nc" id="L77">        logo = new Image(textureRegion);</span>
+
+        // Text fields group
+<span class="nc" id="L80">        usernameTextField = new TextField(&quot;&quot;, skin);</span>
+<span class="nc" id="L81">        usernameTextField.setMessageText(&quot;Username&quot;);</span>
+<span class="nc" id="L82">        usernameTextField.setMaxLength(32);</span>
+<span class="nc" id="L83">        usernameTextField.setBounds(0,135,170, 35);</span>
+
+<span class="nc" id="L85">        passwordTextField = new TextField(&quot;&quot;, skin);</span>
+<span class="nc" id="L86">        passwordTextField.setMessageText(&quot;Password&quot;);</span>
+<span class="nc" id="L87">        passwordTextField.setMaxLength(32);</span>
+<span class="nc" id="L88">        passwordTextField.setPasswordMode(true);</span>
+<span class="nc" id="L89">        passwordTextField.setPasswordCharacter('*');</span>
+<span class="nc" id="L90">        passwordTextField.setBounds(0,90,170, 35);</span>
+
+<span class="nc" id="L92">        statusLabel = new Label(&quot;&quot;, skin);</span>
+<span class="nc" id="L93">        statusLabel.setWrap(true);</span>
+<span class="nc" id="L94">        statusLabel.setColor(Color.RED);</span>
+<span class="nc" id="L95">        statusLabel.setBounds(0,5,170,35);</span>
+
+        // Login group
+<span class="nc" id="L98">        loginButton = new TextButton(&quot;Login&quot;, skin);</span>
+<span class="nc" id="L99">        loginButton.setBounds(0,0,80, 35);</span>
+
+<span class="nc" id="L101">        registerButton = new TextButton(&quot;Register&quot;, skin);</span>
+<span class="nc" id="L102">        registerButton.setBounds(90,0,80, 35);</span>
+
+        // Register group
+<span class="nc" id="L105">        createButton = new TextButton(&quot;Create&quot;, skin);</span>
+<span class="nc" id="L106">        createButton.setBounds(0,0,80, 35);</span>
+
+<span class="nc" id="L108">        backButton = new TextButton(&quot;Back&quot;, skin);</span>
+<span class="nc" id="L109">        backButton.setBounds(90,0,80, 35);</span>
+
+        // Play group
+<span class="nc" id="L112">        playButton = new TextButton(&quot;Play&quot;, skin);</span>
+<span class="nc" id="L113">        playButton.setBounds(0,45,170, 35);</span>
+
+
+<span class="nc" id="L116">        textFieldsGroup = new Group();</span>
+<span class="nc" id="L117">        textFieldsGroup.addActor(usernameTextField);</span>
+<span class="nc" id="L118">        textFieldsGroup.addActor(passwordTextField);</span>
+<span class="nc" id="L119">        textFieldsGroup.addActor(statusLabel);</span>
+
+<span class="nc" id="L121">        loginGroup = new Group();</span>
+<span class="nc" id="L122">        loginGroup.addActor(loginButton);</span>
+<span class="nc" id="L123">        loginGroup.addActor(registerButton);</span>
+
+<span class="nc" id="L125">        registerGroup = new Group();</span>
+<span class="nc" id="L126">        registerGroup.addActor(createButton);</span>
+<span class="nc" id="L127">        registerGroup.addActor(backButton);</span>
+
+<span class="nc" id="L129">        playGroup = new Group();</span>
+<span class="nc" id="L130">        playGroup.addActor(playButton);</span>
+
+
+<span class="nc" id="L133">        stage.addActor(logo);</span>
+<span class="nc" id="L134">        stage.addActor(textFieldsGroup);</span>
+<span class="nc" id="L135">        stage.addActor(loginGroup);</span>
+<span class="nc" id="L136">        stage.addActor(registerGroup);</span>
+<span class="nc" id="L137">        stage.addActor(playGroup);</span>
+
+<span class="nc" id="L139">        stage.setKeyboardFocus(usernameTextField);</span>
+
+<span class="nc" id="L141">        registerGroup.setVisible(false);</span>
+<span class="nc" id="L142">        updatePosition();</span>
+<span class="nc" id="L143">        addListeners();</span>
+<span class="nc" id="L144">    }</span>
+
+    void updatePosition() {
+<span class="nc" id="L147">        logo.setPosition(50,100);</span>
+<span class="nc" id="L148">        textFieldsGroup.setPosition(400, 180);</span>
+<span class="nc" id="L149">        loginGroup.setPosition(400,220);</span>
+<span class="nc" id="L150">        registerGroup.setPosition(400,220);</span>
+<span class="nc" id="L151">        playGroup.setPosition(400,100);</span>
+<span class="nc" id="L152">    }</span>
+
+    void addListeners() {
+<span class="nc" id="L155">        loginButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+<span class="nc" id="L158">                String username = usernameTextField.getText();</span>
+<span class="nc" id="L159">                String password = passwordTextField.getText();</span>
+<span class="nc" id="L160">                System.out.println(username);</span>
+<span class="nc" id="L161">                System.out.println(password);</span>
+<span class="nc bnc" id="L162" title="All 4 branches missed.">                if (validUser(username) &amp;&amp; validPassword(password)) {</span>
+<span class="nc" id="L163">                    Login login = new Login(username, password);</span>
+<span class="nc" id="L164">                    login.execute();</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">                    if (login.hasErrors()) {</span>
+<span class="nc" id="L166">                        statusLabel.setText(login.getErrors().get(0));</span>
+<span class="nc" id="L167">                        font.draw(batch, login.getErrors().get(0), 200, 200);</span>
+                    } else {
+<span class="nc" id="L169">                        font.draw(batch, login.getResult().getBody(), 200, 200);</span>
+<span class="nc" id="L170">                        sc.openScreen(ScreenController.ScreenName.gameScreen);</span>
+                        // fetch more user info
+<span class="nc" id="L172">                        UserInfo userInfo = new UserInfo(username);</span>
+<span class="nc" id="L173">                        userInfo.execute();</span>
+<span class="nc" id="L174">                        int maxScore = (int) userInfo</span>
+<span class="nc" id="L175">                                .getResult()</span>
+<span class="nc" id="L176">                                .getBody()</span>
+<span class="nc" id="L177">                                .getObject()</span>
+<span class="nc" id="L178">                                .get(&quot;maxScore&quot;);</span>
+
+                        // save current user
+<span class="nc" id="L181">                        User.getInstance()</span>
+<span class="nc" id="L182">                                .setUsername(username)</span>
+<span class="nc" id="L183">                                .setMaxScore(maxScore);</span>
+
+<span class="nc" id="L185">                        sc.openScreen(ScreenController.ScreenName.startScreen);</span>
+                    }
+                }
+<span class="nc" id="L188">            }</span>
+        });
+<span class="nc" id="L190">        registerButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+<span class="nc" id="L193">                registerGroup.setVisible(true);</span>
+<span class="nc" id="L194">                loginGroup.setVisible(false);</span>
+<span class="nc" id="L195">                playGroup.setVisible(false);</span>
+<span class="nc" id="L196">                statusLabel.setText(&quot;Register new account&quot;);</span>
+<span class="nc" id="L197">                statusLabel.setColor(Color.DARK_GRAY);</span>
+<span class="nc" id="L198">            }</span>
+        });
+
+<span class="nc" id="L201">        createButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+<span class="nc" id="L204">                String username = usernameTextField.getText();</span>
+<span class="nc" id="L205">                String password = passwordTextField.getText();</span>
+<span class="nc" id="L206">                System.out.println(username);</span>
+<span class="nc" id="L207">                System.out.println(password);</span>
+<span class="nc bnc" id="L208" title="All 4 branches missed.">                if (validUser(username) &amp;&amp; validPassword(password)) {</span>
+<span class="nc" id="L209">                    Signup signup = new Signup(username, password);</span>
+<span class="nc" id="L210">                    signup.execute();</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">                    if (signup.hasErrors()) {</span>
+<span class="nc" id="L212">                        statusLabel.setText(signup.getErrors().get(0));</span>
+<span class="nc" id="L213">                        statusLabel.setColor(Color.RED);</span>
+                    } else {
+<span class="nc" id="L215">                        registerGroup.setVisible(false);</span>
+<span class="nc" id="L216">                        loginGroup.setVisible(true);</span>
+<span class="nc" id="L217">                        playGroup.setVisible(true);</span>
+
+<span class="nc" id="L219">                        statusLabel.setText(&quot;Registered successfully&quot;);</span>
+<span class="nc" id="L220">                        statusLabel.setColor(Color.DARK_GRAY);</span>
+                    }
+                }
+<span class="nc" id="L223">            }</span>
+        });
+<span class="nc" id="L225">        backButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+<span class="nc" id="L228">                registerGroup.setVisible(false);</span>
+<span class="nc" id="L229">                loginGroup.setVisible(true);</span>
+<span class="nc" id="L230">                playGroup.setVisible(true);</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">                if (User.getInstance().isLoggedIn()) {</span>
+<span class="nc" id="L232">                    statusLabel.setText(&quot;Play as: &quot; + &quot;&quot;);</span>
+<span class="nc" id="L233">                    statusLabel.setColor(Color.DARK_GRAY);</span>
+                } else {
+<span class="nc" id="L235">                    statusLabel.setText(&quot;&quot;);</span>
+<span class="nc" id="L236">                    statusLabel.setColor(Color.RED);</span>
+                }
+<span class="nc" id="L238">            }</span>
+        });
+
+<span class="nc" id="L241">        playButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+<span class="nc" id="L244">                User.getInstance().logout();</span>
+<span class="nc" id="L245">                sc.openScreen(ScreenController.ScreenName.startScreen);</span>
+
+<span class="nc" id="L247">            }</span>
+        });
+<span class="nc" id="L249">    }</span>
+
+    @Override
+    public void create() {
+
+<span class="nc" id="L254">    }</span>
+
+    @Override
+    public void resize(int width, int height) {
+<span class="nc" id="L258">        stage.getViewport().update(width, height);</span>
+<span class="nc" id="L259">        updatePosition();</span>
+
+<span class="nc" id="L261">    }</span>
+
+    @Override
+    public void pause() {
+
+<span class="nc" id="L266">    }</span>
+
+    @Override
+    public void resume() {
+
+<span class="nc" id="L271">    }</span>
+
+    @Override
+    public void hide() {
+
+<span class="nc" id="L276">    }</span>
+
+    @Override
+    public void show() {
+
+<span class="nc" id="L281">    }</span>
+
+    @Override
+    public void render() {
+
+<span class="nc" id="L286">    }</span>
+
+    @Override
+    public void render(float delta) {
+<span class="nc" id="L290">        Gdx.gl.glClearColor(.85f, .85f, .85f, 1);</span>
+<span class="nc" id="L291">        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);</span>
+
+<span class="nc" id="L293">        ShapeRenderer shapeRenderer = new ShapeRenderer();</span>
+<span class="nc" id="L294">        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);</span>
+<span class="nc" id="L295">        shapeRenderer.setColor(.42f, .82f, .32f, 1);</span>
+<span class="nc" id="L296">        shapeRenderer.rect(0, 0,</span>
+<span class="nc" id="L297">                stage.getViewport().getScreenWidth(),</span>
+<span class="nc" id="L298">                stage.getViewport().getScreenHeight() / standardHeight * 50.0f);</span>
+<span class="nc" id="L299">        shapeRenderer.rect(0, stage.getViewport().getScreenHeight() / standardHeight * 380,</span>
+<span class="nc" id="L300">                stage.getViewport().getScreenWidth(),</span>
+<span class="nc" id="L301">                stage.getViewport().getScreenHeight() / standardHeight * 100.0f);</span>
+<span class="nc" id="L302">        shapeRenderer.end();</span>
+
+<span class="nc" id="L304">        stage.draw();</span>
+<span class="nc" id="L305">    }</span>
+
+    @Override
+    public void dispose() {
+<span class="nc" id="L309">        batch.dispose();</span>
+<span class="nc" id="L310">        font.dispose();</span>
+<span class="nc" id="L311">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

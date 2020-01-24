@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ScoreLabel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.game</a> &gt; <span class="el_source">ScoreLabel.java</span></div><h1>ScoreLabel.java</h1><pre class="source lang-java linenums">package com.snake.game.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.snake.game.screens.Font;
+
+/**
+ * Class to draw the current score and highscore to a given stage.
+ */
+public class ScoreLabel {
+
+<span class="nc" id="L16">    private static final Color FONT_COLOR = Color.DARK_GRAY;</span>
+    private static final String FORMAT = &quot;Score: %d\nHighscore: %d&quot;;
+    private static final int COORD_X = 400;
+    private static final int COORD_Y = 300;
+
+    private transient Stage stage;
+    private transient Label label;
+    private transient Label.LabelStyle style;
+    private transient Score score;
+
+    /**
+     * Constructor to setup this label.
+     * @param score The Score object to get the current score from
+     * @param stage The stage to draw to
+     */
+<span class="nc" id="L31">    public ScoreLabel(Score score, Stage stage) {</span>
+<span class="nc" id="L32">        this.score = score;</span>
+<span class="nc" id="L33">        this.stage = stage;</span>
+
+<span class="nc" id="L35">        this.style = new Label.LabelStyle();</span>
+<span class="nc" id="L36">        this.style.font = Font.get(18);</span>
+
+<span class="nc" id="L38">        this.label = new Label(&quot;&quot;, this.style);</span>
+<span class="nc" id="L39">        this.label.setPosition(this.COORD_X, this.COORD_Y);</span>
+
+<span class="nc" id="L41">        this.stage.addActor(this.label);</span>
+<span class="nc" id="L42">    }</span>
+
+    /**
+     * Draw this label to the stage.
+     */
+    public void draw() {
+<span class="nc" id="L48">        this.label.setText(</span>
+<span class="nc" id="L49">            String.format(this.FORMAT, this.score.get(), User.getInstance().getMaxScore())</span>
+        );
+<span class="nc" id="L51">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

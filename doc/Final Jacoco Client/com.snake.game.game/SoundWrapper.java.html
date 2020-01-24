@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SoundWrapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.game</a> &gt; <span class="el_source">SoundWrapper.java</span></div><h1>SoundWrapper.java</h1><pre class="source lang-java linenums">package com.snake.game.game;
+
+import com.badlogic.gdx.audio.Sound;
+
+/**
+ * A wrapper for playing sounds to check if application is muted.
+ */
+public class SoundWrapper {
+    private Sound sound;
+
+    /**
+     * Create the wrapper.
+     * @param s the sound to wrap
+     */
+<span class="fc" id="L15">    public SoundWrapper(Sound s) {</span>
+<span class="fc" id="L16">        sound = s;</span>
+<span class="fc" id="L17">    }</span>
+
+    /**
+     * Play if application is not muted.
+     */
+    public void play() {
+<span class="fc" id="L23">        Settings s = Settings.getInstance();</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (!s.isMuted()) {</span>
+<span class="fc" id="L26">            sound.play();</span>
+        }
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Get the sound thats wrapped.
+     * @return the original sound
+     */
+    public Sound getSound() {
+<span class="nc" id="L35">        return sound;</span>
+    }
+
+    /**
+     * Replace the wrapped sound.
+     * @param sound the new sound
+     */
+    public void setSound(Sound sound) {
+<span class="nc" id="L43">        this.sound = sound;</span>
+<span class="nc" id="L44">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -61,6 +61,19 @@ public class Board {
         }
     }
 
+    /**
+     * Check if position x,y is out of the board.
+     * @param x X coord
+     * @param y Y coord
+     * @return whether it's out of the boundaries
+     */
+    public boolean isOutOfBorders(int x, int y) {
+        return x < 0
+                || x >= this.getGridWidth()
+                || y < 0
+                || y >= this.getGridHeight();
+    }
+
     public int getTile() {
         return tile;
     }

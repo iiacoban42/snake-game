@@ -1,5 +1,6 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
 import com.snake.game.game.powerup.PowerUpName;
@@ -57,12 +58,16 @@ public class Game {
         states.put(GameStateName.active, new ActiveGameState(this));
         states.put(GameStateName.paused, new PauseGameState(this));
         states.put(GameStateName.gameOver, new FinishedGameState(this));
-
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
 
         powerUpFactory = new PowerUpFactory(this);
+
+
     }
+
+
+
 
     /**
      * Spawns in all sprites.
@@ -98,17 +103,30 @@ public class Game {
     /**
      * Game update.
      */
-    @SuppressWarnings("PMD")
-    //there must be at least one apple in the list we must not remove
     public void run() {
+        if (hasDied()) {
+            return;
+        }
+
+        eatAppleIfCollided();
+        spawnPowerUpIfPossible();
+        eatPowerUpIfCollided();
+    }
+
+    @SuppressWarnings("PMD")
+    // should be able to put powerUp back to null again.
+    private boolean hasDied() {
         if (snake.move(board)) {
             soundSystem.getDeathSound().play();
             enterState(GameStateName.gameOver);
             powerUp = null;
             apples.clear();
-            return;
+            return true;
         }
+        return false;
+    }
 
+    private void eatAppleIfCollided() {
         for (int i = 0; i < apples.size(); i++) {
             if (snake.collides(apples.get(i).getPosX(), apples.get(i).getPosY())) {
                 soundSystem.getEatingSound().play();
@@ -119,12 +137,19 @@ public class Game {
         if (apples.size() == 0) {
             apples.add(Apple.spawnApplePersistent(this));
         }
+    }
 
+    private void spawnPowerUpIfPossible() {
         if (powerUp == null) {
             double chance = Math.random();
             int powerUpIndex = (int) (Math.random() * PowerUpName.values().length);
             updatePowerUp(chance, PowerUpName.values()[powerUpIndex]);
         }
+    }
+
+    @SuppressWarnings("PMD")
+    // should be able to put powerUp back to null again.
+    private void eatPowerUpIfCollided() {
         if (powerUp != null && snake.collides(powerUp.getPosX(), powerUp.getPosY())) {
             soundSystem.getPowerUpSound().play();
             powerUp.consume(this, snake);
@@ -165,18 +190,9 @@ public class Game {
      * @param direction direction of a snake
      */
     public void updateDirection(Snake.Direction direction) {
-        if (direction == Snake.Direction.UP) {
-            snake.getDirection().enqueue(Snake.Direction.UP);
-        }
-        if (direction == Snake.Direction.DOWN) {
-            snake.getDirection().enqueue(Snake.Direction.DOWN);
-        }
-        if (direction == Snake.Direction.LEFT) {
-            snake.getDirection().enqueue(Snake.Direction.LEFT);
-        }
-        if (direction == Snake.Direction.RIGHT) {
-            snake.getDirection().enqueue(Snake.Direction.RIGHT);
-        }
+
+        snake.getDirection().enqueue(direction);
+
     }
 
     public boolean isPortalWalls() {
@@ -265,5 +281,70 @@ public class Game {
 
     public HashMap<GameStateName, GameState> getStates() {
         return states;
+    }
+
+    /**
+     * Method to draw LengthPowerUp.
+     *
+     * @param posX x coord
+     * @param posY y coord
+     */
+    public void drawLengthPowerUp(int posX, int posY) {
+        this.drawPowerUp(Color.PINK, posX, posY);
+    }
+
+    /**
+     * Method to draw MegaApple.
+     *
+     * @param posX x coord
+     * @param posY y coord
+     */
+    public void drawMegaApple(int posX, int posY) {
+        this.drawPowerUp(Color.LIME, posX, posY);
+    }
+
+    /**
+     * Method to draw MoreApples.
+     *
+     * @param posX x coord
+     * @param posY y coord
+     */
+    public void drawMoreApples(int posX, int posY) {
+        this.drawPowerUp(Color.BLUE, posX, posY);
+    }
+
+    /**
+     * Method to draw SpeedUp.
+     *
+     * @param posX x coord
+     * @param posY y coord
+     */
+    public void drawSpeedUp(int posX, int posY) {
+        this.drawPowerUp(Color.RED, posX, posY);
+    }
+
+    /**
+     * Method to draw StopGrow.
+     *
+     * @param posX x coord
+     * @param posY y coord
+     */
+    public void drawStopGrow(int posX, int posY) {
+        this.drawPowerUp(Color.ORANGE, posX, posY);
+    }
+
+    /**
+     * Method to draw a powerup.
+     *
+     * @param color the color
+     * @param posX x coord
+     * @param posY y coord
+     */
+    private void drawPowerUp(Color color, int posX, int posY) {
+        this.getBoard().getRend().setColor(color);
+        this.getBoard().getRend().circle(
+                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
+                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
+                this.getBoard().getTile());
     }
 }

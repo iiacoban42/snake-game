@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">server</a> &gt; <a href="index.source.html" class="el_package">com.snake.server.domain</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package com.snake.server.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.NaturalId;
+
+
+/**
+ * Class to represent a user in a database.
+ */
+@Entity
+@Table(name = &quot;users&quot;, uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                &quot;username&quot;
+        })
+})
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NaturalId
+    @NotBlank
+    private String username;
+
+    @NotBlank
+    private String password;
+
+    @NotNull
+    private Long maxscore;
+
+    /**
+     * Empty constructor.
+     */
+<span class="nc" id="L42">    public User() {</span>
+<span class="nc" id="L43">    }</span>
+
+    /**
+     * Constructor.
+     * @param username username
+     * @param password password
+     */
+<span class="fc" id="L50">    public User(String username, String password) {</span>
+<span class="fc" id="L51">        this.username = username;</span>
+<span class="fc" id="L52">        this.password = password;</span>
+<span class="fc" id="L53">        this.maxscore = Long.valueOf(0);</span>
+<span class="fc" id="L54">    }</span>
+
+    /**
+     * Getter for id.
+     * @return Long id
+     */
+    public Long getId() {
+<span class="fc" id="L61">        return this.id;</span>
+    }
+
+    /**
+     * Getter username.
+     * @return username
+     */
+    public String getUsername() {
+<span class="fc" id="L69">        return this.username;</span>
+    }
+
+    /**
+     * Getter password.
+     * @return password
+     */
+    public String getPassword() {
+<span class="fc" id="L77">        return this.password;</span>
+    }
+
+    /**
+     * Getter max score.
+     * @return Long max score
+     */
+    public Long getMaxscore() {
+<span class="fc" id="L85">        return this.maxscore;</span>
+    }
+
+    /**
+     * Setter id.
+     * @param id id
+     */
+    public void setId(Long id) {
+<span class="fc" id="L93">        this.id = id;</span>
+<span class="fc" id="L94">    }</span>
+
+    /**
+     * Setter username.
+     * @param username username
+     */
+    public void setUsername(String username) {
+<span class="fc" id="L101">        this.username = username;</span>
+<span class="fc" id="L102">    }</span>
+
+    /**
+     * Setter password.
+     * @param password password
+     */
+    public void setPassword(String password) {
+<span class="fc" id="L109">        this.password = password;</span>
+<span class="fc" id="L110">    }</span>
+
+
+    /**
+     * Setter to update max score.
+     * @param newScore new max score
+     */
+    public void setMaxscore(Long newScore) {
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (newScore &gt;= maxscore) {</span>
+<span class="fc" id="L119">            this.maxscore = newScore;</span>
+        }
+<span class="fc" id="L121">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

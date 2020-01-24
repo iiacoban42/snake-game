@@ -27,11 +27,7 @@ public class SpeedUp extends PowerUp {
      */
     @Override
     public void draw(Game game) {
-        game.getBoard().getRend().setColor(Color.RED);
-        game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (posX + .5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (posY + .5f) * game.getBoard().getTile(),
-                game.getBoard().getTile());
+        game.drawSpeedUp(posX, posY);
     }
 
     /**

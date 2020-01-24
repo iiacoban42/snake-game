@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Font.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">template</a> &gt; <a href="index.source.html" class="el_package">com.snake.game.screens</a> &gt; <span class="el_source">Font.java</span></div><h1>Font.java</h1><pre class="source lang-java linenums">package com.snake.game.screens;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+
+<span class="nc" id="L8">public class Font {</span>
+    /**
+     * Generate BitmapFont.
+     *
+     * @param size of the font.
+     * @param color for the font.
+     * @return font
+     */
+    public static BitmapFont get(int size, Color color) {
+
+<span class="nc" id="L18">        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(</span>
+<span class="nc" id="L19">                Gdx.files.local(&quot;/src/main/resources/OpenSans-Regular.ttf&quot;));</span>
+<span class="nc" id="L20">        FreeTypeFontGenerator.FreeTypeFontParameter parameter =</span>
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
+<span class="nc" id="L22">        parameter.size = size;</span>
+<span class="nc" id="L23">        parameter.color = color;</span>
+<span class="nc" id="L24">        BitmapFont font = generator.generateFont(parameter);</span>
+
+<span class="nc" id="L26">        generator.dispose();</span>
+
+<span class="nc" id="L28">        return font;</span>
+    }
+
+    public static BitmapFont get(int size) {
+<span class="nc" id="L32">        return get(size, Color.DARK_GRAY);</span>
+    }
+
+    public static BitmapFont get() {
+<span class="nc" id="L36">        return get(14);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

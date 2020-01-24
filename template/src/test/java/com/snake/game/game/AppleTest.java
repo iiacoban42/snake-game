@@ -54,4 +54,30 @@ public class AppleTest extends InitializedGameTest {
                 && newApple.getPosY() == apple.getPosY());
     }
 
+    /**
+     * Test game will spawn the apple in a location that doesn't collide with an apple.
+     * Good Weather Test
+     */
+    @Test
+    void testCheckAppleCollisions() {
+        Apple newApple = new Apple(1,1);
+        game.getApples().add(newApple);
+
+        Assertions.assertFalse(Apple.checkApplesCollision(game, 1,1));
+
+    }
+
+    /**
+     * Test game will spawn the apple in a location that doesn't collide with an snake.
+     * Good Weather Test
+     */
+    @Test
+    void testCheckSnakeCollisions() {
+        Apple newApple = new Apple(1,1);
+        game.getApples().add(newApple);
+
+        Assertions.assertFalse(Apple.checkSnakeCollision(game, 0,0));
+
+    }
+
 }
