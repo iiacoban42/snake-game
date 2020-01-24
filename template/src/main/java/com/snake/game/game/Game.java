@@ -165,18 +165,9 @@ public class Game {
      * @param direction direction of a snake
      */
     public void updateDirection(Snake.Direction direction) {
-        if (direction == Snake.Direction.UP) {
-            snake.getDirection().enqueue(Snake.Direction.UP);
-        }
-        if (direction == Snake.Direction.DOWN) {
-            snake.getDirection().enqueue(Snake.Direction.DOWN);
-        }
-        if (direction == Snake.Direction.LEFT) {
-            snake.getDirection().enqueue(Snake.Direction.LEFT);
-        }
-        if (direction == Snake.Direction.RIGHT) {
-            snake.getDirection().enqueue(Snake.Direction.RIGHT);
-        }
+
+        snake.getDirection().enqueue(direction);
+
     }
 
     public boolean isPortalWalls() {
