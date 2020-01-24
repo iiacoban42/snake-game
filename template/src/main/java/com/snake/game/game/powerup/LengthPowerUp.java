@@ -30,11 +30,7 @@ public class LengthPowerUp extends PowerUp {
      */
     @Override
     public void draw(Game game) {
-        game.getBoard().getRend().setColor(Color.PINK);
-        game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (posX + .5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (posY + .5f) * game.getBoard().getTile(),
-                game.getBoard().getTile());
+        game.drawMegaApple(posX, posY);
     }
 
     /**

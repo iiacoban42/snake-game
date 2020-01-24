@@ -25,11 +25,7 @@ public class StopGrow extends PowerUp {
 
     @Override
     public void draw(Game game) {
-        game.getBoard().getRend().setColor(Color.ORANGE);
-        game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (posX + .5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (posY + .5f) * game.getBoard().getTile(),
-                game.getBoard().getTile());
+        game.drawStopGrow(posX, posY);
     }
 
     /**

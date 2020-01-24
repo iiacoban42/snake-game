@@ -1,5 +1,6 @@
 package com.snake.game.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.snake.game.game.powerup.PowerUp;
 import com.snake.game.game.powerup.PowerUpFactory;
 import com.snake.game.game.powerup.PowerUpName;
@@ -57,12 +58,16 @@ public class Game {
         states.put(GameStateName.active, new ActiveGameState(this));
         states.put(GameStateName.paused, new PauseGameState(this));
         states.put(GameStateName.gameOver, new FinishedGameState(this));
-
         gameUpdateTimer = new Timer<>(this::run);
         gameUpdateTimer.setActive(false);
 
         powerUpFactory = new PowerUpFactory(this);
+
+
     }
+
+
+
 
     /**
      * Spawns in all sprites.
@@ -256,5 +261,62 @@ public class Game {
 
     public HashMap<GameStateName, GameState> getStates() {
         return states;
+    }
+
+    /**
+     * Method to draw LengthPowerUp.
+     */
+    public void drawLengthPowerUp(int posX, int posY) {
+        this.getBoard().getRend().setColor(Color.PINK);
+        this.getBoard().getRend().circle(
+                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
+                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
+                this.getBoard().getTile());
+    }
+
+    /**
+     * Method to draw MegaApple.
+     */
+    public void drawMegaApple(int posX, int posY) {
+        this.getBoard().getRend().setColor(Color.LIME);
+        this.getBoard().getRend().circle(
+                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
+                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
+                this.getBoard().getTile());
+    }
+
+    /**
+     * Method to draw MoreApples.
+     */
+    public void drawMoreApples(int posX, int posY) {
+        this.getBoard().getRend().setColor(Color.BLUE);
+        this.getBoard().getRend().circle(
+                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
+                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
+                this.getBoard().getTile());
+    }
+
+    /**
+     * Method to draw SpeedUp.
+     */
+    public void drawSpeedUp(int posX, int posY) {
+
+        this.getBoard().getRend().setColor(Color.RED);
+        this.getBoard().getRend().circle(
+                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
+                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
+                this.getBoard().getTile());
+
+    }
+
+    /**
+     * Method to draw StopGrow.
+     */
+    public void drawStopGrow(int posX, int posY) {
+        this.getBoard().getRend().setColor(Color.ORANGE);
+        this.getBoard().getRend().circle(
+                this.getBoard().getBoardX() + (posX + .5f) * this.getBoard().getTile(),
+                this.getBoard().getBoardY() + (posY + .5f) * this.getBoard().getTile(),
+                this.getBoard().getTile());
     }
 }

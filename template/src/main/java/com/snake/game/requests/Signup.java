@@ -19,7 +19,7 @@ public class Signup extends ApiRequest<String> {
     /**
      * A method to check if username satisfies requirements.
      */
-    public void usernameCheck(){
+    public void usernameCheck() {
         if (this.username == null || this.username.length() == 0) {
             this.addError("Please provide a username");
             return;

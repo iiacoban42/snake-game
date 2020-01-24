@@ -85,10 +85,13 @@ public class Apple implements Consumable {
         return answer;
     }
 
+    /**
+     * Checks whether a location is suitable for an apple to spawn without colliding with an apple.
+     */
     @SuppressWarnings("PMD")
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
     //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
-    public static boolean checkApplesCollision(Game game, int posX, int posY){
+    public static boolean checkApplesCollision(Game game, int posX, int posY) {
 
         for (Apple apple : game.getApples()) {
             if (apple.posX == posX && apple.posY == posY) {
@@ -98,10 +101,13 @@ public class Apple implements Consumable {
         return true;
     }
 
+    /**
+     * Checks whether a location is suitable for an apple to spawn without colliding with a snake.
+     */
     @SuppressWarnings("PMD")
     //UR anomaly : body is undefined. Stackoverflow report: bug in pmd.
     //https://stackoverflow.com/questions/21592497/java-for-each-loop-being-flagged-as-ur-anomaly-by-pmd
-    public static boolean checkSnakeCollision(Game game, int posX, int posY){
+    public static boolean checkSnakeCollision(Game game, int posX, int posY) {
 
         if (game.getSnake().collides(posX, posY)) {
             return false;

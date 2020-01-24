@@ -30,11 +30,7 @@ public class MoreApples extends PowerUp {
      */
     @Override
     public void draw(Game game) {
-        game.getBoard().getRend().setColor(Color.BLUE);
-        game.getBoard().getRend().circle(
-                game.getBoard().getBoardX() + (posX + .5f) * game.getBoard().getTile(),
-                game.getBoard().getBoardY() + (posY + .5f) * game.getBoard().getTile(),
-                game.getBoard().getTile());
+        game.drawMoreApples(posX, posY);
     }
 
     /**
